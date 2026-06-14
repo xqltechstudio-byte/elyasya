@@ -1,0 +1,288 @@
+{
+  "company_profile": {
+    "company_name": "Tiga Jaya Tour & Travel",
+    "location": "Banyuwangi, Jawa Timur",
+    "tagline": "Satu Perjalanan, Seribu Kenangan!",
+    "global_style": {
+      "primary_font": "Montserrat",
+      "secondary_font": "Inter",
+      "color_palette": {
+        "primary": "#065f46",
+        "secondary": "#f59e0b",
+        "background": "#ffffff"
+      }
+    },
+    "pages": [
+      {
+        "page": 1,
+        "section": "Cover",
+        "title": "TIGA JAYA Tour & Travel",
+        "subtitle": "Satu Perjalanan, Seribu Kenangan!",
+        "description": "Layanan Sewa Kendaraan, Tour Wisata, Antar-Jemput, dan Perjalanan Dinas",
+        "services_tags": [
+          "Sewa Kendaraan",
+          "Tour Wisata",
+          "Antar-Jemput",
+          "Perjalanan Dinas"
+        ],
+        "footer_tags": "Tour Travel • Corporate Trip • Airport Transfer • HIACE",
+        "visual_assets": {
+          "logo": {
+            "description": "Logo bulat dengan elemen ombak/gunung hijau-biru di atas huruf 'T' besar",
+            "path": "images/logo.png"
+          }
+        }
+      },
+      {
+        "page": 2,
+        "section": "Profil Perusahaan",
+        "about_us": "Tiga Jaya Tour & Travel adalah penyedia layanan perjalanan dan transportasi yang berfokus pada kenyamanan, keamanan, dan kemudahan pelanggan. Kami melayani kebutuhan wisata, sewa kendaraan, antar-jemput, perjalanan dinas, hingga trip rombongan dengan layanan yang fleksibel dan profesional. Dengan semangat 'Satu Perjalanan, Seribu Kenangan!', kami berkomitmen menghadirkan pengalaman perjalanan yang nyaman, tertata, dan berkesan.",
+        "visi": "Menjadi perusahaan tour & travel terpercaya yang memberikan layanan perjalanan aman, nyaman, fleksibel, dan berkesan bagi pelanggan.",
+        "misi": [
+          "Menyediakan layanan transportasi yang profesional, aman, dan tepat waktu.",
+          "Memberikan solusi perjalanan yang fleksibel sesuai kebutuhan pelanggan.",
+          "Menghadirkan pengalaman wisata yang berkesan melalui itinerary yang tertata.",
+          "Memberikan pelayanan yang ramah, responsif, dan informatif.",
+          "Menjaga kualitas armada dan kepuasan pelanggan sebagai prioritas utama."
+        ],
+        "visual_assets": {
+          "images": [
+            {
+              "id": "img_hiace",
+              "description": "Mobil Toyota Hiace putih di jalan raya berpemandangan gunung berapi besar dan air terjun",
+              "path": "images/hiace-gunung.jpg"
+            },
+            {
+              "id": "img_innova",
+              "description": "Mobil keluarga premium Toyota Innova warna silver mengkilap",
+              "path": "images/innova-silver.jpg"
+            },
+            {
+              "id": "img_driver_illustration",
+              "description": "Ilustrasi sopir berpakaian rapi membukakan pintu mobil untuk penumpang wanita pembawa koper",
+              "path": "images/ilustrasi-driver.jpg"
+            }
+          ]
+        }
+      },
+      {
+        "page": 3,
+        "section": "Layanan Kami I",
+        "tagline_section": "Solusi transportasi untuk berbagai kebutuhan perjalanan",
+        "services": [
+          {
+            "name": "Sewa Kendaraan",
+            "details": [
+              "Tersedia harian, mingguan, dan bulanan",
+              "Armada nyaman, bersih, dan siap jalan",
+              "Cocok untuk pribadi, keluarga, wisata, dan kantor"
+            ]
+          },
+          {
+            "name": "Layanan Antar-Jemput",
+            "details": [
+              "Penjemputan dari lokasi Anda",
+              "Tepat waktu dan praktis",
+              "Cocok untuk tamu, keluarga, karyawan, dan peserta acara"
+            ]
+          },
+          {
+            "name": "Layanan Bandara / Stasiun",
+            "details": [
+              "Antar dan jemput bandara atau stasiun",
+              "Jadwal fleksibel sesuai keberangkatan / kedatangan",
+              "Perjalanan nyaman tanpa repot"
+            ]
+          }
+        ]
+      },
+      {
+        "page": 4,
+        "section": "Layanan Kami II (Wisata & Travel Banyuwangi)",
+        "content": [
+          {
+            "category": "Wisata & Travel",
+            "description": "Melayani perjalanan wisata keluarga, komunitas, sekolah, maupun trip pribadi dengan itinerary yang terarah dan menyenangkan."
+          },
+          {
+            "category": "Trip Wisata Banyuwangi",
+            "description": "Paket trip custom untuk menjelajahi keindahan Banyuwangi dan sekitarnya mulai dari wisata alam, budaya, hingga pengalaman lokal yang menarik."
+          }
+        ],
+        "features": [
+          "Paket fleksibel",
+          "Destinasi menarik",
+          "Transportasi nyaman",
+          "Guide lokal"
+        ],
+        "slogan": "Liburan lebih mudah & berkesan. Jelajahi Banyuwangi dengan mudah dan menyenangkan."
+      },
+      {
+        "page": 5,
+        "section": "Corporate & Perjalanan Dinas",
+        "tagline_section": "Layanan profesional untuk perusahaan, instansi, dan rombongan.",
+        "services_list": [
+          {
+            "point": 1,
+            "type": "Corporate & Instansi",
+            "description": "Melayani kebutuhan perusahaan, instansi, sekolah, organisasi, dan komunitas untuk gathering, study tour, event, dan kunjungan kerja."
+          },
+          {
+            "point": 2,
+            "type": "Perjalanan Dinas",
+            "description": "Solusi transportasi profesional untuk agenda kerja, meeting, survei lokasi, dan perjalanan resmi dengan armada nyaman dan driver berpengalaman."
+          },
+          {
+            "point": 3,
+            "type": "Rombongan Besar",
+            "description": "Siap melayani keluarga besar, komunitas, perusahaan, dan instansi dengan perencanaan yang matang dan koordinasi yang rapi."
+          }
+        ],
+        "suitable_for": [
+          "Kunjungan kerja",
+          "Meeting & event",
+          "Study tour",
+          "Gathering",
+          "Transportasi tamu"
+        ],
+        "gathering_slogan": "COMPANY GATHERING - Together We Grow, Together We Achieve",
+        "visual_assets": {
+          "images": [
+            {
+              "id": "img_corporate_meeting",
+              "description": "Sekelompok profesional bisnis sedang berdiskusi di depan laptop",
+              "path": "images/corporate-meeting.jpg"
+            },
+            {
+              "id": "img_spanduk_gathering",
+              "description": "Foto bersama rombongan besar di area outdoor memegang spanduk Company Gathering",
+              "path": "images/spanduk-gathering.jpg"
+            }
+          ]
+        }
+      },
+      {
+        "page": 6,
+        "section": "Itinerary & Guide",
+        "tagline_section": "Perjalanan lebih terarah, informatif, dan berkesan",
+        "features": [
+          {
+            "title": "Itinerary Teratur",
+            "description": "Rencana perjalanan disusun dengan matang agar waktu lebih efisien dan tujuan lebih jelas."
+          },
+          {
+            "title": "Transportasi Nyaman",
+            "description": "Kendaraan terawat dan selalu siap mendukung perjalanan Anda."
+          },
+          {
+            "title": "Guide Lokal Expert",
+            "description": "Pemandu berpengalaman yang ramah dan memahami destinasi setempat."
+          },
+          {
+            "title": "Pengalaman Terbaik",
+            "description": "Membantu menciptakan momen perjalanan yang nyaman, aman, dan penuh kesan."
+          }
+        ],
+        "summary": "Kami membantu pelanggan menikmati trip dengan lebih maksimal dari awal hingga akhir perjalanan."
+      },
+      {
+        "page": 7,
+        "section": "Keunggulan Utama I",
+        "tagline_section": "Alasan pelanggan memilih Tiga Jaya Tour & Travel",
+        "advantages": [
+          {
+            "title": "Aman & Terpercaya",
+            "description": "Layanan profesional, driver berpengalaman, dan perjalanan yang lebih tenang."
+          },
+          {
+            "title": "Kendaraan Terawat",
+            "description": "Armada bersih, nyaman, dan selalu dalam kondisi prima."
+          },
+          {
+            "title": "Harga Bersahabat",
+            "description": "Biaya transparan tanpa beban tersembunyi, sesuai kebutuhan pelanggan."
+          },
+          {
+            "title": "Respons Cepat",
+            "description": "Tim kami siap membantu kapan saja dengan pelayanan yang ramah."
+          }
+        ],
+        "visual_assets": {
+          "images": [
+            {
+              "id": "img_ijen",
+              "description": "Tiga orang wisatawan berdiri di puncak tebing memandangi keindahan Kawah Ijen Banyuwangi",
+              "path": "images/ijen-crater.jpg"
+            }
+          ]
+        }
+      },
+      {
+        "page": 8,
+        "section": "Keunggulan Utama II",
+        "tagline_section": "Fleksibel, lengkap, dan sesuai kebutuhan",
+        "advantages": [
+          {
+            "title": "Destinasi Lengkap",
+            "description": "Melayani Banyuwangi dan sekitarnya dengan pilihan destinasi terbaik."
+          },
+          {
+            "title": "Custom Trip",
+            "description": "Itinerary dapat disesuaikan dengan kebutuhan, minat, dan durasi perjalanan."
+          },
+          {
+            "title": "Bebas Pilih Destinasi",
+            "description": "Pelanggan leluasa menentukan tujuan sesuai rencana perjalanan."
+          },
+          {
+            "title": "Fleksibel Waktu",
+            "description": "Jadwal perjalanan dapat menyesuaikan agenda pribadi maupun rombongan."
+          }
+        ],
+        "slogan": "Perjalanan Anda, disesuaikan dengan cara Anda."
+      },
+      {
+        "page": 9,
+        "section": "Mengapa Memilih Kami",
+        "tagline_section": "Nilai tambah Tiga Jaya Tour & Travel",
+        "values_points": [
+          {
+            "title": "Rombongan Besar",
+            "description": "Siap melayani perjalanan keluarga, komunitas, perusahaan, dan instansi."
+          },
+          {
+            "title": "Budget Sesuai Kebutuhan",
+            "description": "Pilihan layanan dapat menyesuaikan anggaran tanpa mengurangi kenyamanan."
+          },
+          {
+            "title": "Armada Nyaman",
+            "description": "Didukung kendaraan yang bersih, aman, dan siap digunakan."
+          }
+        ],
+        "corporate_values": [
+          "Aman",
+          "Nyaman",
+          "Profesional",
+          "Fleksibel",
+          "Berpengalaman"
+        ],
+        "summary": "Perjalanan nyaman, pelayanan ramah, pengalaman berkesan."
+      },
+      {
+        "page": 10,
+        "section": "Penutup & Kontak",
+        "tagline_section": "Siap menjadi partner perjalanan terpercaya Anda",
+        "closing_statement": "Tiga Jaya Tour & Travel hadir sebagai partner perjalanan yang siap mendampingi berbagai kebutuhan transportasi dan wisata Anda. Dengan pelayanan ramah, armada terawat, harga bersahabat, serta paket perjalanan yang fleksibel, kami siap memberikan pengalaman yang aman, nyaman, dan berkesan.",
+        "contact_info": {
+          "address": "Jl. KH. Ahmad Kholil, Dusun Cangaan, Genteng Wetan, Kec. Genteng, Kabupaten Banyuwangi, Jawa Timur 68465, Indonesia",
+          "phone_whatsapp": "+62 895-0472-3381",
+          "social_media": {
+            "instagram": "tigajayatourtravel",
+            "tiktok": "tigajayatourtravel"
+          }
+        },
+        "cta": "Konsultasikan perjalanan Anda sekarang"
+      }
+    ]
+  }
+}

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Elyasya Corp - Hijab Collection: Koleksi hijab premium untuk gaya muslimah modern">
+    <title>Hijab Collection - Elyasya Corp</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .business-hero {
+            background: linear-gradient(135deg, #c94b4b 0%, #4b134f 100%);
+            color: white;
+            padding: 100px 0 60px;
+            text-align: center;
+        }
+        .business-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .business-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .business-content {
+            padding: 60px 0;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        .product-image {
+            height: 280px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-image .placeholder-icon {
+            font-size: 4rem;
+            color: white;
+            opacity: 0.8;
+        }
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #d4af37;
+            color: #1e3c72;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .product-info {
+            padding: 1.5rem;
+        }
+        .product-info h3 {
+            color: #4b134f;
+            margin-bottom: 0.5rem;
+        }
+        .product-info .price {
+            color: #c94b4b;
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .product-info p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .btn-order {
+            display: inline-block;
+            background: linear-gradient(135deg, #c94b4b 0%, #4b134f 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        .btn-order:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(201, 75, 75, 0.3);
+        }
+        .category-section {
+            background: #f8f9fa;
+            padding: 60px 0;
+        }
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .category-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .category-card .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .category-card h3 {
+            color: #4b134f;
+            margin-bottom: 0.5rem;
+        }
+        .promo-section {
+            background: linear-gradient(135deg, #c94b4b 0%, #4b134f 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        .promo-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, #c94b4b 0%, #4b134f 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            margin-top: 60px;
+        }
+        .btn-cta {
+            display: inline-block;
+            background: #d4af37;
+            color: #4b134f;
+            padding: 15px 40px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+        .btn-cta:hover {
+            background: white;
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html" style="text-decoration: none; color: inherit;">
+                    <h1>ELYASYA CORP</h1>
+                </a>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">Home</a></li>
+                <li class="dropdown">
+                    <a href="index.html#bisnis">Lini Bisnis ▼</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="design-interior.html">Design Interior</a></li>
+                        <li><a href="management.html">Management</a></li>
+                        <li><a href="hijab.html" class="active">Hijab</a></li>
+                        <li><a href="sembako.html">Kedai Sembako</a></li>
+                        <li><a href="travel.html">Travel Agent</a></li>
+                    </ul>
+                </li>
+                <li><a href="index.html#tentang">Tentang Kami</a></li>
+                <li><a href="index.html#media">Media & Berita</a></li>
+                <li><a href="index.html#kontak">Kontak</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Business Hero -->
+    <section class="business-hero">
+        <div class="container">
+            <h1>👗 Hijab Collection</h1>
+            <p>Koleksi Hijab Premium untuk Gaya Muslimah Modern</p>
+        </div>
+    </section>
+
+    <!-- Category Section -->
+    <section class="category-section">
+        <div class="container">
+            <h2 class="section-title">Kategori Produk</h2>
+            <p class="section-subtitle">Temukan hijab yang sesuai dengan gaya Anda</p>
+            
+            <div class="category-grid">
+                <div class="category-card">
+                    <div class="icon">🧕</div>
+                    <h3>Pashmina</h3>
+                    <p>Hijab panjang yang versatile untuk berbagai gaya</p>
+                </div>
+                <div class="category-card">
+                    <div class="icon">👒</div>
+                    <h3>Segi Empat</h3>
+                    <p>Hijab klasik yang mudah dibentuk</p>
+                </div>
+                <div class="category-card">
+                    <div class="icon">🎀</div>
+                    <h3>Instant Hijab</h3>
+                    <p>Praktis dan siap pakai untuk aktivitas harian</p>
+                </div>
+                <div class="category-card">
+                    <div class="icon">✨</div>
+                    <h3>Premium Collection</h3>
+                    <p>Koleksi eksklusif untuk acara spesial</p>
+                </div>
+                <div class="category-card">
+                    <div class="icon">🌸</div>
+                    <h3>Sport Hijab</h3>
+                    <p>Nyaman untuk aktivitas olahraga</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="business-content">
+        <div class="container">
+            <h2 class="section-title">Produk Unggulan</h2>
+            <p class="section-subtitle">Koleksi terbaik kami untuk Anda</p>
+            
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img id="product-img-1" src="" alt="Pashmina Premium" style="display:none;">
+                        <span class="placeholder-icon">🧕</span>
+                        <span class="product-badge">Best Seller</span>
+                    </div>
+                    <div class="product-info">
+                        <h3>Pashmina Premium Silk</h3>
+                        <div class="price">Rp 125.000</div>
+                        <p>Bahan silk premium yang lembut dan jatuh sempurna, cocok untuk acara formal maupun casual.</p>
+                        <a href="https://wa.me/6281234567890?text=Halo, saya tertarik dengan Pashmina Premium Silk" class="btn-order" target="_blank">Pesan Sekarang</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+                        <img id="product-img-2" src="" alt="Segi Empat Voal" style="display:none;">
+                        <span class="placeholder-icon">👒</span>
+                        <span class="product-badge">New</span>
+                    </div>
+                    <div class="product-info">
+                        <h3>Segi Empat Voal Ultrafine</h3>
+                        <div class="price">Rp 85.000</div>
+                        <p>Voal ultrafine yang adem dan mudah dibentuk, tersedia dalam berbagai warna pastel.</p>
+                        <a href="https://wa.me/6281234567890?text=Halo, saya tertarik dengan Segi Empat Voal Ultrafine" class="btn-order" target="_blank">Pesan Sekarang</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <img id="product-img-3" src="" alt="Instant Hijab" style="display:none;">
+                        <span class="placeholder-icon">🎀</span>
+                    </div>
+                    <div class="product-info">
+                        <h3>Instant Hijab Daily</h3>
+                        <div class="price">Rp 65.000</div>
+                        <p>Hijab instant praktis untuk penggunaan sehari-hari, bahan jersey yang nyaman.</p>
+                        <a href="https://wa.me/6281234567890?text=Halo, saya tertarik dengan Instant Hijab Daily" class="btn-order" target="_blank">Pesan Sekarang</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <img id="product-img-4" src="" alt="Hijab Syar'i" style="display:none;">
+                        <span class="placeholder-icon">✨</span>
+                        <span class="product-badge">Premium</span>
+                    </div>
+                    <div class="product-info">
+                        <h3>Hijab Syar'i Exclusive</h3>
+                        <div class="price">Rp 175.000</div>
+                        <p>Koleksi syar'i eksklusif dengan bahan premium dan bordir halus untuk tampilan anggun.</p>
+                        <a href="https://wa.me/6281234567890?text=Halo, saya tertarik dengan Hijab Syar'i Exclusive" class="btn-order" target="_blank">Pesan Sekarang</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        <img id="product-img-5" src="" alt="Sport Hijab" style="display:none;">
+                        <span class="placeholder-icon">🌸</span>
+                    </div>
+                    <div class="product-info">
+                        <h3>Sport Hijab Active</h3>
+                        <div class="price">Rp 95.000</div>
+                        <p>Hijab khusus olahraga dengan bahan dry-fit yang menyerap keringat dan tetap nyaman.</p>
+                        <a href="https://wa.me/6281234567890?text=Halo, saya tertarik dengan Sport Hijab Active" class="btn-order" target="_blank">Pesan Sekarang</a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                        <img id="product-img-6" src="" alt="Hijab Set" style="display:none;">
+                        <span class="placeholder-icon">🎁</span>
+                        <span class="product-badge">Bundle</span>
+                    </div>
+                    <div class="product-info">
+                        <h3>Hijab Set Bundle (3 pcs)</h3>
+                        <div class="price">Rp 225.000</div>
+                        <p>Paket hemat 3 hijab dengan warna senada, cocok untuk mix & match outfit harian.</p>
+                        <a href="https://wa.me/6281234567890?text=Halo, saya tertarik dengan Hijab Set Bundle" class="btn-order" target="_blank">Pesan Sekarang</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Promo Section -->
+    <section class="promo-section">
+        <div class="container">
+            <h2>🎉 Promo Spesial Bulan Ini!</h2>
+            <p>Diskon hingga 30% untuk koleksi Ramadan dan Lebaran</p>
+            <p style="margin-top: 1rem; font-size: 1.1rem;">Gunakan kode: <strong>ELYASYA30</strong> saat pemesanan via WhatsApp</p>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Tertarik dengan Koleksi Kami?</h2>
+            <p>Hubungi kami untuk melihat katalog lengkap atau kunjungi toko kami</p>
+            <a href="https://wa.me/6281234567890?text=Halo, saya ingin melihat katalog lengkap Hijab Elyasya Corp" class="btn-cta" target="_blank">
+                💬 Lihat Katalog via WhatsApp
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ELYASYA CORP</h3>
+                    <p>Holding company terpercaya dengan 5 lini bisnis yang melayani berbagai kebutuhan Anda.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Lini Bisnis</h4>
+                    <ul>
+                        <li><a href="design-interior.html">Design Interior</a></li>
+                        <li><a href="management.html">Management</a></li>
+                        <li><a href="hijab.html">Hijab</a></li>
+                        <li><a href="sembako.html">Kedai Sembako</a></li>
+                        <li><a href="travel.html">Travel Agent</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Perusahaan</h4>
+                    <ul>
+                        <li><a href="index.html#tentang">Tentang Kami</a></li>
+                        <li><a href="index.html#media">Media & Berita</a></li>
+                        <li><a href="index.html#kontak">Kontak</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Ikuti Kami</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-icon">📘 Facebook</a>
+                        <a href="#" class="social-icon">📷 Instagram</a>
+                        <a href="#" class="social-icon">🐦 Twitter</a>
+                        <a href="#" class="social-icon">💼 LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Elyasya Corp. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Load product images from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const businessImages = JSON.parse(localStorage.getItem('businessImages_hijab') || '{}');
+            if (businessImages.gallery) {
+                businessImages.gallery.forEach((img, index) => {
+                    const imgEl = document.getElementById(`product-img-${index + 1}`);
+                    if (imgEl && img) {
+                        imgEl.src = img;
+                        imgEl.style.display = 'block';
+                        // Hide placeholder
+                        const placeholder = imgEl.parentElement.querySelector('.placeholder-icon');
+                        if (placeholder) placeholder.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

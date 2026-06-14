@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Elyasya Corp - Holding Company dengan 5 Lini Bisnis: Design Interior, Management, Hijab, Kedai Sembako, dan Travel Agent">
+    <title>Elyasya Corp - Company Profile</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <h1>ELYASYA CORP</h1>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="active">Home</a></li>
+                <li class="dropdown">
+                    <a href="#bisnis">Lini Bisnis ▼</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="design-interior.html">Design Interior</a></li>
+                        <li><a href="management.html">Management</a></li>
+                        <li><a href="hijab.html">Hijab</a></li>
+                        <li><a href="sembako.html">Kedai Sembako</a></li>
+                        <li><a href="travel.html">Travel Agent</a></li>
+                    </ul>
+                </li>
+                <li><a href="#tentang">Tentang Kami</a></li>
+                <li><a href="#media">Media & Berita</a></li>
+                <li><a href="#kontak">Kontak</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Carousel -->
+    <section id="home" class="hero">
+        <div class="hero-slider">
+            <div class="slide active" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);">
+                <div class="slide-content">
+                    <h2>Design Interior</h2>
+                    <p>Wujudkan Ruang Impian Anda dengan Sentuhan Profesional</p>
+                    <a href="#design-interior" class="btn-primary">Lihat Portfolio</a>
+                </div>
+            </div>
+            <div class="slide" style="background: linear-gradient(135deg, #134e5e 0%, #71b280 100%);">
+                <div class="slide-content">
+                    <h2>Management Consulting</h2>
+                    <p>Solusi Bisnis Terpadu untuk Pertumbuhan Perusahaan Anda</p>
+                    <a href="#management" class="btn-primary">Konsultasi Sekarang</a>
+                </div>
+            </div>
+            <div class="slide" style="background: linear-gradient(135deg, #c94b4b 0%, #4b134f 100%);">
+                <div class="slide-content">
+                    <h2>Hijab Collection</h2>
+                    <p>Koleksi Hijab Premium untuk Gaya Muslimah Modern</p>
+                    <a href="#hijab" class="btn-primary">Lihat Katalog</a>
+                </div>
+            </div>
+            <div class="slide" style="background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);">
+                <div class="slide-content">
+                    <h2>Kedai Sembako</h2>
+                    <p>Kebutuhan Harian Berkualitas di Dekat Anda</p>
+                    <a href="#sembako" class="btn-primary">Cek Lokasi</a>
+                </div>
+            </div>
+            <div class="slide" style="background: linear-gradient(135deg, #f46b45 0%, #eea849 100%);">
+                <div class="slide-content">
+                    <h2>Travel Agent</h2>
+                    <p>Perjalanan Impian Anda Dimulai dari Sini</p>
+                    <a href="#travel" class="btn-primary">Lihat Paket</a>
+                </div>
+            </div>
+        </div>
+        <div class="slider-controls">
+            <button class="prev" onclick="changeSlide(-1)">❮</button>
+            <button class="next" onclick="changeSlide(1)">❯</button>
+        </div>
+        <div class="slider-dots" id="sliderDots"></div>
+    </section>
+
+    <!-- Business Unit Explorer -->
+    <section id="bisnis" class="business-units">
+        <div class="container">
+            <h2 class="section-title">Lini Bisnis Kami</h2>
+            <p class="section-subtitle">5 Pilar Bisnis yang Melayani Berbagai Kebutuhan Anda</p>
+            
+            <div class="business-grid">
+                <div class="business-card" id="design-interior">
+                    <div class="card-icon">🏠</div>
+                    <h3>Design Interior</h3>
+                    <p>Layanan desain interior profesional untuk rumah, kantor, dan komersial. Dari konsep hingga eksekusi.</p>
+                    <ul class="feature-list">
+                        <li>✓ Konsultasi Gratis</li>
+                        <li>✓ Portfolio 100+ Proyek</li>
+                        <li>✓ Garansi Kepuasan</li>
+                    </ul>
+                    <a href="design-interior.html" class="btn-secondary">Lihat Portfolio</a>
+                </div>
+
+                <div class="business-card" id="management">
+                    <div class="card-icon">📊</div>
+                    <h3>Management</h3>
+                    <p>Konsultasi manajemen bisnis, optimasi operasional, dan strategi pertumbuhan perusahaan.</p>
+                    <ul class="feature-list">
+                        <li>✓ Business Consulting</li>
+                        <li>✓ Asset Management</li>
+                        <li>✓ Strategic Planning</li>
+                    </ul>
+                    <a href="management.html" class="btn-secondary">Konsultasi Sekarang</a>
+                </div>
+
+                <div class="business-card" id="hijab">
+                    <div class="card-icon">👗</div>
+                    <h3>Hijab</h3>
+                    <p>Koleksi hijab premium dengan berbagai model dan bahan berkualitas tinggi untuk muslimah modern.</p>
+                    <ul class="feature-list">
+                        <li>✓ Bahan Premium</li>
+                        <li>✓ Model Terkini</li>
+                        <li>✓ Harga Terjangkau</li>
+                    </ul>
+                    <a href="hijab.html" class="btn-secondary">Lihat Katalog</a>
+                </div>
+
+                <div class="business-card" id="sembako">
+                    <div class="card-icon">🛒</div>
+                    <h3>Kedai Sembako</h3>
+                    <p>Menyediakan kebutuhan sembako dan bahan pokok berkualitas dengan harga bersaing.</p>
+                    <ul class="feature-list">
+                        <li>✓ Produk Berkualitas</li>
+                        <li>✓ Harga Kompetitif</li>
+                        <li>✓ Lokasi Strategis</li>
+                    </ul>
+                    <a href="sembako.html" class="btn-secondary">Cek Lokasi</a>
+                </div>
+
+                <div class="business-card" id="travel">
+                    <div class="card-icon">✈️</div>
+                    <h3>Travel Agent</h3>
+                    <p>Paket wisata, umroh, dan perjalanan bisnis dengan layanan terpercaya dan harga terbaik.</p>
+                    <ul class="feature-list">
+                        <li>✓ Paket Tour Lengkap</li>
+                        <li>✓ Umroh & Haji</li>
+                        <li>✓ Ticketing</li>
+                    </ul>
+                    <a href="travel.html" class="btn-secondary">Lihat Paket</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="tentang" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Tentang Elyasya Corp</h2>
+                    <p class="lead">Elyasya Corp adalah holding company yang menaungi 5 pilar bisnis strategis, melayani berbagai kebutuhan masyarakat dan korporat.</p>
+                    
+                    <h3>Visi</h3>
+                    <p>Menjadi konglomerasi terpercaya yang memberikan solusi terbaik di berbagai sektor bisnis dengan standar kualitas internasional.</p>
+                    
+                    <h3>Misi</h3>
+                    <ul>
+                        <li>Memberikan layanan berkualitas tinggi di setiap lini bisnis</li>
+                        <li>Membangun kepercayaan jangka panjang dengan klien dan mitra</li>
+                        <li>Berinovasi secara berkelanjutan untuk pertumbuhan bisnis</li>
+                        <li>Berkontribusi positif bagi masyarakat dan lingkungan</li>
+                    </ul>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-card">
+                        <h3>5</h3>
+                        <p>Lini Bisnis</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>100+</h3>
+                        <p>Klien Puas</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>10+</h3>
+                        <p>Tahun Pengalaman</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>24/7</h3>
+                        <p>Customer Support</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Media & News Section -->
+    <section id="media" class="media">
+        <div class="container">
+            <h2 class="section-title">Media & Berita</h2>
+            <p class="section-subtitle">Update Terkini dari Elyasya Corp</p>
+            
+            <div class="news-grid">
+                <article class="news-card">
+                    <div class="news-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                    <div class="news-content">
+                        <span class="news-date">10 Juni 2026</span>
+                        <h3>Ekspansi Bisnis Design Interior ke 5 Kota Besar</h3>
+                        <p>Elyasya Corp membuka cabang baru untuk layanan design interior di Jakarta, Surabaya, Bandung, Medan, dan Makassar.</p>
+                        <a href="#" class="read-more">Baca Selengkapnya →</a>
+                    </div>
+                </article>
+
+                <article class="news-card">
+                    <div class="news-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+                    <div class="news-content">
+                        <span class="news-date">5 Juni 2026</span>
+                        <h3>Koleksi Hijab Ramadan 2026 Telah Hadir</h3>
+                        <p>Dapatkan koleksi hijab eksklusif untuk menyambut bulan suci Ramadan dengan diskon hingga 30%.</p>
+                        <a href="#" class="read-more">Baca Selengkapnya →</a>
+                    </div>
+                </article>
+
+                <article class="news-card">
+                    <div class="news-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+                    <div class="news-content">
+                        <span class="news-date">1 Juni 2026</span>
+                        <h3>Paket Umroh Spesial dengan Harga Terjangkau</h3>
+                        <p>Travel Agent Elyasya Corp meluncurkan paket umroh dengan fasilitas lengkap dan harga kompetitif.</p>
+                        <a href="#" class="read-more">Baca Selengkapnya →</a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="kontak" class="contact">
+        <div class="container">
+            <h2 class="section-title">Hubungi Kami</h2>
+            <p class="section-subtitle">Kami Siap Melayani Kebutuhan Anda</p>
+            
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Informasi Kontak</h3>
+                    <div class="info-item">
+                        <span class="icon">📍</span>
+                        <div>
+                            <h4>Alamat</h4>
+                            <p>Jl. Bisnis Raya No. 123<br>Jakarta Selatan, DKI Jakarta 12345</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="icon">📞</span>
+                        <div>
+                            <h4>Telepon</h4>
+                            <p>+62 21 1234 5678</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="icon">📧</span>
+                        <div>
+                            <h4>Email</h4>
+                            <p>info@elyasyacorp.com</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="icon">💬</span>
+                        <div>
+                            <h4>WhatsApp</h4>
+                            <p>+62 812 3456 7890</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form">
+                    <h3>Kirim Pesan</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" id="name" placeholder="Nama Lengkap" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" id="phone" placeholder="Nomor Telepon" required>
+                        </div>
+                        <div class="form-group">
+                            <select id="subject" required>
+                                <option value="">Pilih Lini Bisnis</option>
+                                <option value="design">Design Interior</option>
+                                <option value="management">Management</option>
+                                <option value="hijab">Hijab</option>
+                                <option value="sembako">Kedai Sembako</option>
+                                <option value="travel">Travel Agent</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" rows="4" placeholder="Pesan Anda" required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary">Kirim Pesan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ELYASYA CORP</h3>
+                    <p>Holding company terpercaya dengan 5 lini bisnis yang melayani berbagai kebutuhan Anda.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Lini Bisnis</h4>
+                    <ul>
+                        <li><a href="design-interior.html">Design Interior</a></li>
+                        <li><a href="management.html">Management</a></li>
+                        <li><a href="hijab.html">Hijab</a></li>
+                        <li><a href="sembako.html">Kedai Sembako</a></li>
+                        <li><a href="travel.html">Travel Agent</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Perusahaan</h4>
+                    <ul>
+                        <li><a href="#tentang">Tentang Kami</a></li>
+                        <li><a href="#media">Media & Berita</a></li>
+                        <li><a href="#kontak">Kontak</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Ikuti Kami</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-icon">📘 Facebook</a>
+                        <a href="#" class="social-icon">📷 Instagram</a>
+                        <a href="#" class="social-icon">🐦 Twitter</a>
+                        <a href="#" class="social-icon">💼 LinkedIn</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Admin</h4>
+                    <ul>
+                        <li><a href="admin.html">🔐 Login Admin</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Elyasya Corp. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

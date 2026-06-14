@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Elyasya Corp</title>
+    <link rel="stylesheet" href="admin-styles.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>ELYASYA CORP</h2>
+            <p>Admin Dashboard</p>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#dashboard" class="nav-item active" onclick="showSection('dashboard')">
+                <span class="icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="#hero" class="nav-item" onclick="showSection('hero')">
+                <span class="icon">🎨</span>
+                <span>Hero Slider</span>
+            </a>
+            <a href="#bisnis" class="nav-item" onclick="showSection('bisnis')">
+                <span class="icon">🏢</span>
+                <span>Lini Bisnis</span>
+            </a>
+            <a href="#berita" class="nav-item" onclick="showSection('berita')">
+                <span class="icon">📰</span>
+                <span>Media & Berita</span>
+            </a>
+            <a href="#kontak" class="nav-item" onclick="showSection('kontak')">
+                <span class="icon">📞</span>
+                <span>Kontak Info</span>
+            </a>
+            <a href="#pesan" class="nav-item" onclick="showSection('pesan')">
+                <span class="icon">💬</span>
+                <span>Pesan Masuk</span>
+            </a>
+            <a href="#gambar" class="nav-item" onclick="showSection('gambar')">
+                <span class="icon">🖼️</span>
+                <span>Gambar</span>
+            </a>
+            <a href="#pengaturan" class="nav-item" onclick="showSection('pengaturan')">
+                <span class="icon">⚙️</span>
+                <span>Pengaturan</span>
+            </a>
+            <a href="index.html" class="nav-item" target="_blank">
+                <span class="icon">🌐</span>
+                <span>Lihat Website</span>
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="btn-logout" onclick="logout()">
+                <span class="icon">🚪</span>
+                Logout
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="topbar">
+            <button class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="topbar-right">
+                <div class="notification">
+                    <span class="icon">🔔</span>
+                    <span class="badge">3</span>
+                </div>
+                <div class="user-profile">
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=1e3c72&color=fff" alt="Admin">
+                    <span>Admin</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <section id="section-dashboard" class="content-section active">
+            <div class="page-header">
+                <h1>Dashboard</h1>
+                <p>Selamat datang di Admin Dashboard Elyasya Corp</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">👥</div>
+                    <div class="stat-info">
+                        <h3>1,234</h3>
+                        <p>Total Pengunjung</p>
+                        <span class="stat-change positive">+12% dari bulan lalu</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">📧</div>
+                    <div class="stat-info">
+                        <h3>45</h3>
+                        <p>Pesan Masuk</p>
+                        <span class="stat-change positive">+8 pesan baru</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">📰</div>
+                    <div class="stat-info">
+                        <h3>12</h3>
+                        <p>Artikel Aktif</p>
+                        <span class="stat-change">3 draft</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">🏢</div>
+                    <div class="stat-info">
+                        <h3>5</h3>
+                        <p>Lini Bisnis</p>
+                        <span class="stat-change">Semua aktif</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3>Aktivitas Terbaru</h3>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <span class="activity-icon">📝</span>
+                            <div class="activity-content">
+                                <p><strong>Artikel baru dipublikasikan</strong></p>
+                                <span class="activity-time">2 jam yang lalu</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <span class="activity-icon">💬</span>
+                            <div class="activity-content">
+                                <p><strong>Pesan baru dari Design Interior</strong></p>
+                                <span class="activity-time">5 jam yang lalu</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <span class="activity-icon">🎨</span>
+                            <div class="activity-content">
+                                <p><strong>Hero slider diperbarui</strong></p>
+                                <span class="activity-time">1 hari yang lalu</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Quick Actions</h3>
+                    <div class="quick-actions">
+                        <button class="action-btn" onclick="showSection('berita')">
+                            <span class="icon">➕</span>
+                            Tambah Berita
+                        </button>
+                        <button class="action-btn" onclick="showSection('bisnis')">
+                            <span class="icon">✏️</span>
+                            Edit Lini Bisnis
+                        </button>
+                        <button class="action-btn" onclick="showSection('pesan')">
+                            <span class="icon">📧</span>
+                            Lihat Pesan
+                        </button>
+                        <button class="action-btn" onclick="window.open('index.html', '_blank')">
+                            <span class="icon">🌐</span>
+                            Preview Website
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hero Slider Section -->
+        <section id="section-hero" class="content-section">
+            <div class="page-header">
+                <h1>Kelola Hero Slider</h1>
+                <p>Atur tampilan slider utama di halaman beranda</p>
+            </div>
+
+            <div class="content-card">
+                <div class="card-header">
+                    <h3>Slide Hero Banner</h3>
+                    <button class="btn-primary" onclick="addSlide()">+ Tambah Slide</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Judul</th>
+                                <th>Deskripsi</th>
+                                <th>Lini Bisnis</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Design Interior</td>
+                                <td>Wujudkan Ruang Impian Anda...</td>
+                                <td><span class="badge badge-blue">Design Interior</span></td>
+                                <td><span class="badge badge-success">Aktif</span></td>
+                                <td>
+                                    <button class="btn-icon" onclick="editSlide(1)">✏️</button>
+                                    <button class="btn-icon" onclick="deleteSlide(1)">🗑️</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Management Consulting</td>
+                                <td>Solusi Bisnis Terpadu...</td>
+                                <td><span class="badge badge-green">Management</span></td>
+                                <td><span class="badge badge-success">Aktif</span></td>
+                                <td>
+                                    <button class="btn-icon" onclick="editSlide(2)">✏️</button>
+                                    <button class="btn-icon" onclick="deleteSlide(2)">🗑️</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Hijab Collection</td>
+                                <td>Koleksi Hijab Premium...</td>
+                                <td><span class="badge badge-purple">Hijab</span></td>
+                                <td><span class="badge badge-success">Aktif</span></td>
+                                <td>
+                                    <button class="btn-icon" onclick="editSlide(3)">✏️</button>
+                                    <button class="btn-icon" onclick="deleteSlide(3)">🗑️</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lini Bisnis Section -->
+        <section id="section-bisnis" class="content-section">
+            <div class="page-header">
+                <h1>Kelola Lini Bisnis</h1>
+                <p>Edit informasi dan konten untuk setiap lini bisnis</p>
+            </div>
+
+            <div class="business-tabs">
+                <button class="tab-btn active" onclick="showBusinessTab('design')">Design Interior</button>
+                <button class="tab-btn" onclick="showBusinessTab('management')">Management</button>
+                <button class="tab-btn" onclick="showBusinessTab('hijab')">Hijab</button>
+                <button class="tab-btn" onclick="showBusinessTab('sembako')">Kedai Sembako</button>
+                <button class="tab-btn" onclick="showBusinessTab('travel')">Travel Agent</button>
+            </div>
+
+            <div class="content-card">
+                <form class="business-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nama Lini Bisnis</label>
+                            <input type="text" id="businessName" value="Design Interior" placeholder="Nama lini bisnis">
+                        </div>
+                        <div class="form-group">
+                            <label>Icon Emoji</label>
+                            <input type="text" id="businessIcon" value="🏠" placeholder="Icon emoji">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Deskripsi Singkat</label>
+                        <textarea id="businessDesc" rows="3" placeholder="Deskripsi singkat lini bisnis">Layanan desain interior profesional untuk rumah, kantor, dan komersial. Dari konsep hingga eksekusi.</textarea>
+                    </div>
+
+                    <!-- Gambar Lini Bisnis -->
+                    <div class="form-group">
+                        <label>📷 Gambar Lini Bisnis</label>
+                        <div class="business-image-upload">
+                            <div class="business-image-preview" id="businessImagePreviewBox">
+                                <img id="businessImagePreview" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=400&h=250&fit=crop" alt="Preview Gambar Bisnis">
+                                <div class="image-overlay">
+                                    <span>Gambar Utama</span>
+                                </div>
+                            </div>
+                            <div class="business-image-controls">
+                                <div class="form-group">
+                                    <label>Upload Gambar</label>
+                                    <input type="file" id="businessImage" accept="image/*" onchange="previewBusinessImage(this)">
+                                    <small>Format: PNG, JPG, WebP. Ukuran maksimal: 2MB. Rekomendasi: 800x500px</small>
+                                </div>
+                                <div class="form-group">
+                                    <label>Atau Masukkan URL Gambar</label>
+                                    <input type="url" id="businessImageUrl" placeholder="https://example.com/gambar-bisnis.jpg" onchange="previewBusinessImageFromUrl(this.value)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Galeri Gambar Tambahan -->
+                    <div class="form-group">
+                        <label>🖼️ Galeri Gambar Tambahan (Opsional)</label>
+                        <div class="business-gallery">
+                            <div class="gallery-item">
+                                <div class="gallery-preview" id="gallery1PreviewBox">
+                                    <img id="gallery1Preview" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=200&h=150&fit=crop" alt="Gallery 1">
+                                </div>
+                                <input type="file" id="gallery1Image" accept="image/*" onchange="previewGalleryImage(this, 'gallery1Preview')">
+                                <input type="url" id="gallery1ImageUrl" placeholder="URL gambar..." onchange="previewGalleryFromUrl(this.value, 'gallery1Preview')">
+                            </div>
+                            <div class="gallery-item">
+                                <div class="gallery-preview" id="gallery2PreviewBox">
+                                    <img id="gallery2Preview" src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=200&h=150&fit=crop" alt="Gallery 2">
+                                </div>
+                                <input type="file" id="gallery2Image" accept="image/*" onchange="previewGalleryImage(this, 'gallery2Preview')">
+                                <input type="url" id="gallery2ImageUrl" placeholder="URL gambar..." onchange="previewGalleryFromUrl(this.value, 'gallery2Preview')">
+                            </div>
+                            <div class="gallery-item">
+                                <div class="gallery-preview" id="gallery3PreviewBox">
+                                    <img id="gallery3Preview" src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=200&h=150&fit=crop" alt="Gallery 3">
+                                </div>
+                                <input type="file" id="gallery3Image" accept="image/*" onchange="previewGalleryImage(this, 'gallery3Preview')">
+                                <input type="url" id="gallery3ImageUrl" placeholder="URL gambar..." onchange="previewGalleryFromUrl(this.value, 'gallery3Preview')">
+                            </div>
+                        </div>
+                        <small>Tambahkan hingga 3 gambar tambahan untuk galeri bisnis</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Fitur Unggulan (pisahkan dengan enter)</label>
+                        <textarea id="businessFeatures" rows="4" placeholder="Satu fitur per baris">Konsultasi Gratis
+Portfolio 100+ Proyek
+Garansi Kepuasan</textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nomor WhatsApp</label>
+                            <input type="text" id="businessWhatsapp" value="+62 812 3456 7890" placeholder="+62 xxx">
+                        </div>
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select id="businessStatus">
+                                <option value="aktif">Aktif</option>
+                                <option value="nonaktif">Non-Aktif</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="resetBusinessForm()">🔄 Reset</button>
+                        <button type="button" class="btn-primary" onclick="saveBusinessData()">💾 Simpan Perubahan</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Media & Berita Section -->
+        <section id="section-berita" class="content-section">
+            <div class="page-header">
+                <h1>Kelola Media & Berita</h1>
+                <p>Tambah, edit, atau hapus artikel dan berita perusahaan</p>
+            </div>
+
+            <div class="content-card">
+                <div class="card-header">
+                    <h3>Daftar Artikel</h3>
+                    <button class="btn-primary" onclick="addArticle()">+ Tambah Artikel</button>
+                </div>
+
+                <div class="article-grid">
+                    <div class="article-card">
+                        <div class="article-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                        <div class="article-content">
+                            <span class="article-date">10 Juni 2026</span>
+                            <h4>Ekspansi Bisnis Design Interior ke 5 Kota Besar</h4>
+                            <p>Elyasya Corp membuka cabang baru untuk layanan design interior...</p>
+                            <div class="article-actions">
+                                <button class="btn-icon" onclick="editArticle(1)">✏️ Edit</button>
+                                <button class="btn-icon" onclick="deleteArticle(1)">🗑️ Hapus</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="article-card">
+                        <div class="article-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+                        <div class="article-content">
+                            <span class="article-date">5 Juni 2026</span>
+                            <h4>Koleksi Hijab Ramadan 2026 Telah Hadir</h4>
+                            <p>Dapatkan koleksi hijab eksklusif untuk menyambut bulan suci...</p>
+                            <div class="article-actions">
+                                <button class="btn-icon" onclick="editArticle(2)">✏️ Edit</button>
+                                <button class="btn-icon" onclick="deleteArticle(2)">🗑️ Hapus</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="article-card">
+                        <div class="article-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+                        <div class="article-content">
+                            <span class="article-date">1 Juni 2026</span>
+                            <h4>Paket Umroh Spesial dengan Harga Terjangkau</h4>
+                            <p>Travel Agent Elyasya Corp meluncurkan paket umroh...</p>
+                            <div class="article-actions">
+                                <button class="btn-icon" onclick="editArticle(3)">✏️ Edit</button>
+                                <button class="btn-icon" onclick="deleteArticle(3)">🗑️ Hapus</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Kontak Info Section -->
+        <section id="section-kontak" class="content-section">
+            <div class="page-header">
+                <h1>Informasi Kontak</h1>
+                <p>Kelola informasi kontak perusahaan</p>
+            </div>
+
+            <div class="content-card">
+                <form class="contact-form">
+                    <div class="form-group">
+                        <label>Alamat Kantor</label>
+                        <textarea rows="3" placeholder="Alamat lengkap">Jl. Bisnis Raya No. 123
+Jakarta Selatan, DKI Jakarta 12345</textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nomor Telepon</label>
+                            <input type="text" value="+62 21 1234 5678" placeholder="Nomor telepon">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" value="info@elyasyacorp.com" placeholder="Email">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>WhatsApp</label>
+                            <input type="text" value="+62 812 3456 7890" placeholder="WhatsApp">
+                        </div>
+                        <div class="form-group">
+                            <label>Jam Operasional</label>
+                            <input type="text" value="Senin - Jumat, 09:00 - 17:00" placeholder="Jam operasional">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Link Google Maps</label>
+                        <input type="url" placeholder="https://maps.google.com/...">
+                    </div>
+
+                    <h3 style="margin-top: 2rem;">Social Media</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Facebook</label>
+                            <input type="url" placeholder="https://facebook.com/...">
+                        </div>
+                        <div class="form-group">
+                            <label>Instagram</label>
+                            <input type="url" placeholder="https://instagram.com/...">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Twitter</label>
+                            <input type="url" placeholder="https://twitter.com/...">
+                        </div>
+                        <div class="form-group">
+                            <label>LinkedIn</label>
+                            <input type="url" placeholder="https://linkedin.com/...">
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary">Reset</button>
+                        <button type="submit" class="btn-primary">Simpan Perubahan</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Pesan Masuk Section -->
+        <section id="section-pesan" class="content-section">
+            <div class="page-header">
+                <h1>Pesan Masuk</h1>
+                <p>Kelola pesan dari pengunjung website</p>
+            </div>
+
+            <div class="content-card">
+                <div class="filter-bar">
+                    <select class="filter-select">
+                        <option>Semua Lini Bisnis</option>
+                        <option>Design Interior</option>
+                        <option>Management</option>
+                        <option>Hijab</option>
+                        <option>Kedai Sembako</option>
+                        <option>Travel Agent</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>Semua Status</option>
+                        <option>Belum Dibaca</option>
+                        <option>Sudah Dibaca</option>
+                    </select>
+                </div>
+
+                <div class="messages-list">
+                    <div class="message-item unread">
+                        <div class="message-header">
+                            <div class="message-sender">
+                                <strong>Budi Santoso</strong>
+                                <span class="badge badge-blue">Design Interior</span>
+                            </div>
+                            <span class="message-time">2 jam yang lalu</span>
+                        </div>
+                        <div class="message-content">
+                            <p><strong>Email:</strong> budi@email.com | <strong>Telp:</strong> +62 812 3456 7890</p>
+                            <p>Saya tertarik dengan layanan design interior untuk renovasi rumah. Bisa minta informasi lebih lanjut mengenai harga dan proses konsultasi?</p>
+                        </div>
+                        <div class="message-actions">
+                            <button class="btn-small btn-primary">Balas via WhatsApp</button>
+                            <button class="btn-small btn-secondary">Tandai Dibaca</button>
+                            <button class="btn-small">Hapus</button>
+                        </div>
+                    </div>
+
+                    <div class="message-item">
+                        <div class="message-header">
+                            <div class="message-sender">
+                                <strong>Siti Aminah</strong>
+                                <span class="badge badge-purple">Hijab</span>
+                            </div>
+                            <span class="message-time">5 jam yang lalu</span>
+                        </div>
+                        <div class="message-content">
+                            <p><strong>Email:</strong> siti@email.com | <strong>Telp:</strong> +62 813 9876 5432</p>
+                            <p>Apakah ada katalog hijab terbaru? Saya ingin melihat koleksi untuk acara pernikahan.</p>
+                        </div>
+                        <div class="message-actions">
+                            <button class="btn-small btn-primary">Balas via WhatsApp</button>
+                            <button class="btn-small">Hapus</button>
+                        </div>
+                    </div>
+
+                    <div class="message-item">
+                        <div class="message-header">
+                            <div class="message-sender">
+                                <strong>Ahmad Rizki</strong>
+                                <span class="badge badge-orange">Travel Agent</span>
+                            </div>
+                            <span class="message-time">1 hari yang lalu</span>
+                        </div>
+                        <div class="message-content">
+                            <p><strong>Email:</strong> ahmad@email.com | <strong>Telp:</strong> +62 815 1234 5678</p>
+                            <p>Mohon info paket umroh untuk bulan depan. Berapa harga untuk 2 orang?</p>
+                        </div>
+                        <div class="message-actions">
+                            <button class="btn-small btn-primary">Balas via WhatsApp</button>
+                            <button class="btn-small">Hapus</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gambar Section -->
+        <section id="section-gambar" class="content-section">
+            <div class="page-header">
+                <h1>Kelola Gambar</h1>
+                <p>Upload dan ubah gambar untuk header, footer, dan hero slider</p>
+            </div>
+
+            <!-- Header Image -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h3>🖼️ Gambar Header (Logo)</h3>
+                </div>
+                <div class="image-upload-container">
+                    <div class="image-preview-box" id="headerPreviewBox">
+                        <img id="headerPreview" src="https://ui-avatars.com/api/?name=EC&background=1e3c72&color=fff&size=150" alt="Header Preview">
+                        <div class="image-overlay">
+                            <span>Header Logo</span>
+                        </div>
+                    </div>
+                    <div class="image-upload-form">
+                        <div class="form-group">
+                            <label>Upload Logo Header</label>
+                            <input type="file" id="headerImage" accept="image/*" onchange="previewUploadedImage(this, 'headerPreview')">
+                            <small>Format: PNG, JPG, SVG. Ukuran maksimal: 2MB. Rekomendasi: 200x80px</small>
+                        </div>
+                        <div class="form-group">
+                            <label>Atau Masukkan URL Gambar</label>
+                            <input type="url" id="headerImageUrl" placeholder="https://example.com/logo.png" onchange="previewFromUrl(this.value, 'headerPreview')">
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn-primary" onclick="saveImage('header')">💾 Simpan Gambar Header</button>
+                            <button type="button" class="btn-secondary" onclick="resetImage('header')">🔄 Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Slider Images -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h3>🎨 Gambar Hero Slider</h3>
+                    <p style="margin: 0; font-size: 0.9rem; color: #666;">Kelola gambar background untuk setiap slide hero</p>
+                </div>
+                
+                <div class="hero-images-grid">
+                    <!-- Slide 1 -->
+                    <div class="hero-image-item">
+                        <div class="hero-image-preview" id="hero1PreviewBox">
+                            <img id="hero1Preview" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=400&h=250&fit=crop" alt="Hero 1">
+                            <div class="hero-image-label">Slide 1 - Design Interior</div>
+                        </div>
+                        <div class="form-group">
+                            <input type="file" id="hero1Image" accept="image/*" onchange="previewUploadedImage(this, 'hero1Preview')">
+                        </div>
+                        <div class="form-group">
+                            <input type="url" id="hero1ImageUrl" placeholder="URL gambar..." onchange="previewFromUrl(this.value, 'hero1Preview')">
+                        </div>
+                        <button type="button" class="btn-small btn-primary" onclick="saveImage('hero1')">Simpan</button>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="hero-image-item">
+                        <div class="hero-image-preview" id="hero2PreviewBox">
+                            <img id="hero2Preview" src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&h=250&fit=crop" alt="Hero 2">
+                            <div class="hero-image-label">Slide 2 - Management</div>
+                        </div>
+                        <div class="form-group">
+                            <input type="file" id="hero2Image" accept="image/*" onchange="previewUploadedImage(this, 'hero2Preview')">
+                        </div>
+                        <div class="form-group">
+                            <input type="url" id="hero2ImageUrl" placeholder="URL gambar..." onchange="previewFromUrl(this.value, 'hero2Preview')">
+                        </div>
+                        <button type="button" class="btn-small btn-primary" onclick="saveImage('hero2')">Simpan</button>
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="hero-image-item">
+                        <div class="hero-image-preview" id="hero3PreviewBox">
+                            <img id="hero3Preview" src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=250&fit=crop" alt="Hero 3">
+                            <div class="hero-image-label">Slide 3 - Hijab</div>
+                        </div>
+                        <div class="form-group">
+                            <input type="file" id="hero3Image" accept="image/*" onchange="previewUploadedImage(this, 'hero3Preview')">
+                        </div>
+                        <div class="form-group">
+                            <input type="url" id="hero3ImageUrl" placeholder="URL gambar..." onchange="previewFromUrl(this.value, 'hero3Preview')">
+                        </div>
+                        <button type="button" class="btn-small btn-primary" onclick="saveImage('hero3')">Simpan</button>
+                    </div>
+
+                    <!-- Slide 4 -->
+                    <div class="hero-image-item">
+                        <div class="hero-image-preview" id="hero4PreviewBox">
+                            <img id="hero4Preview" src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&h=250&fit=crop" alt="Hero 4">
+                            <div class="hero-image-label">Slide 4 - Sembako</div>
+                        </div>
+                        <div class="form-group">
+                            <input type="file" id="hero4Image" accept="image/*" onchange="previewUploadedImage(this, 'hero4Preview')">
+                        </div>
+                        <div class="form-group">
+                            <input type="url" id="hero4ImageUrl" placeholder="URL gambar..." onchange="previewFromUrl(this.value, 'hero4Preview')">
+                        </div>
+                        <button type="button" class="btn-small btn-primary" onclick="saveImage('hero4')">Simpan</button>
+                    </div>
+
+                    <!-- Slide 5 -->
+                    <div class="hero-image-item">
+                        <div class="hero-image-preview" id="hero5PreviewBox">
+                            <img id="hero5Preview" src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=250&fit=crop" alt="Hero 5">
+                            <div class="hero-image-label">Slide 5 - Travel</div>
+                        </div>
+                        <div class="form-group">
+                            <input type="file" id="hero5Image" accept="image/*" onchange="previewUploadedImage(this, 'hero5Preview')">
+                        </div>
+                        <div class="form-group">
+                            <input type="url" id="hero5ImageUrl" placeholder="URL gambar..." onchange="previewFromUrl(this.value, 'hero5Preview')">
+                        </div>
+                        <button type="button" class="btn-small btn-primary" onclick="saveImage('hero5')">Simpan</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Image -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h3>📎 Gambar Footer</h3>
+                </div>
+                <div class="image-upload-container">
+                    <div class="image-preview-box" id="footerPreviewBox">
+                        <img id="footerPreview" src="https://ui-avatars.com/api/?name=EC&background=1e3c72&color=fff&size=150" alt="Footer Preview">
+                        <div class="image-overlay">
+                            <span>Footer Logo</span>
+                        </div>
+                    </div>
+                    <div class="image-upload-form">
+                        <div class="form-group">
+                            <label>Upload Logo Footer</label>
+                            <input type="file" id="footerImage" accept="image/*" onchange="previewUploadedImage(this, 'footerPreview')">
+                            <small>Format: PNG, JPG, SVG. Ukuran maksimal: 2MB. Rekomendasi: 200x80px</small>
+                        </div>
+                        <div class="form-group">
+                            <label>Atau Masukkan URL Gambar</label>
+                            <input type="url" id="footerImageUrl" placeholder="https://example.com/logo-footer.png" onchange="previewFromUrl(this.value, 'footerPreview')">
+                        </div>
+                        <div class="form-group">
+                            <label>Gambar Background Footer (Opsional)</label>
+                            <input type="file" id="footerBgImage" accept="image/*" onchange="previewUploadedImage(this, 'footerBgPreview')">
+                            <small>Format: PNG, JPG. Ukuran maksimal: 5MB. Rekomendasi: 1920x400px</small>
+                        </div>
+                        <div class="image-preview-box wide" id="footerBgPreviewBox">
+                            <img id="footerBgPreview" src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600&h=150&fit=crop" alt="Footer Background Preview">
+                            <div class="image-overlay">
+                                <span>Footer Background</span>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn-primary" onclick="saveImage('footer')">💾 Simpan Gambar Footer</button>
+                            <button type="button" class="btn-secondary" onclick="resetImage('footer')">🔄 Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bulk Actions -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h3>⚡ Aksi Cepat</h3>
+                </div>
+                <div class="quick-actions-grid">
+                    <button type="button" class="action-btn-large" onclick="saveAllImages()">
+                        <span class="icon">💾</span>
+                        <span>Simpan Semua Gambar</span>
+                    </button>
+                    <button type="button" class="action-btn-large" onclick="resetAllImages()">
+                        <span class="icon">🔄</span>
+                        <span>Reset Semua ke Default</span>
+                    </button>
+                    <button type="button" class="action-btn-large" onclick="previewWebsite()">
+                        <span class="icon">👁️</span>
+                        <span>Preview Website</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pengaturan Section -->
+        <section id="section-pengaturan" class="content-section">
+            <div class="page-header">
+                <h1>Pengaturan</h1>
+                <p>Konfigurasi umum website</p>
+            </div>
+
+            <div class="content-card">
+                <h3>Informasi Website</h3>
+                <form class="settings-form">
+                    <div class="form-group">
+                        <label>Nama Website</label>
+                        <input type="text" value="Elyasya Corp - Company Profile">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tagline</label>
+                        <input type="text" value="Holding Company dengan 5 Lini Bisnis Terpercaya">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Meta Description</label>
+                        <textarea rows="3">Elyasya Corp - Holding Company dengan 5 Lini Bisnis: Design Interior, Management, Hijab, Kedai Sembako, dan Travel Agent</textarea>
+                    </div>
+
+                    <h3 style="margin-top: 2rem;">Warna Brand</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Warna Utama</label>
+                            <input type="color" value="#1e3c72">
+                        </div>
+                        <div class="form-group">
+                            <label>Warna Sekunder</label>
+                            <input type="color" value="#2a5298">
+                        </div>
+                        <div class="form-group">
+                            <label>Warna Aksen</label>
+                            <input type="color" value="#d4af37">
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 2rem;">Keamanan</h3>
+                    <div class="form-group">
+                        <label>Username Admin</label>
+                        <input type="text" value="admin">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Password Baru</label>
+                        <input type="password" placeholder="Kosongkan jika tidak ingin mengubah">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Konfirmasi Password</label>
+                        <input type="password" placeholder="Konfirmasi password baru">
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary">Reset</button>
+                        <button type="submit" class="btn-primary">Simpan Pengaturan</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <script src="admin-script.js"></script>
+</body>
+</html>

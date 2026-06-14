@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Elyasya Corp - Design Interior: Layanan desain interior profesional untuk rumah, kantor, dan komersial">
+    <title>Design Interior - Elyasya Corp</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .business-hero {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 100px 0 60px;
+            text-align: center;
+        }
+        .business-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .business-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .business-content {
+            padding: 60px 0;
+        }
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .service-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+        .service-card .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .service-card h3 {
+            color: #1e3c72;
+            margin-bottom: 1rem;
+        }
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .portfolio-item {
+            border-radius: 12px;
+            overflow: hidden;
+            height: 250px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: flex-end;
+            position: relative;
+        }
+        .portfolio-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .portfolio-overlay {
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 1.5rem;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            margin-top: 60px;
+        }
+        .btn-cta {
+            display: inline-block;
+            background: #d4af37;
+            color: #1e3c72;
+            padding: 15px 40px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+        .btn-cta:hover {
+            background: white;
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html" style="text-decoration: none; color: inherit;">
+                    <h1>ELYASYA CORP</h1>
+                </a>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">Home</a></li>
+                <li class="dropdown">
+                    <a href="index.html#bisnis">Lini Bisnis ▼</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="design-interior.html" class="active">Design Interior</a></li>
+                        <li><a href="management.html">Management</a></li>
+                        <li><a href="hijab.html">Hijab</a></li>
+                        <li><a href="sembako.html">Kedai Sembako</a></li>
+                        <li><a href="travel.html">Travel Agent</a></li>
+                    </ul>
+                </li>
+                <li><a href="index.html#tentang">Tentang Kami</a></li>
+                <li><a href="index.html#media">Media & Berita</a></li>
+                <li><a href="index.html#kontak">Kontak</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Business Hero -->
+    <section class="business-hero">
+        <div class="container">
+            <h1>🏠 Design Interior</h1>
+            <p>Wujudkan Ruang Impian Anda dengan Sentuhan Profesional</p>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="business-content">
+        <div class="container">
+            <h2 class="section-title">Layanan Kami</h2>
+            <p class="section-subtitle">Solusi desain interior lengkap untuk berbagai kebutuhan</p>
+            
+            <div class="service-grid">
+                <div class="service-card">
+                    <div class="icon">🏡</div>
+                    <h3>Desain Rumah</h3>
+                    <p>Desain interior rumah tinggal yang nyaman dan estetis, dari ruang tamu hingga kamar tidur dengan konsep yang sesuai dengan kepribadian Anda.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon">🏢</div>
+                    <h3>Desain Kantor</h3>
+                    <p>Ruang kerja yang produktif dan profesional dengan desain yang meningkatkan semangat kerja dan efisiensi tim Anda.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon">🏪</div>
+                    <h3>Desain Komersial</h3>
+                    <p>Desain untuk toko, restoran, cafe, dan ruang komersial lainnya yang menarik pelanggan dan meningkatkan brand image.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon">🎨</div>
+                    <h3>Konsultasi Desain</h3>
+                    <p>Konsultasi gratis dengan desainer berpengalaman kami untuk mewujudkan ide dan konsep yang Anda inginkan.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon">📐</div>
+                    <h3>3D Visualization</h3>
+                    <p>Visualisasi 3D realistis untuk melihat hasil desain sebelum pelaksanaan dimulai.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon">🔨</div>
+                    <h3>Renovasi & Eksekusi</h3>
+                    <p>Layanan renovasi dan eksekusi desain dengan tim profesional dan material berkualitas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="business-content" style="background: #f8f9fa; padding: 60px 0;">
+        <div class="container">
+            <h2 class="section-title">Portfolio Kami</h2>
+            <p class="section-subtitle">Beberapa proyek terbaik yang telah kami kerjakan</p>
+            
+            <div class="portfolio-grid" id="portfolioGrid">
+                <div class="portfolio-item">
+                    <img id="portfolio-img-1" src="" alt="Modern Minimalist Living Room" style="display:none;">
+                    <div class="portfolio-overlay">
+                        <h4>Modern Minimalist</h4>
+                        <p>Living Room Design</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <img id="portfolio-img-2" src="" alt="Luxury Office Space" style="display:none;">
+                    <div class="portfolio-overlay">
+                        <h4>Luxury Office</h4>
+                        <p>Corporate Space Design</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <img id="portfolio-img-3" src="" alt="Cozy Bedroom" style="display:none;">
+                    <div class="portfolio-overlay">
+                        <h4>Cozy Bedroom</h4>
+                        <p>Bedroom Interior</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                    <img id="portfolio-img-4" src="" alt="Restaurant Design" style="display:none;">
+                    <div class="portfolio-overlay">
+                        <h4>Elegant Restaurant</h4>
+                        <p>F&B Interior Design</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                    <img id="portfolio-img-5" src="" alt="Cafe Design" style="display:none;">
+                    <div class="portfolio-overlay">
+                        <h4>Modern Cafe</h4>
+                        <p>Coffee Shop Design</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+                    <img id="portfolio-img-6" src="" alt="Apartment Design" style="display:none;">
+                    <div class="portfolio-overlay">
+                        <h4>Studio Apartment</h4>
+                        <p>Compact Living Space</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Siap Mewujudkan Ruang Impian Anda?</h2>
+            <p>Konsultasikan kebutuhan desain interior Anda dengan tim profesional kami</p>
+            <a href="https://wa.me/6281234567890?text=Halo, saya tertarik dengan layanan Design Interior Elyasya Corp" class="btn-cta" target="_blank">
+                💬 Konsultasi Gratis via WhatsApp
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ELYASYA CORP</h3>
+                    <p>Holding company terpercaya dengan 5 lini bisnis yang melayani berbagai kebutuhan Anda.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Lini Bisnis</h4>
+                    <ul>
+                        <li><a href="design-interior.html">Design Interior</a></li>
+                        <li><a href="management.html">Management</a></li>
+                        <li><a href="hijab.html">Hijab</a></li>
+                        <li><a href="sembako.html">Kedai Sembako</a></li>
+                        <li><a href="travel.html">Travel Agent</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Perusahaan</h4>
+                    <ul>
+                        <li><a href="index.html#tentang">Tentang Kami</a></li>
+                        <li><a href="index.html#media">Media & Berita</a></li>
+                        <li><a href="index.html#kontak">Kontak</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Ikuti Kami</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-icon">📘 Facebook</a>
+                        <a href="#" class="social-icon">📷 Instagram</a>
+                        <a href="#" class="social-icon">🐦 Twitter</a>
+                        <a href="#" class="social-icon">💼 LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Elyasya Corp. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Load portfolio images from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const businessImages = JSON.parse(localStorage.getItem('businessImages_design') || '{}');
+            if (businessImages.gallery) {
+                businessImages.gallery.forEach((img, index) => {
+                    const imgEl = document.getElementById(`portfolio-img-${index + 1}`);
+                    if (imgEl && img) {
+                        imgEl.src = img;
+                        imgEl.style.display = 'block';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
