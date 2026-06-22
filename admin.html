@@ -430,20 +430,31 @@
             <!-- Hero Slider Section -->
             <section id="section-hero" class="content-section">
                 <div class="page-header">
-                    <h1>Kelola Hero Slider</h1>
-                    <p>Atur tampilan slider utama di halaman beranda</p>
+                    <div class="page-header-left">
+                        <h1>Kelola Hero Slider</h1>
+                        <p>Atur tampilan slider utama di halaman beranda</p>
+                    </div>
+                    <button class="btn-primary" onclick="openSlideModal()">+ Tambah Slide</button>
                 </div>
 
                 <div class="content-card">
                     <div class="card-header">
-                        <h3>Slide Hero Banner</h3>
-                        <button class="btn-primary" onclick="openSlideModal()">+ Tambah Slide</button>
+                        <h3>🎨 Slide Hero Banner</h3>
+                        <span class="badge badge-info" id="totalSlidesCount">0 Slide</span>
                     </div>
-                    <div class="table-responsive">
+                    
+                    <!-- Slides Grid View -->
+                    <div class="slides-grid-view" id="slidesGridView">
+                        <!-- Slides will be dynamically rendered here -->
+                    </div>
+
+                    <!-- Table View (Alternative) -->
+                    <div class="table-responsive" style="margin-top: 20px;">
                         <table class="data-table">
                             <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>Preview</th>
                                     <th>Judul</th>
                                     <th>Deskripsi</th>
                                     <th>Lini Bisnis</th>

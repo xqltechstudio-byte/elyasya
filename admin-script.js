@@ -614,6 +614,12 @@ function renderSlidesTable() {
     const slides = loadHeroSlides();
     slides.sort((a, b) => (a.order || 0) - (b.order || 0));
     
+    // Update total slides count
+    const totalSlidesCount = document.getElementById('totalSlidesCount');
+    if (totalSlidesCount) {
+        totalSlidesCount.textContent = `${slides.length} Slide${slides.length !== 1 ? 's' : ''}`;
+    }
+    
     tbody.innerHTML = '';
     
     slides.forEach((slide, index) => {
@@ -623,9 +629,18 @@ function renderSlidesTable() {
         
         const businessBadge = getBusinessBadge(slide.businessLine);
         
+        // Create preview thumbnail
+        let previewHtml = '';
+        if (slide.bgImage) {
+            previewHtml = `<div class="slide-preview-thumb" style="background-image: url(${slide.bgImage});"></div>`;
+        } else {
+            previewHtml = `<div class="slide-preview-thumb" style="background: ${slide.bgColor || 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)'};"></div>`;
+        }
+        
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${index + 1}</td>
+            <td>${previewHtml}</td>
             <td><strong>${slide.title}</strong></td>
             <td>${slide.description.substring(0, 40)}...</td>
             <td>${businessBadge}</td>
@@ -638,6 +653,128 @@ function renderSlidesTable() {
         `;
         tbody.appendChild(row);
     });
+    
+    // Also render grid view
+    renderSlidesGridView();
+}
+
+// Render slides grid view
+function renderSlidesGridView() {
+    const gridView = document.getElementById('slidesGridView');
+    if (!gridView) return;
+    
+    const slides = loadHeroSlides();
+    slides.sort((a, b) => (a.order || 0) - (b.order || 0));
+    
+    gridView.innerHTML = '';
+    
+    if (slides.length === 0) {
+        gridView.innerHTML = `
+            <div class="empty-state">
+                <span class="empty-icon">🎨</span>
+                <h3>Belum Ada Slide</h3>
+                <p>Klik tombol "Tambah Slide" untuk membuat slide pertama Anda</p>
+            </div>
+        `;
+        return;
+    }
+    
+    slides.forEach((slide, index) => {
+        const slideCard = document.createElement('div');
+        slideCard.className = `slide-grid-card ${slide.status === 'inactive' ? 'inactive' : ''}`;
+        
+        // Create background preview
+        let bgStyle = '';
+        if (slide.bgImage) {
+            bgStyle = `background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(${slide.bgImage});`;
+        } else {
+            bgStyle = `background: ${slide.bgColor || 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)'};`;
+        }
+        
+        slideCard.innerHTML = `
+            <div class="slide-card-preview" style="${bgStyle}">
+                <div class="slide-card-overlay">
+                    <span class="slide-order-badge">#${index + 1}</span>
+                    <span class="slide-status-badge ${slide.status === 'active' ? 'active' : 'inactive'}">
+                        ${slide.status === 'active' ? '● Aktif' : '○ Nonaktif'}
+                    </span>
+                </div>
+                <div class="slide-card-content-preview">
+                    <h4>${slide.title}</h4>
+                    <p>${slide.description.substring(0, 50)}...</p>
+                </div>
+            </div>
+            <div class="slide-card-footer">
+                <div class="slide-card-info">
+                    <span class="business-tag">${slide.businessLine || 'Umum'}</span>
+                </div>
+                <div class="slide-card-actions">
+                    <button class="btn-icon-small" onclick="editSlide(${slide.id})" title="Edit">✏️</button>
+                    <button class="btn-icon-small" onclick="quickChangeImage(${slide.id})" title="Ganti Gambar">🖼️</button>
+                    <button class="btn-icon-small" onclick="toggleSlideStatus(${slide.id})" title="Toggle Status">
+                        ${slide.status === 'active' ? '🔴' : '🟢'}
+                    </button>
+                    <button class="btn-icon-small" onclick="deleteSlide(${slide.id})" title="Hapus">🗑️</button>
+                </div>
+            </div>
+        `;
+        
+        gridView.appendChild(slideCard);
+    });
+}
+
+// Quick change image for slide
+function quickChangeImage(id) {
+    const slides = loadHeroSlides();
+    const slide = slides.find(s => s.id === id);
+    if (!slide) {
+        showToast('Slide tidak ditemukan', 'error');
+        return;
+    }
+    
+    // Create a temporary file input
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+    fileInput.onchange = function(e) {
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            
+            // Validate file size (5MB max)
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('Ukuran file terlalu besar! Maksimal 5MB', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                // Update slide with new image
+                slide.bgImage = event.target.result;
+                saveHeroSlides(slides);
+                renderSlidesTable();
+                showToast(`Gambar slide "${slide.title}" berhasil diubah!`, 'success');
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+    fileInput.click();
+}
+
+// Toggle slide status
+function toggleSlideStatus(id) {
+    const slides = loadHeroSlides();
+    const slide = slides.find(s => s.id === id);
+    if (!slide) {
+        showToast('Slide tidak ditemukan', 'error');
+        return;
+    }
+    
+    slide.status = slide.status === 'active' ? 'inactive' : 'active';
+    saveHeroSlides(slides);
+    renderSlidesTable();
+    
+    const statusText = slide.status === 'active' ? 'diaktifkan' : 'dinonaktifkan';
+    showToast(`Slide "${slide.title}" berhasil ${statusText}`, 'success');
 }
 
 // Get business line badge

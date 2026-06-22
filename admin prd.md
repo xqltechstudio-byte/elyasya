@@ -1,69 +1,72 @@
 # Product Requirement Document (PRD)
-## Project Name: Admin Dashboard Control Panel
-**Version:** 1.0  
-**Date:** June 17, 2026  
-**Author:** Product Management Team  
-**Status:** Draft  
+## Project: Dashboard Admin Elyasya Corp - Company Profile
+
+### 1. Document Control & Overview
+* **Project Name:** Elyasya Corp Company Profile - Admin Dashboard
+* **Version:** 1.0
+* **Date:** June 23, 2026
+* **Author:** Product Team
+* **Status:** Draft
 
 ---
 
-## 1. Executive Summary & Objective
-Tujuan dari proyek ini adalah membangun halaman Dashboard Admin sebagai pusat kendali terpusat (*centralized control panel*). Sistem ini berfungsi untuk memantau performa bisnis secara *real-time*, mengelola data operasional (CRUD), serta mengatur hak akses pengguna demi efisiensi kerja tim internal dan keamanan data perusahaan.
+### 2. Executive Summary & Objective
+Elyasya Corp memerlukan sebuah website Company Profile yang dinamis. Agar pengelolaan konten, portofolio, dan pesan dari calon klien dapat dilakukan secara mandiri tanpa ketergantungan pada tim developer, diperlukan sebuah **Dashboard Admin** yang intuitif, aman, dan efisien.
+
+**Tujuan Utama:**
+1.  Memberikan akses kepada manajemen/admin Elyasya Corp untuk memperbarui informasi perusahaan secara *real-time*.
+2.  Mengelola portofolio proyek dan layanan terbaru untuk meningkatkan *brand trust*.
+3.  Menampung dan mengorganisasi pesan masuk (*leads*) dari halaman kontak website utama.
 
 ---
 
-## 2. User Personas & Roles
-Sistem ini akan diakses oleh beberapa tingkat pengguna dengan hak akses yang berbeda (Role-Based Access Control / RBAC):
-1. **Super Admin:** Memiliki akses penuh ke seluruh sistem, termasuk pengaturan keuangan, log keamanan, dan manajemen akun admin lainnya.
-2. **Operations/Content Manager:** Berwenang mengelola data operasional (produk, transaksi, verifikasi user) namun tidak bisa mengubah konfigurasi sistem atau melihat log teknis.
-3. **Viewer/Analyst:** Hanya memiliki akses *read-only* untuk melihat grafik statistik dan mengunduh laporan.
+### 3. User Personas & Roles
+1.  **Super Admin (Management / IT Team):** Memiliki akses penuh ke seluruh fitur dashboard, termasuk manajemen akun admin lain dan pengaturan sistem.
+2.  **Content Editor (Marketing / PR Team):** Memiliki akses untuk mengubah konten website (artikel, portofolio, halaman statis) dan melihat pesan masuk, namun tidak bisa mengubah konfigurasi sistem atau akun lain.
 
 ---
 
-## 3. Key Features & Functional Requirements
+### 4. Functional Requirements (Fitur Dashboard)
 
-### 3.1. Authentication & Security (Autentikasi)
-*   **FR-01:** Pengguna harus melakukan *login* menggunakan email dan kata sandi yang terenkripsi.
-*   **FR-02:** Sistem wajib mendukung *Two-Factor Authentication* (2FA) untuk level akun Super Admin.
-*   **FR-03:** *Session Timeout* otomatis jika admin tidak aktif dalam waktu 30 menit.
+#### 4.1. Autentikasi & Keamanan (User Authentication)
+* **Login Page:** Form input email dan password dengan enkripsi standar.
+* **Forgot Password:** Fitur reset password via email tautan verifikasi.
+* **Session Management:** Auto-logout jika tidak ada aktivitas selama 60 menit demi keamanan.
 
-### 3.2. Layout Utama & Navigasi
-*   **FR-04 Sidebar (Menu Samping):** Navigasi vertikal yang dapat disembunyikan (*collapsible*). Menu mencakup: Dashboard, Manajemen Pengguna, Manajemen Konten/Produk, Laporan, Keamanan, dan Pengaturan.
-*   **FR-05 Header:** Berisi kolom pencarian global, ikon lonceng notifikasi (aktivitas *real-time*), dan *dropdown* profil pengguna untuk *logout*.
+#### 4.2. Ringkasan Utama (Main Dashboard Summary)
+* **Metrik Ringkas (Widget):** Total pesan masuk, pesan belum dibaca, jumlah portofolio aktif, dan grafik kunjungan website sederhana bulanan (Integrasi API Analytics sederhana).
+* **Recent Activities:** Daftar 5 pesan masuk terbaru dan update konten terakhir.
 
-### 3.3. Modul Ringkasan & Visualisasi Data (Main Dashboard)
-*   **FR-06 Info Cards (Widget):** Menampilkan metrik angka utama di bagian paling atas (misal: Total Pendapatan, Pengguna Baru, Transaksi Aktif) dilengkapi dengan indikator tren persentase naik/turun dibanding periode sebelumnya.
-*   **FR-07 Chart Analytics:**
-    *   *Line/Bar Chart:* Visualisasi tren performa bulanan/harian.
-    *   *Pie/Donut Chart:* Visualisasi pembagian kategori data (misal: Produk terlaris, status transaksi).
-*   **FR-08 Date Filter:** Fitur penyaringan data dashboard berdasarkan rentang waktu (Hari Ini, 7 Hari Terakhir, 30 Hari Terakhir, Kustom).
+#### 4.3. Manajemen Konten (CMS - Content Management System)
+* **Halaman Statis (About Us, Visi & Misi):** Text editor (WYSIWYG) untuk memperbarui deskripsi perusahaan dan sejarah singkat.
+* **Manajemen Layanan (Services):** Fitur CRUD (Create, Read, Update, Delete) untuk jenis layanan yang ditawarkan (Ikon/Gambar, Judul, Deskripsi).
+* **Manajemen Portofolio (Projects/Portfolio):**
+    * Form tambah proyek: Judul, Kategori, Foto Utama, Galeri Foto, Deskripsi Proyek, dan Tahun Selesai.
+    * Fitur untuk menyembunyikan (*draft*) atau menerbitkan (*publish*) portofolio.
+* **Manajemen Tim (Team Members):** Upload foto, Nama, Jabatan, dan tautan LinkedIn anggota tim/manajemen.
 
-### 3.4. Manajemen Data Utama (CRUD Engine)
-*   **FR-09 Data Tables:** Menampilkan data pengguna atau produk dalam bentuk tabel yang rapi.
-*   **FR-10 Fitur Tabel:** Wajib memiliki fungsi *Searching* (pencarian), *Sorting* (pengurutan kolom), *Filtering* (penyaringan kategori), dan *Pagination* (pembatasan 10, 25, 50 data per halaman).
-*   **FR-11 Modul Aksi:** Menyediakan tombol Tambah Data, Detail (Read), Ubah (Update), dan Hapus (Delete). Khusus aksi hapus wajib memunculkan jendela konfirmasi (*pop-up modal*).
+#### 4.4. Manajemen Pesan Masuk (Inquiry & Lead Management)
+* **Inbox Table:** Menampilkan daftar pesan masuk dari contact form website utama (Nama, Email, Subjek, Tanggal).
+* **Detail Pesan:** Klik pesan untuk membaca isi lengkap dan mengubah status pesan.
+* **Status Tanda:** Penanda status pesan: *Unread*, *Read*, dan *Archived/Followed Up*.
 
-### 3.5. Audit Trail & Log Sistem
-*   **FR-12 Activity Logs:** Sistem harus mencatat setiap aksi krusial yang dilakukan oleh admin (Siapa, Melakukan Apa, Kapan, dan IP Address-nya) untuk kebutuhan forensik keamanan jika terjadi kesalahan data.
-
----
-
-## 4. Non-Functional Requirements (NFR)
-
-*   **Performance:** Halaman dashboard utama harus termuat kurang dari 2 detik pada kecepatan internet standar. Pengambilan data tabel yang besar wajib menggunakan metode *server-side pagination*.
-*   **Responsiveness:** Tampilan harus adaptif (*responsive layout*). Minimal dapat diakses dengan baik di perangkat Tablet (iPad/Android Tablet) dan Desktop (Resolusi 1280x720 ke atas).
-*   **Scalability:** Arsitektur database harus mampu menangani pembacaan data hingga 50.000 baris per menit tanpa penurunan performa.
+#### 4.5. Pengaturan Website (Site & SEO Settings)
+* **General Settings:** Mengubah Logo perusahaan, Favicon, alamat kantor, email kontak, dan nomor WhatsApp.
+* **Social Media Links:** Input tautan untuk Instagram, LinkedIn, Facebook, dan YouTube.
+* **SEO Meta Control:** Input kolom *Meta Title*, *Meta Description*, dan *Keywords* untuk optimasi SEO dasar di Google.
 
 ---
 
-## 5. UI/UX & Design Guidelines
-*   **Tema:** Menggunakan *Clean Light Mode* untuk ruang kerja administratif konvensional, atau *Modern Dark Mode* untuk dashboard analitik intensif.
-*   **Keterbacaan:** Menggunakan font bertipe sans-serif (seperti *Inter* atau *Roboto*) dengan kontras warna teks dan latar belakang yang memenuhi standar WCAG 2.1 (aksesibilitas).
-*   **Umpan Balik Visual:** Setiap aksi sukses (simpan/hapus) harus memunculkan notifikasi *Toast* (pesan melayang di sudut layar) berwarna hijau, dan warna merah jika gagal.
+### 5. Non-Functional Requirements (NFR)
+* **Responsiveness:** Dashboard harus responsif dan nyaman diakses melalui Desktop, Tablet, maupun Smartphone (Mobile Friendly).
+* **Performance:** Waktu pemuatan halaman dashboard tidak boleh lebih dari 2 detik pada koneksi internet standar.
+* **Security:** Proteksi terhadap SQL Injection, XSS, dan wajib menggunakan protokol HTTPS.
+* **Scalability:** Struktur basis data harus modular agar mudah jika di kemudian hari ingin ditambahkan fitur e-commerce atau modul karir/rekrutmen.
 
 ---
 
-## 6. Success Metrics (KPI)
-*   Mengurangi waktu pengolahan data operasional oleh tim internal sebesar 40%.
-*   Nol insiden kebocoran data akibat kesalahan hak akses (*privilege escalation*).
-*   Tingkat kepuasan internal user (System Usability Scale) mencapai skor minimal 75.
+### 6. Timeline & Milestones (Tentatif)
+* **Minggu 1:** Finalisasi PRD & Perancangan UI/UX Wireframe Dashboard.
+* **Minggu 2-3:** Pengembangan Backend (Database, API, Auth) & Frontend Dashboard.
+* **Minggu 4:** Integrasi dengan Website Utama Elyasya Corp & Pengujian (QA/UAT).
+* **Minggu 5:** Deployment (Go-Live) dan Pelatihan Penggunaan (*Handover*)

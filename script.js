@@ -403,8 +403,28 @@ function loadImagesFromStorage() {
         }
     }
 
-    // Hero images are now managed via the Hero Slider admin section (localStorage key: heroSlides)
-    // No longer overridden by image_hero1, image_hero2, etc. keys
+    // Load Hero Images (keys: image_hero1, image_hero2, etc.)
+    const heroSlides = document.querySelectorAll('.hero-slider .slide');
+    const heroImageKeys = [
+        'image_hero1',
+        'image_hero2',
+        'image_hero3',
+        'image_hero4',
+        'image_hero5'
+    ];
+
+    heroSlides.forEach((slide, index) => {
+        const heroData = localStorage.getItem(heroImageKeys[index]);
+        if (heroData) {
+            const heroSrc = getImageSrc(heroData);
+            if (heroSrc) {
+                // Apply background with overlay
+                slide.style.background = `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${heroSrc})`;
+                slide.style.backgroundSize = 'cover';
+                slide.style.backgroundPosition = 'center';
+            }
+        }
+    });
 
     // Load Footer Logo (key: image_footer)
     const footerData = localStorage.getItem('image_footer');

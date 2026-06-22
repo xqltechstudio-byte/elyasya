@@ -11,7 +11,7 @@
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #FDFBF7; /* Background krem pucat khas PDF */
+            background-color: #FBF7EE;
         }
         .font-serif-elegant {
             font-family: 'Marcellus', serif;
@@ -20,29 +20,40 @@
 </head>
 <body class="text-stone-800 antialiased selection:bg-amber-200">
 
-    <header class="sticky top-0 z-50 bg-[#FDFBF7]/90 backdrop-blur-md border-b border-amber-200/50 px-6 py-4 flex justify-between items-center">
-        <div class="flex flex-col">
-            <span class="font-serif-elegant text-xl tracking-wider text-amber-800 font-bold">kedai sembako</span>
-            <span class="text-[10px] tracking-widest text-amber-600 font-semibold uppercase -mt-1">Since 2023</span>
+    <nav class="sticky top-0 z-50 bg-[#FBF7EE]/90 backdrop-blur-md border-b border-amber-200/50 px-6 py-3">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="logo elyasya Corp.jpeg" alt="Elyasya Corp Logo" class="h-10 w-10 rounded-full object-cover">
+                <div class="flex flex-col">
+                    <span class="font-serif-elegant text-lg tracking-wider text-amber-800 font-bold">KEDAI SEMBAKO</span>
+                    <span class="text-[9px] tracking-widest text-amber-600 font-semibold uppercase -mt-0.5">Divisi Elyasya Corp</span>
+                </div>
+            </a>
+            <ul class="hidden md:flex items-center gap-6 text-sm font-medium text-stone-600">
+                <li><a href="index.html" class="hover:text-amber-700 transition">Home</a></li>
+                <li class="relative group">
+                    <a href="#" class="hover:text-amber-700 transition flex items-center gap-1">Lini Bisnis <span class="text-xs">▼</span></a>
+                    <ul class="absolute top-full left-0 mt-1 bg-white border border-amber-100 rounded-lg shadow-lg py-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                        <li><a href="design-interior.html" class="block px-4 py-2 hover:bg-amber-50 text-stone-700">Design Interior</a></li>
+                        <li><a href="management.html" class="block px-4 py-2 hover:bg-amber-50 text-stone-700">Management</a></li>
+                        <li><a href="hijab.html" class="block px-4 py-2 hover:bg-amber-50 text-stone-700">Hijab</a></li>
+                        <li><a href="sembako.html" class="block px-4 py-2 bg-amber-50 text-amber-800 font-semibold">Kedai Sembako</a></li>
+                        <li><a href="travel.html" class="block px-4 py-2 hover:bg-amber-50 text-stone-700">Travel Agent</a></li>
+                    </ul>
+                </li>
+                <li><a href="#produk" class="hover:text-amber-700 transition">Produk</a></li>
+                <li><a href="#tentang" class="hover:text-amber-700 transition">Tentang</a></li>
+                <li><a href="#distribusi" class="hover:text-amber-700 transition">Distribusi</a></li>
+            </ul>
+            <a href="#distribusi" class="bg-amber-700 hover:bg-amber-800 text-white text-xs font-bold uppercase tracking-wider px-4 py-2 rounded shadow-sm transition">
+                Belanja di Shopee
+            </a>
         </div>
-        <nav class="hidden md:flex space-x-8 text-sm font-medium text-stone-600">
-            <a href="#home" class="hover:text-amber-700 transition">Beranda</a>
-            <a href="#produk" class="hover:text-amber-700 transition">Kategori Produk</a>
-            <a href="#tentang" class="hover:text-amber-700 transition">Tentang Kami</a>
-            <a href="#keunggulan" class="hover:text-amber-700 transition">Keunggulan</a>
-            <a href="#distribusi" class="hover:text-amber-700 transition">Sistem Penjualan</a>
-        </nav>
-        <a href="#distribusi" class="bg-amber-700 hover:bg-amber-800 text-white text-xs font-bold uppercase tracking-wider px-4 py-2 rounded shadow-sm transition">
-            Belanja di Shopee
-        </a>
-    </header>
+    </nav>
 
     <section id="home" class="relative min-h-[85vh] flex flex-col justify-center items-center text-center px-4 py-12">
         <div class="max-w-3xl mx-auto space-y-4">
-            <span class="text-xs font-bold tracking-widest text-amber-600 uppercase">Company Profile</span>
-            <h1 class="font-serif-elegant text-5xl md:text-6xl text-amber-900 tracking-wide font-light">
-                KEDAI SEMBAKO
-            </h1>
+        <img src="logo kedai sembako.png" alt="Kedai Sembako" class="max-w-xs md:max-w-md mx-auto">
             <p class="text-sm font-semibold tracking-wide text-stone-500 uppercase">
                 Divisi CV Elyasya Corp
             </p>
@@ -54,11 +65,8 @@
 
         <div class="mt-12 w-full max-w-4xl px-4">
             <div class="aspect-[21/9] w-full rounded-xl bg-stone-200 border border-amber-200 shadow-md flex items-center justify-center overflow-hidden relative group">
-                <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=1200" alt="Sembako Pokok" class="w-full h-full object-cover opacity-80 mix-blend-multiply">
+                <img src="hero sembako.jpeg" alt="Sembako Pokok" class="w-full h-full object-cover opacity-80 mix-blend-multiply">
                 <div class="absolute inset-0 bg-gradient-to-t from-amber-950/40 to-transparent"></div>
-                <span class="absolute text-xs bg-stone-900/80 text-white px-3 py-1.5 rounded backdrop-blur-sm">
-                    [Tempatkan Gambar Utama PDF Halaman 1 di Sini]
-                </span>
             </div>
         </div>
     </section>
@@ -76,35 +84,51 @@
 
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div class="bg-white p-4 rounded-lg border border-amber-100 shadow-xs text-center space-y-3">
-                <div class="aspect-square w-full bg-stone-100 rounded flex items-center justify-center text-xs text-stone-400 p-2">Beras Premium Image</div>
+                <div class="aspect-square w-full bg-stone-100 rounded overflow-hidden">
+                    <img src="beras.jpeg" alt="Beras Premium" class="w-full h-full object-cover">
+                </div>
                 <h3 class="font-serif-elegant text-base text-amber-950 font-semibold">Beras Premium</h3>
             </div>
             <div class="bg-white p-4 rounded-lg border border-amber-100 shadow-xs text-center space-y-3">
-                <div class="aspect-square w-full bg-stone-100 rounded flex items-center justify-center text-xs text-stone-400 p-2">Gula Pasir Image</div>
+                <div class="aspect-square w-full bg-stone-100 rounded overflow-hidden">
+                    <img src="gula.jpeg" alt="Gula Pasir" class="w-full h-full object-cover">
+                </div>
                 <h3 class="font-serif-elegant text-base text-amber-950 font-semibold">Gula Pasir</h3>
             </div>
             <div class="bg-white p-4 rounded-lg border border-amber-100 shadow-xs text-center space-y-3">
-                <div class="aspect-square w-full bg-stone-100 rounded flex items-center justify-center text-xs text-stone-400 p-2">Minyak Goreng Image</div>
+                <div class="aspect-square w-full bg-stone-100 rounded overflow-hidden">
+                    <img src="minyak.jpeg" alt="Minyak Goreng" class="w-full h-full object-cover">
+                </div>
                 <h3 class="font-serif-elegant text-base text-amber-950 font-semibold">Minyak Goreng</h3>
             </div>
             <div class="bg-white p-4 rounded-lg border border-amber-100 shadow-xs text-center space-y-3">
-                <div class="aspect-square w-full bg-stone-100 rounded flex items-center justify-center text-xs text-stone-400 p-2">Kopi Premium Image</div>
+                <div class="aspect-square w-full bg-stone-100 rounded overflow-hidden">
+                    <img src="kopi.jpeg" alt="Kopi Premium" class="w-full h-full object-cover">
+                </div>
                 <h3 class="font-serif-elegant text-base text-amber-950 font-semibold">Kopi Premium</h3>
             </div>
             <div class="bg-white p-4 rounded-lg border border-amber-100 shadow-xs text-center space-y-3">
-                <div class="aspect-square w-full bg-stone-100 rounded flex items-center justify-center text-xs text-stone-400 p-2">Mi Instan Image</div>
+                <div class="aspect-square w-full bg-stone-100 rounded overflow-hidden">
+                    <img src="mie.jpeg" alt="Mi Instan" class="w-full h-full object-cover">
+                </div>
                 <h3 class="font-serif-elegant text-base text-amber-950 font-semibold">Mi Instan</h3>
             </div>
             <div class="bg-white p-4 rounded-lg border border-amber-100 shadow-xs text-center space-y-3">
-                <div class="aspect-square w-full bg-stone-100 rounded flex items-center justify-center text-xs text-stone-400 p-2">Tepung Terigu Serbaguna</div>
+                <div class="aspect-square w-full bg-stone-100 rounded overflow-hidden">
+                    <img src="tepung.jpeg" alt="Berbagai Jenis Tepung" class="w-full h-full object-cover">
+                </div>
                 <h3 class="font-serif-elegant text-base text-amber-950 font-semibold">Berbagai Jenis Tepung</h3>
             </div>
             <div class="bg-white p-4 rounded-lg border border-amber-100 shadow-xs text-center space-y-3">
-                <div class="aspect-square w-full bg-stone-100 rounded flex items-center justify-center text-xs text-stone-400 p-2">Rempah & Bumbu Instan</div>
+                <div class="aspect-square w-full bg-stone-100 rounded overflow-hidden">
+                    <img src="bumbu.jpeg" alt="Bumbu Masakan / Instan" class="w-full h-full object-cover">
+                </div>
                 <h3 class="font-serif-elegant text-base text-amber-950 font-semibold">Bumbu Masakan / Instan</h3>
             </div>
             <div class="bg-white p-4 rounded-lg border border-amber-100 shadow-xs text-center space-y-3">
-                <div class="aspect-square w-full bg-stone-100 rounded flex items-center justify-center text-xs text-stone-400 p-2">Sarden & Kacang Panggang</div>
+                <div class="aspect-square w-full bg-stone-100 rounded overflow-hidden">
+                    <img src="sarden.jpeg" alt="Makanan Kaleng" class="w-full h-full object-cover">
+                </div>
                 <h3 class="font-serif-elegant text-base text-amber-950 font-semibold">Makanan Kaleng</h3>
             </div>
         </div>
