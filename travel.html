@@ -1,415 +1,954 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Company Profile - Tiga Jaya Tour & Travel</title>
+    <title>Tiga Jaya Tour & Travel - Company Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#065f46',
+                        'primary-light': '#047857',
+                        'primary-dark': '#064e3b',
+                        secondary: '#f59e0b',
+                        'secondary-light': '#fbbf24',
+                        'secondary-dark': '#d97706',
+                    },
+                    fontFamily: {
+                        heading: ['Montserrat', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1f2937;
+        }
+        h1, h2, h3, h4, h5, h6, .font-heading {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #065f46; border-radius: 4px; }
+
+        /* Logo SVG animation */
+        .logo-spin:hover svg { transform: rotate(10deg); }
+        .logo-spin svg { transition: transform 0.4s ease; }
+
+        /* Gradient backgrounds */
+        .bg-hero-gradient {
+            background: linear-gradient(135deg, #064e3b 0%, #065f46 40%, #047857 100%);
+        }
+        .bg-section-green {
+            background: linear-gradient(180deg, #ecfdf5 0%, #ffffff 100%);
+        }
+        .bg-section-amber {
+            background: linear-gradient(180deg, #fffbeb 0%, #ffffff 100%);
+        }
+
+        /* Decorative wave */
+        .wave-divider {
+            position: relative;
+        }
+        .wave-divider::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 30 Q300 0 600 30 Q900 60 1200 30 L1200 60 L0 60Z' fill='%23ffffff'/%3E%3C/svg%3E") no-repeat center;
+            background-size: cover;
+        }
+
+        /* Floating animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+        .animate-float { animation: float 4s ease-in-out infinite; }
+        .animate-float-delay { animation: float 4s ease-in-out 1s infinite; }
+
+        /* Pulse glow */
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(6, 95, 70, 0.2); }
+            50% { box-shadow: 0 0 40px rgba(6, 95, 70, 0.4); }
+        }
+        .pulse-glow { animation: pulseGlow 3s ease-in-out infinite; }
+
+        /* Card hover */
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(6, 95, 70, 0.15);
+        }
+
+        /* Step connector line */
+        .step-connector {
+            position: relative;
+        }
+        .step-connector::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -50%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #065f46, #f59e0b);
+            z-index: 0;
+        }
+
+        /* Blob shapes */
+        .blob {
+            border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+            animation: morph 8s ease-in-out infinite;
+        }
+        @keyframes morph {
+            0%, 100% { border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%; }
+            50% { border-radius: 58% 42% 30% 70% / 55% 55% 45% 45%; }
+        }
+
+        /* Smooth scroll */
+        html { scroll-behavior: smooth; }
+
+        /* Mobile menu */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        /* Tag pill */
+        .tag-pill {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        /* Image placeholder with gradient */
+        .img-placeholder {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 50%, #6ee7b7 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased">
+<body class="overflow-x-hidden">
 
-    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center gap-2">
-                    <img src="images/logo.png" alt="Tiga Jaya Tour & Travel Logo" class="w-10 h-10 rounded-full object-cover">
-                    <span class="font-bold text-lg tracking-wider text-emerald-900">TIGA JAYA</span>
-                </div>
-                <div class="hidden md:flex space-x-8 text-sm font-medium">
-                    <a href="#tentang" class="text-slate-600 hover:text-emerald-700 transition">Tentang Kami</a>
-                    <a href="#layanan" class="text-slate-600 hover:text-emerald-700 transition">Layanan</a>
-                    <a href="#keunggulan" class="text-slate-600 hover:text-emerald-700 transition">Keunggulan</a>
-                    <a href="#kontak" class="bg-emerald-700 text-white px-4 py-2 rounded-full hover:bg-emerald-800 transition">Hubungi Kami</a>
-                </div>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <h1>ELYASYA CORP</h1>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">Home</a></li>
+                <li class="dropdown">
+                    <a href="#bisnis">Lini Bisnis ▼</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="design-interior.html">Design Interior</a></li>
+                        <li><a href="management.html">Management</a></li>
+                        <li><a href="hijab.html">Hijab</a></li>
+                        <li><a href="sembako.html">Kedai Sembako</a></li>
+                        <li><a href="travel.html" class="active">Travel Agent</a></li>
+                    </ul>
+                </li>
+                <li><a href="#about">Profil</a></li>
+                <li><a href="#services">Layanan</a></li>
+                <li><a href="#wisata">Wisata</a></li>
+                <li><a href="#contact">Kontak</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </div>
     </nav>
 
-    <header class="relative bg-gradient-to-br from-emerald-900 via-emerald-800 to-teal-950 text-white py-24 px-4 overflow-hidden min-h-[85vh] flex items-center">
-        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
-        <div class="max-w-5xl mx-auto text-center relative z-10">
-            <span class="bg-amber-500/20 text-amber-400 border border-amber-500/30 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest mb-6 inline-block">Company Profile</span>
-            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-4">TIGA JAYA<br><span class="text-amber-400">Tour & Travel</span></h1>
-            <p class="text-xl md:text-2xl font-medium tracking-wide text-emerald-100 max-w-2xl mx-auto mb-8 italic">"Satu Perjalanan, Seribu Kenangan!"</p>
-            
-            <p class="text-base text-slate-300 max-w-xl mx-auto mb-12">Layanan Sewa Kendaraan, Tour Wisata, Antar-Jemput, dan Perjalanan Dinas terpercaya di Banyuwangi, Jawa Timur.</p>
-            
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto text-sm font-semibold tracking-wide">
-                <div class="bg-white/10 backdrop-blur-sm border border-white/10 p-4 rounded-xl">🚗 Sewa Kendaraan</div>
-                <div class="bg-white/10 backdrop-blur-sm border border-white/10 p-4 rounded-xl">⛰️ Tour Wisata</div>
-                <div class="bg-white/10 backdrop-blur-sm border border-white/10 p-4 rounded-xl">🚐 Antar-Jemput</div>
-                <div class="bg-white/10 backdrop-blur-sm border border-white/10 p-4 rounded-xl">🏢 Perjalanan Dinas</div>
+    <!-- ========== PAGE 1: COVER / HERO ========== -->
+    <section id="cover" class="bg-hero-gradient wave-divider min-h-screen flex items-center relative overflow-hidden">
+        <!-- Decorative blobs -->
+        <div class="absolute top-20 right-10 w-80 h-80 bg-emerald-400/10 blob animate-float"></div>
+        <div class="absolute bottom-40 left-10 w-60 h-60 bg-amber-400/10 blob animate-float-delay"></div>
+        <div class="absolute top-1/2 left-1/3 w-40 h-40 bg-emerald-300/5 rounded-full blur-3xl"></div>
+
+        <div class="max-w-6xl mx-auto px-6 md:px-12 py-20 grid lg:grid-cols-2 gap-12 items-center relative z-10 w-full">
+            <div data-aos="fade-right" data-aos-duration="1000">
+                <!-- Logo large -->
+                <div class="w-28 h-28 mb-8 pulse-glow rounded-full">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                        <circle cx="50" cy="50" r="48" fill="#065f46" stroke="#34d399" stroke-width="2"/>
+                        <path d="M15 65 Q25 35 40 50 Q50 30 60 45 Q70 25 85 55" fill="none" stroke="#34d399" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M20 70 Q35 45 50 58 Q60 40 75 55 Q82 48 88 60" fill="none" stroke="#6ee7b7" stroke-width="2.5" stroke-linecap="round"/>
+                        <text x="50" y="78" text-anchor="middle" font-family="Montserrat, sans-serif" font-weight="900" font-size="36" fill="#ffffff">T</text>
+                        <path d="M25 30 Q37 18 50 28 Q63 18 75 30" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+
+                <p class="text-emerald-300 font-body text-sm font-semibold tracking-[0.3em] uppercase mb-4">Official Company Profile</p>
+                <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-4">
+                    TIGA JAYA<br>
+                    <span class="text-secondary">Tour & Travel</span>
+                </h1>
+                <p class="text-emerald-200 font-heading text-xl md:text-2xl font-semibold italic mb-6">
+                    "Satu Perjalanan, Seribu Kenangan!"
+                </p>
+                <p class="text-emerald-100/80 font-body text-base md:text-lg max-w-lg mb-8 leading-relaxed">
+                    Layanan Sewa Kendaraan, Tour Wisata, Antar-Jemput, dan Perjalanan Dinas
+                </p>
+
+                <!-- Service Tags -->
+                <div class="flex flex-wrap gap-3 mb-10">
+                    <span class="tag-pill bg-white/15 text-white border border-white/20 backdrop-blur-sm">
+                        <i class="fa-solid fa-car mr-1"></i> Sewa Kendaraan
+                    </span>
+                    <span class="tag-pill bg-white/15 text-white border border-white/20 backdrop-blur-sm">
+                        <i class="fa-solid fa-mountain-sun mr-1"></i> Tour Wisata
+                    </span>
+                    <span class="tag-pill bg-white/15 text-white border border-white/20 backdrop-blur-sm">
+                        <i class="fa-solid fa-van-shuttle mr-1"></i> Antar-Jemput
+                    </span>
+                    <span class="tag-pill bg-white/15 text-white border border-white/20 backdrop-blur-sm">
+                        <i class="fa-solid fa-briefcase mr-1"></i> Perjalanan Dinas
+                    </span>
+                </div>
+
+                <div class="flex flex-wrap gap-4">
+                    <a href="#services" class="bg-secondary hover:bg-secondary-light text-primary-dark font-heading font-bold px-8 py-3.5 rounded-full shadow-xl shadow-amber-500/30 hover:shadow-amber-500/40 transition-all duration-300 flex items-center gap-2">
+                        <i class="fa-solid fa-compass"></i> Lihat Layanan
+                    </a>
+                    <a href="#about" class="bg-white/10 border-2 border-white/30 text-white font-heading font-bold px-8 py-3.5 rounded-full hover:bg-white/20 transition-all duration-300 backdrop-blur-sm">
+                        Pelajari Selengkapnya
+                    </a>
+                </div>
             </div>
-            
-            <p class="text-xs text-emerald-300/70 mt-12 tracking-widest uppercase">Tour Travel &bull; Corporate Trip &bull; Airport Transfer &bull; Hiace</p>
+
+            <!-- Hero Visual -->
+            <div class="hidden lg:flex justify-center" data-aos="fade-left" data-aos-duration="1200">
+                <div class="relative">
+                    <div class="w-96 h-96 rounded-3xl overflow-hidden shadow-2xl shadow-black/30 border-4 border-white/20 img-placeholder rotate-3 hover:rotate-0 transition-transform duration-500">
+                        <div class="text-center p-8">
+                            <i class="fa-solid fa-mountain-sun text-6xl text-emerald-700/40 mb-4"></i>
+                            <p class="text-emerald-800/50 font-heading font-bold text-lg">Banyuwangi</p>
+                            <p class="text-emerald-800/40 font-body text-sm">Jawa Timur</p>
+                        </div>
+                    </div>
+                    <div class="absolute -bottom-6 -left-6 w-48 h-48 bg-secondary/20 rounded-2xl -z-10"></div>
+                    <div class="absolute -top-4 -right-4 w-32 h-32 bg-emerald-400/20 rounded-full -z-10"></div>
+                </div>
+            </div>
         </div>
-    </header>
 
-    <section id="tentang" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
-            
-            <div class="lg:col-span-7 space-y-8">
-                <div>
-                    <span class="text-emerald-700 font-bold text-sm uppercase tracking-wider block mb-2">Profil Perusahaan</span>
-                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Tentang Tiga Jaya Tour & Travel</h2>
-                    <p class="text-slate-600 leading-relaxed">Tiga Jaya Tour & Travel adalah penyedia layanan perjalanan dan transportasi yang berfokus pada kenyamanan, keamanan, dan kemudahan pelanggan. Kami melayani kebutuhan wisata, sewa kendaraan, antar-jemput, perjalanan dinas, hingga trip rombongan dengan layanan yang fleksibel dan profesional.</p>
-                    <p class="text-slate-600 leading-relaxed mt-4">Dengan semangat <span class="italic font-medium text-emerald-800">'Satu Perjalanan, Seribu Kenangan!'</span>, kami berkomitmen menghadirkan pengalaman perjalanan yang nyaman, tertata, dan berkesan.</p>
-                </div>
-
-                <div class="border-t border-slate-200 pt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                        <h3 class="text-amber-500 font-bold text-lg mb-2 flex items-center gap-2">👁️ Visi</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed">Menjadi perusahaan tour & travel terpercaya yang memberikan layanan perjalanan aman, nyaman, fleksibel, dan berkesan bagi pelanggan.</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                        <h3 class="text-emerald-700 font-bold text-lg mb-2 flex items-center gap-2">🎯 Misi</h3>
-                        <ol class="text-slate-600 text-sm space-y-2 list-decimal list-inside">
-                            <li>Menyediakan layanan transportasi yang profesional, aman, dan tepat waktu.</li>
-                            <li>Memberikan solusi perjalanan yang fleksibel sesuai kebutuhan pelanggan.</li>
-                            <li>Menghadirkan pengalaman wisata yang berkesan melalui itinerary yang tertata.</li>
-                            <li>Memberikan pelayanan yang ramah, responsif, dan informatif.</li>
-                            <li>Menjaga kualitas armada dan kepuasan pelanggan sebagai prioritas utama.</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-
-            <div class="lg:col-span-5 grid grid-cols-2 gap-4">
-                <div class="col-span-2 relative overflow-hidden rounded-2xl shadow-md h-64 bg-slate-200 group">
-                    <img src="images/hiace-gunung.jpg" alt="Toyota Hiace dengan pemandangan gunung" class="object-cover w-full h-full group-hover:scale-105 transition duration-500">
-                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 p-4 text-white">
-                        <span class="text-xs text-amber-400 font-semibold tracking-wider block">Premium Fleet</span>
-                        <p class="font-bold text-lg">Toyota Hiace Commuter & Premie</p>
-                    </div>
-                </div>
-                <div class="relative overflow-hidden rounded-2xl shadow-md h-40 bg-slate-200 group">
-                    <img src="images/innova-silver.jpg" alt="Toyota Innova Silver Premium" class="object-cover w-full h-full group-hover:scale-105 transition duration-500">
-                </div>
-                <div class="relative overflow-hidden rounded-2xl shadow-md h-40 bg-slate-200 group">
-                    <img src="images/ilustrasi-driver.jpg" alt="Ilustrasi Driver Profesional" class="object-cover w-full h-full group-hover:scale-105 transition duration-500">
-                </div>
-            </div>
-
+        <!-- Bottom tags -->
+        <div class="absolute bottom-20 left-0 right-0 z-10">
+            <p class="text-center text-emerald-300/60 font-body text-xs tracking-[0.2em] uppercase">
+                Tour Travel &bull; Corporate Trip &bull; Airport Transfer &bull; HIACE
+            </p>
         </div>
     </section>
 
-    <section id="layanan" class="py-24 bg-slate-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                <span class="text-emerald-700 font-bold text-sm uppercase tracking-wider">Services</span>
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2">Solusi Transportasi & Trip Lengkap</h2>
-                <p class="text-slate-600 mt-4">Kami menyediakan berbagai macam skema layanan perjalanan terintegrasi yang fleksibel untuk mempermudah mobilitas Anda.</p>
+    <!-- ========== PAGE 2: PROFIL PERUSAHAAN ========== -->
+    <section id="about" class="py-24 px-6 md:px-12 bg-section-green">
+        <div class="max-w-6xl mx-auto">
+            <!-- Section Header -->
+            <div class="text-center mb-16" data-aos="fade-up">
+                <p class="text-secondary font-body text-sm font-bold tracking-[0.2em] uppercase mb-2">01 / PROFIL PERUSAHAAN</p>
+                <h2 class="font-heading text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary mb-4">Tentang Kami</h2>
+                <div class="w-20 h-1 bg-secondary mx-auto rounded-full"></div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-white p-8 rounded-2xl border border-slate-200/60 shadow-sm hover:shadow-md transition">
-                    <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-700 text-2xl mb-6">🚗</div>
-                    <h3 class="font-bold text-xl text-slate-900 mb-3">Sewa Kendaraan</h3>
-                    <ul class="text-slate-600 text-sm space-y-2">
-                        <li>• Tersedia harian, mingguan, dan bulanan</li>
-                        <li>• Armada nyaman, bersih, dan siap jalan</li>
-                        <li>• Cocok untuk pribadi, keluarga, wisata, dan kantor</li>
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <!-- Image Grid -->
+                <div class="relative" data-aos="fade-right">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="rounded-2xl overflow-hidden shadow-xl h-52 img-placeholder">
+                            <div class="text-center">
+                                <i class="fa-solid fa-car-side text-4xl text-emerald-700/30 mb-2"></i>
+                                <p class="text-emerald-800/40 font-body text-xs">Toyota Hiace</p>
+                            </div>
+                        </div>
+                        <div class="rounded-2xl overflow-hidden shadow-xl h-52 img-placeholder mt-8">
+                            <div class="text-center">
+                                <i class="fa-solid fa-car text-4xl text-emerald-700/30 mb-2"></i>
+                                <p class="text-emerald-800/40 font-body text-xs">Innova Silver</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 w-40 h-40 bg-primary/10 rounded-full -z-10 blur-2xl"></div>
+                </div>
+
+                <!-- Text Content -->
+                <div data-aos="fade-left" class="space-y-6">
+                    <p class="text-gray-600 font-body text-lg leading-relaxed">
+                        <span class="font-heading font-bold text-primary">Tiga Jaya Tour & Travel</span> adalah penyedia layanan perjalanan dan transportasi yang berfokus pada kenyamanan, keamanan, dan kemudahan pelanggan. Kami melayani kebutuhan wisata, sewa kendaraan, antar-jemput, perjalanan dinas, hingga trip rombongan dengan layanan yang fleksibel dan profesional.
+                    </p>
+                    <p class="text-gray-500 font-body text-base leading-relaxed italic">
+                        Dengan semangat "Satu Perjalanan, Seribu Kenangan!", kami berkomitmen menghadirkan pengalaman perjalanan yang nyaman, tertata, dan berkesan.
+                    </p>
+
+                    <!-- Visi -->
+                    <div class="bg-emerald-50 border-l-4 border-primary p-5 rounded-r-xl">
+                        <h4 class="font-heading font-bold text-primary text-lg mb-2"><i class="fa-solid fa-eye mr-2"></i>Visi</h4>
+                        <p class="text-gray-600 font-body text-sm leading-relaxed">
+                            Menjadi perusahaan tour & travel terpercaya yang memberikan layanan perjalanan aman, nyaman, fleksibel, dan berkesan bagi pelanggan.
+                        </p>
+                    </div>
+
+                    <!-- Misi -->
+                    <div class="bg-amber-50 border-l-4 border-secondary p-5 rounded-r-xl">
+                        <h4 class="font-heading font-bold text-secondary-dark text-lg mb-3"><i class="fa-solid fa-bullseye mr-2"></i>Misi</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-start gap-2 text-gray-600 font-body text-sm">
+                                <i class="fa-solid fa-check-circle text-primary mt-0.5 text-xs"></i>
+                                Menyediakan layanan transportasi yang profesional, aman, dan tepat waktu.
+                            </li>
+                            <li class="flex items-start gap-2 text-gray-600 font-body text-sm">
+                                <i class="fa-solid fa-check-circle text-primary mt-0.5 text-xs"></i>
+                                Memberikan solusi perjalanan yang fleksibel sesuai kebutuhan pelanggan.
+                            </li>
+                            <li class="flex items-start gap-2 text-gray-600 font-body text-sm">
+                                <i class="fa-solid fa-check-circle text-primary mt-0.5 text-xs"></i>
+                                Menghadirkan pengalaman wisata yang berkesan melalui itinerary yang tertata.
+                            </li>
+                            <li class="flex items-start gap-2 text-gray-600 font-body text-sm">
+                                <i class="fa-solid fa-check-circle text-primary mt-0.5 text-xs"></i>
+                                Memberikan pelayanan yang ramah, responsif, dan informatif.
+                            </li>
+                            <li class="flex items-start gap-2 text-gray-600 font-body text-sm">
+                                <i class="fa-solid fa-check-circle text-primary mt-0.5 text-xs"></i>
+                                Menjaga kualitas armada dan kepuasan pelanggan sebagai prioritas utama.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== PAGE 3: LAYANAN KAMI I ========== -->
+    <section id="services" class="py-24 px-6 md:px-12 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <p class="text-secondary font-body text-sm font-bold tracking-[0.2em] uppercase mb-2">02 / LAYANAN KAMI</p>
+                <h2 class="font-heading text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary mb-4">Solusi Transportasi Lengkap</h2>
+                <p class="text-gray-500 font-body text-lg max-w-2xl mx-auto">Solusi transportasi untuk berbagai kebutuhan perjalanan</p>
+                <div class="w-20 h-1 bg-secondary mx-auto rounded-full mt-4"></div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8" data-aos="fade-up" data-aos-delay="200">
+                <!-- Sewa Kendaraan -->
+                <div class="card-hover bg-white p-8 rounded-3xl shadow-lg border border-emerald-100 group">
+                    <div class="w-16 h-16 bg-emerald-100 text-primary rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                        <i class="fa-solid fa-car-side"></i>
+                    </div>
+                    <h3 class="font-heading text-xl font-bold text-gray-800 mb-4">Sewa Kendaraan</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-2 text-gray-500 font-body text-sm">
+                            <i class="fa-solid fa-circle-check text-primary mt-0.5"></i>
+                            Tersedia harian, mingguan, dan bulanan
+                        </li>
+                        <li class="flex items-start gap-2 text-gray-500 font-body text-sm">
+                            <i class="fa-solid fa-circle-check text-primary mt-0.5"></i>
+                            Armada nyaman, bersih, dan siap jalan
+                        </li>
+                        <li class="flex items-start gap-2 text-gray-500 font-body text-sm">
+                            <i class="fa-solid fa-circle-check text-primary mt-0.5"></i>
+                            Cocok untuk pribadi, keluarga, wisata, dan kantor
+                        </li>
                     </ul>
                 </div>
 
-                <div class="bg-white p-8 rounded-2xl border border-slate-200/60 shadow-sm hover:shadow-md transition">
-                    <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-700 text-2xl mb-6">🚐</div>
-                    <h3 class="font-bold text-xl text-slate-900 mb-3">Layanan Antar-Jemput</h3>
-                    <ul class="text-slate-600 text-sm space-y-2">
-                        <li>• Penjemputan dari lokasi Anda</li>
-                        <li>• Tepat waktu dan praktis</li>
-                        <li>• Cocok untuk tamu, keluarga, karyawan, dan peserta acara</li>
+                <!-- Antar-Jemput -->
+                <div class="card-hover bg-white p-8 rounded-3xl shadow-lg border border-emerald-100 group">
+                    <div class="w-16 h-16 bg-amber-100 text-secondary-dark rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-secondary group-hover:text-white transition-colors duration-300">
+                        <i class="fa-solid fa-van-shuttle"></i>
+                    </div>
+                    <h3 class="font-heading text-xl font-bold text-gray-800 mb-4">Layanan Antar-Jemput</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-2 text-gray-500 font-body text-sm">
+                            <i class="fa-solid fa-circle-check text-secondary mt-0.5"></i>
+                            Penjemputan dari lokasi Anda
+                        </li>
+                        <li class="flex items-start gap-2 text-gray-500 font-body text-sm">
+                            <i class="fa-solid fa-circle-check text-secondary mt-0.5"></i>
+                            Tepat waktu dan praktis
+                        </li>
+                        <li class="flex items-start gap-2 text-gray-500 font-body text-sm">
+                            <i class="fa-solid fa-circle-check text-secondary mt-0.5"></i>
+                            Cocok untuk tamu, keluarga, karyawan, dan peserta acara
+                        </li>
                     </ul>
                 </div>
 
-                <div class="bg-white p-8 rounded-2xl border border-slate-200/60 shadow-sm hover:shadow-md transition">
-                    <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-700 text-2xl mb-6">✈️</div>
-                    <h3 class="font-bold text-xl text-slate-900 mb-3">Layanan Bandara / Stasiun</h3>
-                    <ul class="text-slate-600 text-sm space-y-2">
-                        <li>• Antar dan jemput bandara atau stasiun</li>
-                        <li>• Jadwal fleksibel sesuai keberangkatan / kedatangan</li>
-                        <li>• Perjalanan nyaman tanpa repot</li>
+                <!-- Bandara/Stasiun -->
+                <div class="card-hover bg-white p-8 rounded-3xl shadow-lg border border-emerald-100 group">
+                    <div class="w-16 h-16 bg-sky-100 text-sky-600 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-sky-500 group-hover:text-white transition-colors duration-300">
+                        <i class="fa-solid fa-plane-departure"></i>
+                    </div>
+                    <h3 class="font-heading text-xl font-bold text-gray-800 mb-4">Layanan Bandara / Stasiun</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-2 text-gray-500 font-body text-sm">
+                            <i class="fa-solid fa-circle-check text-sky-500 mt-0.5"></i>
+                            Antar dan jemput bandara atau stasiun
+                        </li>
+                        <li class="flex items-start gap-2 text-gray-500 font-body text-sm">
+                            <i class="fa-solid fa-circle-check text-sky-500 mt-0.5"></i>
+                            Jadwal fleksibel sesuai keberangkatan / kedatangan
+                        </li>
+                        <li class="flex items-start gap-2 text-gray-500 font-body text-sm">
+                            <i class="fa-solid fa-circle-check text-sky-500 mt-0.5"></i>
+                            Perjalanan nyaman tanpa repot
+                        </li>
                     </ul>
                 </div>
-
-                <div class="bg-white p-8 rounded-2xl border border-slate-200/60 shadow-sm hover:shadow-md transition bg-gradient-to-b from-white to-amber-50/30">
-                    <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-amber-600 text-2xl mb-6">⛰️</div>
-                    <h3 class="font-bold text-xl text-slate-900 mb-3">Wisata & Travel Banyuwangi</h3>
-                    <ul class="text-slate-600 text-sm space-y-2">
-                        <li>• Paket fleksibel untuk menjelajahi keindahan Banyuwangi</li>
-                        <li>• Destinasi wisata alam, budaya, hingga pengalaman lokal</li>
-                        <li>• Liburan lebih mudah & berkesan dengan guide lokal</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="mt-8 bg-amber-50 border border-amber-200 p-6 rounded-2xl text-center">
-                <p class="text-slate-700 italic font-medium">"Liburan lebih mudah & berkesan. Jelajahi Banyuwangi dengan mudah dan menyenangkan."</p>
-            </div>
-
-            <div class="mt-8 bg-emerald-900 text-white p-6 rounded-2xl flex flex-wrap justify-around items-center text-center gap-4">
-                <div class="px-4 py-2"><span class="block text-2xl font-bold text-amber-400">✓</span> Paket Fleksibel</div>
-                <div class="px-4 py-2"><span class="block text-2xl font-bold text-amber-400">★</span> Destinasi Menarik</div>
-                <div class="px-4 py-2"><span class="block text-2xl font-bold text-amber-400">🛋️</span> Transportasi Nyaman</div>
-                <div class="px-4 py-2"><span class="block text-2xl font-bold text-amber-400">👤</span> Guide Lokal</div>
             </div>
         </div>
     </section>
 
-    <section class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-gradient-to-r from-slate-900 to-slate-800 rounded-3xl text-white overflow-hidden shadow-xl grid grid-cols-1 lg:grid-cols-12">
-            <div class="p-8 md:p-14 lg:col-span-7 flex flex-col justify-center">
-                <span class="text-amber-400 font-bold text-sm tracking-wider uppercase mb-2">B2B Service</span>
-                <h2 class="text-3xl font-bold mb-4">Corporate & Perjalanan Dinas</h2>
-                <p class="text-slate-300 text-sm mb-6 leading-relaxed">Layanan profesional untuk perusahaan, instansi, dan rombongan.</p>
-                
-                <div class="space-y-4 text-sm">
-                    <div class="flex items-start gap-3">
-                        <span class="bg-emerald-700 text-white rounded-full p-1 text-xs">🏢</span>
-                        <div>
-                            <h4 class="font-bold text-slate-100">Corporate & Instansi</h4>
-                            <p class="text-slate-400">Melayani kebutuhan perusahaan, instansi, sekolah, organisasi, dan komunitas untuk gathering, study tour, event, dan kunjungan kerja.</p>
+    <!-- ========== PAGE 4: WISATA & TRAVEL BANYUWANGI ========== -->
+    <section id="wisata" class="py-24 px-6 md:px-12 bg-section-amber relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-amber-200/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        <div class="max-w-6xl mx-auto relative z-10">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <p class="text-secondary font-body text-sm font-bold tracking-[0.2em] uppercase mb-2">03 / WISATA & TRAVEL</p>
+                <h2 class="font-heading text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary mb-4">Jelajahi Banyuwangi</h2>
+                <div class="w-20 h-1 bg-secondary mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right" class="space-y-8">
+                    <!-- Wisata & Travel -->
+                    <div class="bg-white p-8 rounded-3xl shadow-lg border border-amber-100">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 bg-emerald-100 text-primary rounded-xl flex items-center justify-center text-xl">
+                                <i class="fa-solid fa-mountain-sun"></i>
+                            </div>
+                            <h3 class="font-heading text-xl font-bold text-gray-800">Wisata & Travel</h3>
+                        </div>
+                        <p class="text-gray-500 font-body leading-relaxed">
+                            Melayani perjalanan wisata keluarga, komunitas, sekolah, maupun trip pribadi dengan itinerary yang terarah dan menyenangkan.
+                        </p>
+                    </div>
+
+                    <!-- Trip Wisata Banyuwangi -->
+                    <div class="bg-white p-8 rounded-3xl shadow-lg border border-amber-100">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 bg-amber-100 text-secondary-dark rounded-xl flex items-center justify-center text-xl">
+                                <i class="fa-solid fa-map-location-dot"></i>
+                            </div>
+                            <h3 class="font-heading text-xl font-bold text-gray-800">Trip Wisata Banyuwangi</h3>
+                        </div>
+                        <p class="text-gray-500 font-body leading-relaxed">
+                            Paket trip custom untuk menjelajahi keindahan Banyuwangi dan sekitarnya mulai dari wisata alam, budaya, hingga pengalaman lokal yang menarik.
+                        </p>
+                    </div>
+                </div>
+
+                <div data-aos="fade-left" class="space-y-6">
+                    <!-- Features -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-white p-5 rounded-2xl shadow-md border border-emerald-50 text-center card-hover">
+                            <div class="w-12 h-12 bg-emerald-100 text-primary rounded-full flex items-center justify-center text-lg mx-auto mb-3">
+                                <i class="fa-solid fa-sliders"></i>
+                            </div>
+                            <p class="font-heading font-bold text-gray-700 text-sm">Paket Fleksibel</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl shadow-md border border-emerald-50 text-center card-hover">
+                            <div class="w-12 h-12 bg-amber-100 text-secondary-dark rounded-full flex items-center justify-center text-lg mx-auto mb-3">
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="font-heading font-bold text-gray-700 text-sm">Destinasi Menarik</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl shadow-md border border-emerald-50 text-center card-hover">
+                            <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-full flex items-center justify-center text-lg mx-auto mb-3">
+                                <i class="fa-solid fa-bus"></i>
+                            </div>
+                            <p class="font-heading font-bold text-gray-700 text-sm">Transportasi Nyaman</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl shadow-md border border-emerald-50 text-center card-hover">
+                            <div class="w-12 h-12 bg-rose-100 text-rose-500 rounded-full flex items-center justify-center text-lg mx-auto mb-3">
+                                <i class="fa-solid fa-user-tie"></i>
+                            </div>
+                            <p class="font-heading font-bold text-gray-700 text-sm">Guide Lokal</p>
                         </div>
                     </div>
-                    <div class="flex items-start gap-3">
-                        <span class="bg-emerald-700 text-white rounded-full p-1 text-xs">💼</span>
-                        <div>
-                            <h4 class="font-bold text-slate-100">Perjalanan Dinas</h4>
-                            <p class="text-slate-400">Solusi transportasi profesional untuk agenda kerja, meeting, survei lokasi, dan perjalanan resmi dengan armada nyaman dan driver berpengalaman.</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <span class="bg-emerald-700 text-white rounded-full p-1 text-xs">👥</span>
-                        <div>
-                            <h4 class="font-bold text-slate-100">Rombongan Besar</h4>
-                            <p class="text-slate-400">Siap melayani keluarga besar, komunitas, perusahaan, dan instansi dengan perencanaan yang matang dan koordinasi yang rapi.</p>
-                        </div>
+
+                    <!-- Slogan -->
+                    <div class="bg-gradient-to-r from-primary to-primary-light p-6 rounded-2xl text-white text-center shadow-xl">
+                        <p class="font-heading font-bold text-lg italic">
+                            "Liburan lebih mudah & berkesan. Jelajahi Banyuwangi dengan mudah dan menyenangkan."
+                        </p>
                     </div>
                 </div>
-
-                <div class="mt-6 flex flex-wrap gap-2">
-                    <span class="bg-white/10 border border-white/20 px-3 py-1 rounded-full text-xs">Kunjungan kerja</span>
-                    <span class="bg-white/10 border border-white/20 px-3 py-1 rounded-full text-xs">Meeting & event</span>
-                    <span class="bg-white/10 border border-white/20 px-3 py-1 rounded-full text-xs">Study tour</span>
-                    <span class="bg-white/10 border border-white/20 px-3 py-1 rounded-full text-xs">Gathering</span>
-                    <span class="bg-white/10 border border-white/20 px-3 py-1 rounded-full text-xs">Transportasi tamu</span>
-                </div>
-
-                <div class="mt-8 border-t border-slate-700 pt-6">
-                    <span class="text-xs text-amber-400 font-mono tracking-widest block mb-2 uppercase">Company Gathering</span>
-                    <p class="text-lg italic font-semibold text-slate-100">"Together We Grow, Together We Achieve"</p>
-                </div>
-            </div>
-            
-            <div class="lg:col-span-5 min-h-[300px] bg-slate-700 relative">
-                <img src="images/corporate-meeting.jpg" alt="Corporate Meeting" class="w-full h-full object-cover">
-            </div>
-        </div>
-
-        <div class="mt-8 relative overflow-hidden rounded-2xl shadow-lg h-64 bg-slate-200">
-            <img src="images/spanduk-gathering.jpg" alt="Company Gathering - Together We Grow, Together We Achieve" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/60 flex items-end p-6">
-                <p class="text-white font-bold text-xl">COMPANY GATHERING - Together We Grow, Together We Achieve</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-24 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                <span class="text-emerald-700 font-bold text-sm uppercase tracking-wider">Itinerary & Guide</span>
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2">Perjalanan lebih terarah, informatif, dan berkesan</h2>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-emerald-50 p-6 rounded-2xl border border-emerald-100">
-                    <div class="w-12 h-12 bg-emerald-600 rounded-xl flex items-center justify-center text-white text-2xl mb-4">📋</div>
-                    <h3 class="font-bold text-lg text-slate-900 mb-2">Itinerary Teratur</h3>
-                    <p class="text-slate-600 text-sm">Rencana perjalanan disusun dengan matang agar waktu lebih efisien dan tujuan lebih jelas.</p>
-                </div>
-                <div class="bg-emerald-50 p-6 rounded-2xl border border-emerald-100">
-                    <div class="w-12 h-12 bg-emerald-600 rounded-xl flex items-center justify-center text-white text-2xl mb-4">🚐</div>
-                    <h3 class="font-bold text-lg text-slate-900 mb-2">Transportasi Nyaman</h3>
-                    <p class="text-slate-600 text-sm">Kendaraan terawat dan selalu siap mendukung perjalanan Anda.</p>
-                </div>
-                <div class="bg-emerald-50 p-6 rounded-2xl border border-emerald-100">
-                    <div class="w-12 h-12 bg-emerald-600 rounded-xl flex items-center justify-center text-white text-2xl mb-4">🧭</div>
-                    <h3 class="font-bold text-lg text-slate-900 mb-2">Guide Lokal Expert</h3>
-                    <p class="text-slate-600 text-sm">Pemandu berpengalaman yang ramah dan memahami destinasi setempat.</p>
-                </div>
-                <div class="bg-emerald-50 p-6 rounded-2xl border border-emerald-100">
-                    <div class="w-12 h-12 bg-emerald-600 rounded-xl flex items-center justify-center text-white text-2xl mb-4">⭐</div>
-                    <h3 class="font-bold text-lg text-slate-900 mb-2">Pengalaman Terbaik</h3>
-                    <p class="text-slate-600 text-sm">Membantu menciptakan momen perjalanan yang nyaman, aman, dan penuh kesan.</p>
-                </div>
-            </div>
-
-            <div class="mt-12 text-center">
-                <p class="text-slate-600 italic text-lg">Kami membantu pelanggan menikmati trip dengan lebih maksimal dari awal hingga akhir perjalanan.</p>
             </div>
         </div>
     </section>
 
-    <section id="keunggulan" class="py-24 bg-emerald-950 text-white relative">
-        <div class="absolute inset-0 opacity-5 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px]"></div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                <span class="text-amber-400 font-bold text-sm uppercase tracking-wider">Why Choose Us</span>
-                <h2 class="text-3xl md:text-4xl font-bold mt-2">Alasan Pelanggan Memilih Tiga Jaya Tour & Travel</h2>
-                <p class="text-emerald-200/70 mt-3 text-sm">Nilai tambah Tiga Jaya Tour & Travel</p>
+    <!-- ========== PAGE 5: CORPORATE & PERJALANAN DINAS ========== -->
+    <section id="corporate" class="py-24 px-6 md:px-12 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <p class="text-secondary font-body text-sm font-bold tracking-[0.2em] uppercase mb-2">04 / CORPORATE</p>
+                <h2 class="font-heading text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary mb-4">Corporate & Perjalanan Dinas</h2>
+                <p class="text-gray-500 font-body text-lg max-w-2xl mx-auto">Layanan profesional untuk perusahaan, instansi, dan rombongan.</p>
+                <div class="w-20 h-1 bg-secondary mx-auto rounded-full mt-4"></div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-16">
-                <div class="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-white/5 border border-white/10 p-6 rounded-2xl">
-                        <div class="text-2xl mb-4">🛡️</div>
-                        <h3 class="font-bold text-lg mb-2">Aman & Terpercaya</h3>
-                        <p class="text-emerald-100/60 text-sm">Layanan profesional, driver berpengalaman, dan perjalanan yang lebih tenang.</p>
+            <div class="grid md:grid-cols-3 gap-8 mb-16" data-aos="fade-up" data-aos-delay="200">
+                <!-- Corporate & Instansi -->
+                <div class="card-hover bg-gradient-to-br from-emerald-50 to-white p-8 rounded-3xl shadow-lg border border-emerald-100">
+                    <div class="w-14 h-14 bg-primary text-white rounded-2xl flex items-center justify-center text-xl mb-6 shadow-lg shadow-emerald-900/20">
+                        <i class="fa-solid fa-building"></i>
                     </div>
-                    <div class="bg-white/5 border border-white/10 p-6 rounded-2xl">
-                        <div class="text-2xl mb-4">✨</div>
-                        <h3 class="font-bold text-lg mb-2">Kendaraan Terawat</h3>
-                        <p class="text-emerald-100/60 text-sm">Armada bersih, nyaman, dan selalu dalam kondisi prima.</p>
-                    </div>
-                    <div class="bg-white/5 border border-white/10 p-6 rounded-2xl">
-                        <div class="text-2xl mb-4">🏷️</div>
-                        <h3 class="font-bold text-lg mb-2">Harga Bersahabat</h3>
-                        <p class="text-emerald-100/60 text-sm">Biaya transparan tanpa beban tersembunyi, sesuai kebutuhan pelanggan.</p>
-                    </div>
-                    <div class="bg-white/5 border border-white/10 p-6 rounded-2xl">
-                        <div class="text-2xl mb-4">⚡</div>
-                        <h3 class="font-bold text-lg mb-2">Respons Cepat</h3>
-                        <p class="text-emerald-100/60 text-sm">Tim kami siap membantu kapan saja dengan pelayanan yang ramah.</p>
-                    </div>
-                </div>
-                <div class="lg:col-span-5">
-                    <div class="relative overflow-hidden rounded-2xl shadow-lg h-80 bg-slate-700">
-                        <img src="images/ijen-crater.jpg" alt="Wisatawan di Kawah Ijen Banyuwangi" class="w-full h-full object-cover">
-                        <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 p-4 text-white">
-                            <p class="font-bold text-lg">Kawah Ijen, Banyuwangi</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mb-16">
-                <h3 class="text-center text-xl font-bold mb-8 text-amber-400">Fleksibel, lengkap, dan sesuai kebutuhan</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="bg-white/5 border border-white/10 p-6 rounded-2xl text-center">
-                        <div class="text-2xl mb-4">🗺️</div>
-                        <h4 class="font-bold text-lg mb-2">Destinasi Lengkap</h4>
-                        <p class="text-emerald-100/60 text-sm">Melayani Banyuwangi dan sekitarnya dengan pilihan destinasi terbaik.</p>
-                    </div>
-                    <div class="bg-white/5 border border-white/10 p-6 rounded-2xl text-center">
-                        <div class="text-2xl mb-4">✏️</div>
-                        <h4 class="font-bold text-lg mb-2">Custom Trip</h4>
-                        <p class="text-emerald-100/60 text-sm">Itinerary dapat disesuaikan dengan kebutuhan, minat, dan durasi perjalanan.</p>
-                    </div>
-                    <div class="bg-white/5 border border-white/10 p-6 rounded-2xl text-center">
-                        <div class="text-2xl mb-4">📍</div>
-                        <h4 class="font-bold text-lg mb-2">Bebas Pilih Destinasi</h4>
-                        <p class="text-emerald-100/60 text-sm">Pelanggan leluasa menentukan tujuan sesuai rencana perjalanan.</p>
-                    </div>
-                    <div class="bg-white/5 border border-white/10 p-6 rounded-2xl text-center">
-                        <div class="text-2xl mb-4">🕐</div>
-                        <h4 class="font-bold text-lg mb-2">Fleksibel Waktu</h4>
-                        <p class="text-emerald-100/60 text-sm">Jadwal perjalanan dapat menyesuaikan agenda pribadi maupun rombongan.</p>
-                    </div>
-                </div>
-                <p class="text-center mt-8 text-emerald-200 italic">"Perjalanan Anda, disesuaikan dengan cara Anda."</p>
-            </div>
-
-            <div class="mb-16">
-                <h3 class="text-center text-xl font-bold mb-8">Mengapa Memilih Kami</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="bg-amber-500/10 border border-amber-500/30 p-6 rounded-2xl">
-                        <div class="text-2xl mb-4">👥</div>
-                        <h4 class="font-bold text-lg mb-2">Rombongan Besar</h4>
-                        <p class="text-emerald-100/60 text-sm">Siap melayani perjalanan keluarga, komunitas, perusahaan, dan instansi.</p>
-                    </div>
-                    <div class="bg-amber-500/10 border border-amber-500/30 p-6 rounded-2xl">
-                        <div class="text-2xl mb-4">💰</div>
-                        <h4 class="font-bold text-lg mb-2">Budget Sesuai Kebutuhan</h4>
-                        <p class="text-emerald-100/60 text-sm">Pilihan layanan dapat menyesuaikan anggaran tanpa mengurangi kenyamanan.</p>
-                    </div>
-                    <div class="bg-amber-500/10 border border-amber-500/30 p-6 rounded-2xl">
-                        <div class="text-2xl mb-4">🚐</div>
-                        <h4 class="font-bold text-lg mb-2">Armada Nyaman</h4>
-                        <p class="text-emerald-100/60 text-sm">Didukung kendaraan yang bersih, aman, dan siap digunakan.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-amber-500 text-slate-900 rounded-2xl p-6 text-center">
-                <span class="font-bold text-xs uppercase tracking-widest block mb-2 opacity-80">Core Corporate Values</span>
-                <div class="flex flex-wrap justify-center gap-6 md:gap-12 text-lg font-bold">
-                    <span>Aman</span>
-                    <span>•</span>
-                    <span>Nyaman</span>
-                    <span>•</span>
-                    <span>Profesional</span>
-                    <span>•</span>
-                    <span>Fleksibel</span>
-                    <span>•</span>
-                    <span>Berpengalaman</span>
-                </div>
-                <p class="mt-4 text-sm font-medium">Perjalanan nyaman, pelayanan ramah, pengalaman berkesan.</p>
-            </div>
-
-        </div>
-    </section>
-
-    <footer id="kontak" class="bg-slate-900 text-white pt-20 pb-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 pb-12 border-b border-slate-800">
-            
-            <div class="lg:col-span-5 space-y-4">
-                <div class="flex items-center gap-2">
-                    <img src="images/logo.png" alt="Tiga Jaya Logo" class="w-8 h-8 rounded-full object-cover">
-                    <span class="font-bold text-xl tracking-wider text-white">TIGA JAYA</span>
-                </div>
-                <p class="text-slate-400 text-sm leading-relaxed">Tiga Jaya Tour & Travel hadir sebagai partner perjalanan yang siap mendampingi berbagai kebutuhan transportasi dan wisata Anda. Dengan pelayanan ramah, armada terawat, harga bersahabat, serta paket perjalanan yang fleksibel, kami siap memberikan pengalaman yang aman, nyaman, dan berkesan.</p>
-                <p class="text-sm italic text-amber-400">"Satu Perjalanan, Seribu Kenangan!"</p>
-                <a href="https://wa.me/6289504723381" class="inline-block mt-4 bg-amber-500 text-slate-900 font-bold px-6 py-3 rounded-full hover:bg-amber-400 transition">Konsultasikan perjalanan Anda sekarang</a>
-            </div>
-
-            <div class="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                    <h4 class="font-bold text-base text-slate-200 mb-4 uppercase tracking-wider">📍 Alamat Kantor</h4>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        Jl. KH. Ahmad Kholil, Dusun Cangaan, Genteng Wetan, Kec. Genteng, Kabupaten Banyuwangi, Jawa Timur 68465, Indonesia
+                    <span class="tag-pill bg-primary/10 text-primary text-xs mb-3">01</span>
+                    <h3 class="font-heading text-xl font-bold text-gray-800 mb-3">Corporate & Instansi</h3>
+                    <p class="text-gray-500 font-body text-sm leading-relaxed">
+                        Melayani kebutuhan perusahaan, instansi, sekolah, organisasi, dan komunitas untuk gathering, study tour, event, dan kunjungan kerja.
                     </p>
                 </div>
-                <div>
-                    <h4 class="font-bold text-base text-slate-200 mb-4 uppercase tracking-wider">📞 Hubungi Kami</h4>
-                    <ul class="space-y-3 text-sm text-slate-400">
-                        <li>
-                            <strong class="block text-xs text-slate-500">Telepon / WhatsApp:</strong>
-                            <a href="https://wa.me/6289504723381" class="text-emerald-400 hover:underline">+62 895-0472-3381</a>
-                        </li>
-                        <li>
-                            <strong class="block text-xs text-slate-500">Instagram / TikTok:</strong>
-                            <span class="text-slate-300">@tigajayatourtravel</span>
-                        </li>
-                    </ul>
+
+                <!-- Perjalanan Dinas -->
+                <div class="card-hover bg-gradient-to-br from-amber-50 to-white p-8 rounded-3xl shadow-lg border border-amber-100">
+                    <div class="w-14 h-14 bg-secondary text-white rounded-2xl flex items-center justify-center text-xl mb-6 shadow-lg shadow-amber-500/20">
+                        <i class="fa-solid fa-briefcase"></i>
+                    </div>
+                    <span class="tag-pill bg-secondary/10 text-secondary-dark text-xs mb-3">02</span>
+                    <h3 class="font-heading text-xl font-bold text-gray-800 mb-3">Perjalanan Dinas</h3>
+                    <p class="text-gray-500 font-body text-sm leading-relaxed">
+                        Solusi transportasi profesional untuk agenda kerja, meeting, survei lokasi, dan perjalanan resmi dengan armada nyaman dan driver berpengalaman.
+                    </p>
+                </div>
+
+                <!-- Rombongan Besar -->
+                <div class="card-hover bg-gradient-to-br from-sky-50 to-white p-8 rounded-3xl shadow-lg border border-sky-100">
+                    <div class="w-14 h-14 bg-sky-500 text-white rounded-2xl flex items-center justify-center text-xl mb-6 shadow-lg shadow-sky-500/20">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <span class="tag-pill bg-sky-500/10 text-sky-600 text-xs mb-3">03</span>
+                    <h3 class="font-heading text-xl font-bold text-gray-800 mb-3">Rombongan Besar</h3>
+                    <p class="text-gray-500 font-body text-sm leading-relaxed">
+                        Siap melayani keluarga besar, komunitas, perusahaan, dan instansi dengan perencanaan yang matang dan koordinasi yang rapi.
+                    </p>
                 </div>
             </div>
 
-        </div>
+            <!-- Suitable For Tags -->
+            <div class="text-center mb-10" data-aos="fade-up">
+                <p class="font-heading font-bold text-gray-700 mb-4">Cocok untuk:</p>
+                <div class="flex flex-wrap justify-center gap-3">
+                    <span class="tag-pill bg-emerald-100 text-primary font-body"><i class="fa-solid fa-handshake mr-1"></i> Kunjungan kerja</span>
+                    <span class="tag-pill bg-emerald-100 text-primary font-body"><i class="fa-solid fa-calendar-check mr-1"></i> Meeting & event</span>
+                    <span class="tag-pill bg-emerald-100 text-primary font-body"><i class="fa-solid fa-graduation-cap mr-1"></i> Study tour</span>
+                    <span class="tag-pill bg-emerald-100 text-primary font-body"><i class="fa-solid fa-people-group mr-1"></i> Gathering</span>
+                    <span class="tag-pill bg-emerald-100 text-primary font-body"><i class="fa-solid fa-user-group mr-1"></i> Transportasi tamu</span>
+                </div>
+            </div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500 gap-4">
-            <p>&copy; 2026 Tiga Jaya Tour & Travel. All rights reserved.</p>
-            <p>Banyuwangi, Jawa Timur, Indonesia.</p>
+            <!-- Gathering Banner -->
+            <div class="bg-gradient-to-r from-primary via-primary-light to-emerald-500 p-8 md:p-12 rounded-3xl text-center shadow-2xl" data-aos="zoom-in">
+                <p class="text-emerald-200 font-body text-sm tracking-widest uppercase mb-2">Company Gathering</p>
+                <h3 class="font-heading text-2xl md:text-3xl font-extrabold text-white mb-2">Together We Grow, Together We Achieve</h3>
+                <p class="text-emerald-100/80 font-body text-sm">Bangun kebersamaan tim melalui perjalanan yang berkesan</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== PAGE 6: ITINERARY & GUIDE ========== -->
+    <section class="py-24 px-6 md:px-12 bg-section-green">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <p class="text-secondary font-body text-sm font-bold tracking-[0.2em] uppercase mb-2">05 / ITINERARY & GUIDE</p>
+                <h2 class="font-heading text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary mb-4">Perjalanan Terarah & Berkesan</h2>
+                <p class="text-gray-500 font-body text-lg max-w-2xl mx-auto">Perjalanan lebih terarah, informatif, dan berkesan</p>
+                <div class="w-20 h-1 bg-secondary mx-auto rounded-full mt-4"></div>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="card-hover bg-white p-6 rounded-2xl shadow-md border border-emerald-50 text-center">
+                    <div class="w-16 h-16 bg-emerald-100 text-primary rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
+                        <i class="fa-solid fa-route"></i>
+                    </div>
+                    <h4 class="font-heading font-bold text-gray-800 mb-2">Itinerary Teratur</h4>
+                    <p class="text-gray-500 font-body text-sm leading-relaxed">Rencana perjalanan disusun dengan matang agar waktu lebih efisien dan tujuan lebih jelas.</p>
+                </div>
+
+                <div class="card-hover bg-white p-6 rounded-2xl shadow-md border border-emerald-50 text-center">
+                    <div class="w-16 h-16 bg-amber-100 text-secondary-dark rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
+                        <i class="fa-solid fa-bus"></i>
+                    </div>
+                    <h4 class="font-heading font-bold text-gray-800 mb-2">Transportasi Nyaman</h4>
+                    <p class="text-gray-500 font-body text-sm leading-relaxed">Kendaraan terawat dan selalu siap mendukung perjalanan Anda.</p>
+                </div>
+
+                <div class="card-hover bg-white p-6 rounded-2xl shadow-md border border-emerald-50 text-center">
+                    <div class="w-16 h-16 bg-sky-100 text-sky-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <h4 class="font-heading font-bold text-gray-800 mb-2">Guide Lokal Expert</h4>
+                    <p class="text-gray-500 font-body text-sm leading-relaxed">Pemandu berpengalaman yang ramah dan memahami destinasi setempat.</p>
+                </div>
+
+                <div class="card-hover bg-white p-6 rounded-2xl shadow-md border border-emerald-50 text-center">
+                    <div class="w-16 h-16 bg-rose-100 text-rose-500 rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+                    <h4 class="font-heading font-bold text-gray-800 mb-2">Pengalaman Terbaik</h4>
+                    <p class="text-gray-500 font-body text-sm leading-relaxed">Membantu menciptakan momen perjalanan yang nyaman, aman, dan penuh kesan.</p>
+                </div>
+            </div>
+
+            <div class="text-center mt-12" data-aos="fade-up">
+                <div class="inline-block bg-emerald-50 border border-emerald-200 px-8 py-4 rounded-2xl">
+                    <p class="text-primary font-heading font-semibold text-lg">
+                        <i class="fa-solid fa-quote-left text-secondary mr-2"></i>
+                        Kami membantu pelanggan menikmati trip dengan lebih maksimal dari awal hingga akhir perjalanan.
+                        <i class="fa-solid fa-quote-right text-secondary ml-2"></i>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== PAGE 7 & 8: KEUNGGULAN UTAMA ========== -->
+    <section id="advantages" class="py-24 px-6 md:px-12 bg-white relative overflow-hidden">
+        <div class="absolute bottom-0 left-0 w-80 h-80 bg-emerald-100/30 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+        <div class="max-w-6xl mx-auto relative z-10">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <p class="text-secondary font-body text-sm font-bold tracking-[0.2em] uppercase mb-2">06 / KEUNGGULAN KAMI</p>
+                <h2 class="font-heading text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary mb-4">Mengapa Memilih Kami?</h2>
+                <p class="text-gray-500 font-body text-lg max-w-2xl mx-auto">Alasan pelanggan memilih Tiga Jaya Tour & Travel</p>
+                <div class="w-20 h-1 bg-secondary mx-auto rounded-full mt-4"></div>
+            </div>
+
+            <!-- Advantages Grid 1 -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12" data-aos="fade-up" data-aos-delay="100">
+                <div class="card-hover bg-gradient-to-br from-emerald-50 to-white p-6 rounded-2xl shadow-md border border-emerald-100 text-center">
+                    <div class="w-14 h-14 bg-primary text-white rounded-2xl flex items-center justify-center text-xl mx-auto mb-4 shadow-lg">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h4 class="font-heading font-bold text-gray-800 mb-2">Aman & Terpercaya</h4>
+                    <p class="text-gray-500 font-body text-sm">Layanan profesional, driver berpengalaman, dan perjalanan yang lebih tenang.</p>
+                </div>
+
+                <div class="card-hover bg-gradient-to-br from-amber-50 to-white p-6 rounded-2xl shadow-md border border-amber-100 text-center">
+                    <div class="w-14 h-14 bg-secondary text-white rounded-2xl flex items-center justify-center text-xl mx-auto mb-4 shadow-lg">
+                        <i class="fa-solid fa-car"></i>
+                    </div>
+                    <h4 class="font-heading font-bold text-gray-800 mb-2">Kendaraan Terawat</h4>
+                    <p class="text-gray-500 font-body text-sm">Armada bersih, nyaman, dan selalu dalam kondisi prima.</p>
+                </div>
+
+                <div class="card-hover bg-gradient-to-br from-sky-50 to-white p-6 rounded-2xl shadow-md border border-sky-100 text-center">
+                    <div class="w-14 h-14 bg-sky-500 text-white rounded-2xl flex items-center justify-center text-xl mx-auto mb-4 shadow-lg">
+                        <i class="fa-solid fa-tags"></i>
+                    </div>
+                    <h4 class="font-heading font-bold text-gray-800 mb-2">Harga Bersahabat</h4>
+                    <p class="text-gray-500 font-body text-sm">Biaya transparan tanpa beban tersembunyi, sesuai kebutuhan pelanggan.</p>
+                </div>
+
+                <div class="card-hover bg-gradient-to-br from-rose-50 to-white p-6 rounded-2xl shadow-md border border-rose-100 text-center">
+                    <div class="w-14 h-14 bg-rose-500 text-white rounded-2xl flex items-center justify-center text-xl mx-auto mb-4 shadow-lg">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h4 class="font-heading font-bold text-gray-800 mb-2">Respons Cepat</h4>
+                    <p class="text-gray-500 font-body text-sm">Tim kami siap membantu kapan saja dengan pelayanan yang ramah.</p>
+                </div>
+            </div>
+
+            <!-- Advantages Grid 2 -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12" data-aos="fade-up" data-aos-delay="200">
+                <div class="card-hover bg-white p-6 rounded-2xl shadow-md border border-gray-100 text-center">
+                    <div class="w-14 h-14 bg-emerald-100 text-primary rounded-full flex items-center justify-center text-xl mx-auto mb-4">
+                        <i class="fa-solid fa-map"></i>
+                    </div>
+                    <h4 class="font-heading font-bold text-gray-800 mb-2">Destinasi Lengkap</h4>
+                    <p class="text-gray-500 font-body text-sm">Melayani Banyuwangi dan sekitarnya dengan pilihan destinasi terbaik.</p>
+                </div>
+
+                <div class="card-hover bg-white p-6 rounded-2xl shadow-md border border-gray-100 text-center">
+                    <div class="w-14 h-14 bg-amber-100 text-secondary-dark rounded-full flex items-center justify-center text-xl mx-auto mb-4">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <h4 class="font-heading font-bold text-gray-800 mb-2">Custom Trip</h4>
+                    <p class="text-gray-500 font-body text-sm">Itinerary dapat disesuaikan dengan kebutuhan, minat, dan durasi perjalanan.</p>
+                </div>
+
+                <div class="card-hover bg-white p-6 rounded-2xl shadow-md border border-gray-100 text-center">
+                    <div class="w-14 h-14 bg-sky-100 text-sky-600 rounded-full flex items-center justify-center text-xl mx-auto mb-4">
+                        <i class="fa-solid fa-location-crosshairs"></i>
+                    </div>
+                    <h4 class="font-heading font-bold text-gray-800 mb-2">Bebas Pilih Destinasi</h4>
+                    <p class="text-gray-500 font-body text-sm">Pelanggan leluasa menentukan tujuan sesuai rencana perjalanan.</p>
+                </div>
+
+                <div class="card-hover bg-white p-6 rounded-2xl shadow-md border border-gray-100 text-center">
+                    <div class="w-14 h-14 bg-violet-100 text-violet-600 rounded-full flex items-center justify-center text-xl mx-auto mb-4">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <h4 class="font-heading font-bold text-gray-800 mb-2">Fleksibel Waktu</h4>
+                    <p class="text-gray-500 font-body text-sm">Jadwal perjalanan dapat menyesuaikan agenda pribadi maupun rombongan.</p>
+                </div>
+            </div>
+
+            <!-- Slogan -->
+            <div class="text-center" data-aos="fade-up">
+                <div class="inline-block bg-gradient-to-r from-primary to-emerald-500 px-10 py-5 rounded-2xl shadow-xl">
+                    <p class="text-white font-heading font-bold text-lg italic">
+                        "Perjalanan Anda, disesuaikan dengan cara Anda."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== PAGE 9: MENGAPA MEMILIH KAMI (VALUES) ========== -->
+    <section class="py-24 px-6 md:px-12 bg-section-amber">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <p class="text-secondary font-body text-sm font-bold tracking-[0.2em] uppercase mb-2">07 / NILAI TAMBAH</p>
+                <h2 class="font-heading text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary mb-4">Mengapa Memilih Kami</h2>
+                <p class="text-gray-500 font-body text-lg max-w-2xl mx-auto">Nilai tambah Tiga Jaya Tour & Travel</p>
+                <div class="w-20 h-1 bg-secondary mx-auto rounded-full mt-4"></div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 mb-16" data-aos="fade-up" data-aos-delay="200">
+                <div class="bg-white p-8 rounded-3xl shadow-lg border border-amber-100 text-center card-hover">
+                    <div class="w-20 h-20 bg-gradient-to-br from-primary to-emerald-400 text-white rounded-full flex items-center justify-center text-3xl mx-auto mb-6 shadow-xl">
+                        <i class="fa-solid fa-people-group"></i>
+                    </div>
+                    <h4 class="font-heading text-xl font-bold text-gray-800 mb-3">Rombongan Besar</h4>
+                    <p class="text-gray-500 font-body text-sm leading-relaxed">Siap melayani perjalanan keluarga, komunitas, perusahaan, dan instansi.</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-3xl shadow-lg border border-amber-100 text-center card-hover">
+                    <div class="w-20 h-20 bg-gradient-to-br from-secondary to-amber-300 text-white rounded-full flex items-center justify-center text-3xl mx-auto mb-6 shadow-xl">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+                    <h4 class="font-heading text-xl font-bold text-gray-800 mb-3">Budget Sesuai Kebutuhan</h4>
+                    <p class="text-gray-500 font-body text-sm leading-relaxed">Pilihan layanan dapat menyesuaikan anggaran tanpa mengurangi kenyamanan.</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-3xl shadow-lg border border-amber-100 text-center card-hover">
+                    <div class="w-20 h-20 bg-gradient-to-br from-sky-500 to-sky-300 text-white rounded-full flex items-center justify-center text-3xl mx-auto mb-6 shadow-xl">
+                        <i class="fa-solid fa-couch"></i>
+                    </div>
+                    <h4 class="font-heading text-xl font-bold text-gray-800 mb-3">Armada Nyaman</h4>
+                    <p class="text-gray-500 font-body text-sm leading-relaxed">Didukung kendaraan yang bersih, aman, dan siap digunakan.</p>
+                </div>
+            </div>
+
+            <!-- Corporate Values -->
+            <div class="text-center mb-10" data-aos="fade-up">
+                <p class="font-heading font-bold text-gray-700 mb-6 text-lg">Nilai Perusahaan Kami</p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <div class="bg-primary text-white px-6 py-3 rounded-full font-heading font-bold text-sm shadow-lg">
+                        <i class="fa-solid fa-shield mr-2"></i>Aman
+                    </div>
+                    <div class="bg-emerald-500 text-white px-6 py-3 rounded-full font-heading font-bold text-sm shadow-lg">
+                        <i class="fa-solid fa-face-smile mr-2"></i>Nyaman
+                    </div>
+                    <div class="bg-secondary text-white px-6 py-3 rounded-full font-heading font-bold text-sm shadow-lg">
+                        <i class="fa-solid fa-award mr-2"></i>Profesional
+                    </div>
+                    <div class="bg-sky-500 text-white px-6 py-3 rounded-full font-heading font-bold text-sm shadow-lg">
+                        <i class="fa-solid fa-arrows-rotate mr-2"></i>Fleksibel
+                    </div>
+                    <div class="bg-violet-500 text-white px-6 py-3 rounded-full font-heading font-bold text-sm shadow-lg">
+                        <i class="fa-solid fa-star mr-2"></i>Berpengalaman
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center" data-aos="fade-up">
+                <p class="text-primary font-heading font-bold text-xl italic">
+                    "Perjalanan nyaman, pelayanan ramah, pengalaman berkesan."
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== PAGE 10: PENUTUP & KONTAK ========== -->
+    <section id="contact" class="py-24 px-6 md:px-12 bg-hero-gradient relative overflow-hidden">
+        <div class="absolute top-10 right-10 w-60 h-60 bg-emerald-400/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-10 left-10 w-80 h-80 bg-amber-400/10 rounded-full blur-3xl"></div>
+
+        <div class="max-w-5xl mx-auto relative z-10">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <p class="text-emerald-300 font-body text-sm font-bold tracking-[0.2em] uppercase mb-2">08 / HUBUNGI KAMI</p>
+                <h2 class="font-heading text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-4">Siap Menjadi Partner Perjalanan Anda</h2>
+                <div class="w-20 h-1 bg-secondary mx-auto rounded-full"></div>
+            </div>
+
+            <!-- Closing Statement -->
+            <div class="bg-white/10 backdrop-blur-md border border-white/20 p-8 md:p-12 rounded-3xl mb-12 text-center" data-aos="fade-up">
+                <p class="text-emerald-100 font-body text-lg leading-relaxed max-w-3xl mx-auto">
+                    Tiga Jaya Tour & Travel hadir sebagai partner perjalanan yang siap mendampingi berbagai kebutuhan transportasi dan wisata Anda. Dengan pelayanan ramah, armada terawat, harga bersahabat, serta paket perjalanan yang fleksibel, kami siap memberikan pengalaman yang <span class="text-secondary font-semibold">aman, nyaman, dan berkesan</span>.
+                </p>
+            </div>
+
+            <!-- Contact Info Grid -->
+            <div class="grid md:grid-cols-2 gap-8 mb-12" data-aos="fade-up" data-aos-delay="200">
+                <!-- Address -->
+                <div class="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-2xl">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-secondary text-white rounded-xl flex items-center justify-center text-xl flex-shrink-0 shadow-lg">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-heading font-bold text-white text-lg mb-2">Alamat</h4>
+                            <p class="text-emerald-200 font-body text-sm leading-relaxed">
+                                Jl. KH. Ahmad Kholil, Dusun Cangaan, Genteng Wetan, Kec. Genteng, Kabupaten Banyuwangi, Jawa Timur 68465, Indonesia
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phone / WhatsApp -->
+                <div class="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-2xl">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-green-500 text-white rounded-xl flex items-center justify-center text-xl flex-shrink-0 shadow-lg">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-heading font-bold text-white text-lg mb-2">WhatsApp</h4>
+                            <a href="https://wa.me/6289504723381" class="text-emerald-200 font-body text-lg hover:text-secondary transition-colors">
+                                +62 895-0472-3381
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Media -->
+            <div class="text-center mb-12" data-aos="fade-up">
+                <p class="font-heading font-bold text-white text-lg mb-6">Ikuti Kami di Media Sosial</p>
+                <div class="flex justify-center gap-4">
+                    <a href="https://instagram.com/tigajayatourtravel" target="_blank" class="w-14 h-14 bg-white/10 hover:bg-gradient-to-br hover:from-purple-500 hover:to-pink-500 border border-white/20 rounded-2xl flex items-center justify-center text-white text-xl transition-all duration-300 hover:scale-110">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="https://tiktok.com/@tigajayatourtravel" target="_blank" class="w-14 h-14 bg-white/10 hover:bg-black border border-white/20 rounded-2xl flex items-center justify-center text-white text-xl transition-all duration-300 hover:scale-110">
+                        <i class="fa-brands fa-tiktok"></i>
+                    </a>
+                    <a href="https://wa.me/6289504723381" target="_blank" class="w-14 h-14 bg-white/10 hover:bg-green-500 border border-white/20 rounded-2xl flex items-center justify-center text-white text-xl transition-all duration-300 hover:scale-110">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </a>
+                </div>
+                <p class="text-emerald-300/60 font-body text-sm mt-4">@tigajayatourtravel</p>
+            </div>
+
+            <!-- CTA Button -->
+            <div class="text-center" data-aos="zoom-in">
+                <a href="https://wa.me/6289504723381?text=Halo%20Tiga%20Jaya%20Tour%20%26%20Travel%2C%20saya%20ingin%20konsultasi%20perjalanan." target="_blank" class="inline-flex items-center gap-3 bg-secondary hover:bg-secondary-light text-primary-dark font-heading font-extrabold text-lg px-10 py-4 rounded-full shadow-2xl shadow-amber-500/30 hover:shadow-amber-500/50 transition-all duration-300 hover:scale-105">
+                    <i class="fa-brands fa-whatsapp text-2xl"></i>
+                    Konsultasikan Perjalanan Anda Sekarang
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="bg-primary-dark py-10 px-6 md:px-12 border-t border-emerald-800">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <!-- Brand -->
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                            <circle cx="50" cy="50" r="48" fill="#065f46" stroke="#34d399" stroke-width="2"/>
+                            <path d="M15 65 Q25 35 40 50 Q50 30 60 45 Q70 25 85 55" fill="none" stroke="#34d399" stroke-width="3" stroke-linecap="round"/>
+                            <text x="50" y="78" text-anchor="middle" font-family="Montserrat, sans-serif" font-weight="900" font-size="36" fill="#ffffff">T</text>
+                            <path d="M25 30 Q37 18 50 28 Q63 18 75 30" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="font-heading font-extrabold text-white text-lg leading-none block">TIGA JAYA</span>
+                        <span class="text-emerald-400 font-body text-[10px] tracking-widest uppercase">Tour & Travel</span>
+                    </div>
+                </div>
+
+                <!-- Tagline -->
+                <div class="text-center">
+                    <p class="text-emerald-300 font-heading font-semibold italic text-sm">
+                        "Satu Perjalanan, Seribu Kenangan!"
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="text-right">
+                    <p class="text-emerald-400 font-body text-xs tracking-widest uppercase mb-2">Banyuwangi, Jawa Timur</p>
+                    <p class="text-emerald-300/60 font-body text-xs">+62 895-0472-3381</p>
+                </div>
+            </div>
+
+            <div class="border-t border-emerald-800/50 pt-6 text-center">
+                <p class="text-emerald-400/50 font-body text-xs">
+                    &copy; 2026 Tiga Jaya Tour & Travel. All Rights Reserved.
+                </p>
+            </div>
         </div>
     </footer>
 
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+
+        // Mobile Navigation Toggle (same as main page)
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            
+            // Animate hamburger icon
+            const spans = hamburger.querySelectorAll('span');
+            if (navMenu.classList.contains('active')) {
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
+            } else {
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
+        });
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                const spans = hamburger.querySelectorAll('span');
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            });
+        });
+    </script>
 </body>
 </html>

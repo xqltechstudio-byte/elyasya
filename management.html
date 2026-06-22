@@ -3,134 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Elyasya Corp - Management Consulting: Solusi bisnis terpadu untuk pertumbuhan perusahaan Anda">
-    <title>Management Consulting - Elyasya Corp</title>
+    <title>Elyasya Management - Optimizing Affiliate Growth</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    
     <style>
-        .business-hero {
-            background: linear-gradient(135deg, #134e5e 0%, #71b280 100%);
-            color: white;
-            padding: 100px 0 60px;
-            text-align: center;
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #030712; /* Deep Black/Dark Blue Background */
+            color: #f3f4f6;
         }
-        .business-hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+        /* Custom Gradient for Logo Text & Highlight */
+        .text-gradient {
+            background: linear-gradient(135deg, #38bdf8, #2563eb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .business-hero p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-        .business-content {
-            padding: 60px 0;
-        }
-        .service-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        .service-card {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-        .service-card:hover {
-            transform: translateY(-5px);
-        }
-        .service-card .icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-        .service-card h3 {
-            color: #134e5e;
-            margin-bottom: 1rem;
-        }
-        .stats-section {
-            background: linear-gradient(135deg, #134e5e 0%, #71b280 100%);
-            color: white;
-            padding: 60px 0;
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            text-align: center;
-        }
-        .stat-item h3 {
-            font-size: 3rem;
-            margin-bottom: 0.5rem;
-        }
-        .stat-item p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-        .process-section {
-            background: #f8f9fa;
-            padding: 60px 0;
-        }
-        .process-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        .process-card {
-            text-align: center;
-            padding: 2rem;
-        }
-        .process-card .step {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #134e5e 0%, #71b280 100%);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin: 0 auto 1rem;
-        }
-        .cta-section {
-            background: linear-gradient(135deg, #134e5e 0%, #71b280 100%);
-            color: white;
-            padding: 60px 0;
-            text-align: center;
-            margin-top: 60px;
-        }
-        .btn-cta {
-            display: inline-block;
-            background: #d4af37;
-            color: #134e5e;
-            padding: 15px 40px;
-            border-radius: 8px;
-            font-weight: bold;
-            text-decoration: none;
-            margin-top: 1rem;
-            transition: all 0.3s ease;
-        }
-        .btn-cta:hover {
-            background: white;
-            transform: translateY(-3px);
+        /* Glassmorphism card effect */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
     </style>
 </head>
-<body>
+<body class="overflow-x-hidden">
+
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
             <div class="logo">
-                <a href="index.html" style="text-decoration: none; color: inherit;">
-                    <h1>ELYASYA CORP</h1>
-                </a>
+                <h1>ELYASYA CORP</h1>
             </div>
             <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html">Home</a></li>
                 <li class="dropdown">
-                    <a href="index.html#bisnis">Lini Bisnis ▼</a>
+                    <a href="#bisnis">Lini Bisnis ▼</a>
                     <ul class="dropdown-menu">
                         <li><a href="design-interior.html">Design Interior</a></li>
                         <li><a href="management.html" class="active">Management</a></li>
@@ -151,119 +62,217 @@
         </div>
     </nav>
 
-    <!-- Business Hero -->
-    <section class="business-hero">
-        <div class="container">
-            <h1>📊 Management Consulting</h1>
-            <p>Solusi Bisnis Terpadu untuk Pertumbuhan Perusahaan Anda</p>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section class="business-content">
-        <div class="container">
-            <h2 class="section-title">Layanan Kami</h2>
-            <p class="section-subtitle">Konsultasi manajemen bisnis yang komprehensif</p>
+    <section class="min-h-screen flex flex-col justify-center items-center relative px-6 border-b border-slate-800" data-aos="fade-up">
+        <div class="text-center max-w-3xl">
+            <div class="mb-6 flex justify-center">
+                <svg width="120" height="120" viewBox="0 0 100 100" class="drop-shadow-[0_0_15px_rgba(56,189,248,0.5)]">
+                    <path d="M15 85 V25 C15 25, 35 55, 50 55 C65 55, 85 25, 85 25 V85" fill="none" stroke="#2563eb" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M25 45 C35 25, 65 25, 75 45 C65 65, 35 65, 25 45 Z" fill="none" stroke="#38bdf8" stroke-width="8" stroke-linecap="round"/>
+                </svg>
+            </div>
             
-            <div class="service-grid">
-                <div class="service-card">
-                    <div class="icon">💼</div>
-                    <h3>Business Consulting</h3>
-                    <p>Konsultasi strategis untuk pengembangan bisnis, analisis pasar, dan perencanaan pertumbuhan perusahaan yang berkelanjutan.</p>
-                </div>
-                <div class="service-card">
-                    <div class="icon">📈</div>
-                    <h3>Strategic Planning</h3>
-                    <p>Perencanaan strategis jangka panjang dengan analisis SWOT, roadmap bisnis, dan KPI yang terukur.</p>
-                </div>
-                <div class="service-card">
-                    <div class="icon">💰</div>
-                    <h3>Financial Advisory</h3>
-                    <p>Penasehatan keuangan termasuk perencanaan anggaran, analisis investasi, dan optimasi cash flow.</p>
-                </div>
-                <div class="service-card">
-                    <div class="icon">👥</div>
-                    <h3>HR Management</h3>
-                    <p>Manajemen sumber daya manusia, rekrutmen, pelatihan, dan pengembangan organisasi.</p>
-                </div>
-                <div class="service-card">
-                    <div class="icon">⚙️</div>
-                    <h3>Operational Excellence</h3>
-                    <p>Optimasi operasional bisnis, efisiensi proses, dan implementasi sistem manajemen mutu.</p>
-                </div>
-                <div class="service-card">
-                    <div class="icon">🎯</div>
-                    <h3>Asset Management</h3>
-                    <p>Pengelolaan aset perusahaan secara optimal untuk memaksimalkan nilai dan return investasi.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section class="stats-section">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <h3>50+</h3>
-                    <p>Klien Korporat</p>
-                </div>
-                <div class="stat-item">
-                    <h3>100+</h3>
-                    <p>Proyek Selesai</p>
-                </div>
-                <div class="stat-item">
-                    <h3>95%</h3>
-                    <p>Tingkat Kepuasan</p>
-                </div>
-                <div class="stat-item">
-                    <h3>15+</h3>
-                    <p>Tahun Pengalaman</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Process Section -->
-    <section class="process-section">
-        <div class="container">
-            <h2 class="section-title">Proses Kerja Kami</h2>
-            <p class="section-subtitle">Pendekatan terstruktur untuk hasil optimal</p>
+            <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight mb-2">
+                Elyasya <span class="text-gradient">Management</span>
+            </h1>
+            <p class="text-sky-400 font-medium tracking-widest uppercase text-sm md:text-base mb-6">
+                Optimizing Affiliate Growth
+            </p>
+            <div class="h-1 w-20 bg-blue-600 mx-auto mb-8 rounded-full"></div>
             
-            <div class="process-grid">
-                <div class="process-card">
-                    <div class="step">1</div>
-                    <h3>Analisis</h3>
-                    <p>Analisis mendalam terhadap kondisi bisnis, tantangan, dan peluang yang ada.</p>
-                </div>
-                <div class="process-card">
-                    <div class="step">2</div>
-                    <h3>Strategi</h3>
-                    <p>Penyusunan strategi dan roadmap yang terukur dan realistis.</p>
-                </div>
-                <div class="process-card">
-                    <div class="step">3</div>
-                    <h3>Implementasi</h3>
-                    <p>Pendampingan implementasi dengan monitoring dan evaluasi berkala.</p>
-                </div>
-                <div class="process-card">
-                    <div class="step">4</div>
-                    <h3>Optimasi</h3>
-                    <p>Optimasi berkelanjutan berdasarkan hasil dan feedback.</p>
-                </div>
-            </div>
+            <span class="bg-blue-950 text-blue-400 border border-blue-800 text-xs px-4 py-1.5 rounded-full uppercase font-semibold tracking-wider">
+                Divisi Manajemen Shopee Live Affiliate
+            </span>
+            
+            <p class="text-slate-400 text-lg mt-8 italic max-w-xl mx-auto">
+                "Optimalkan performa live, komisi, dan etalase produk."
+            </p>
+        </div>
+        
+        <div class="absolute bottom-6 text-xs text-slate-600 tracking-wider">
+            Bagian dari CV Elyasya Corp • 1/5
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <div class="container">
-            <h2>Siap Mengembangkan Bisnis Anda?</h2>
-            <p>Konsultasikan kebutuhan manajemen bisnis Anda dengan tim ahli kami</p>
-            <a href="https://wa.me/6281234567890?text=Halo, saya tertarik dengan layanan Management Consulting Elyasya Corp" class="btn-cta" target="_blank">
-                💬 Konsultasi Sekarang via WhatsApp
-            </a>
+    <section class="min-h-screen flex flex-col justify-center items-center relative px-6 py-20 border-b border-slate-800">
+        <div class="max-w-4xl w-full" data-aos="fade-right">
+            <p class="text-sky-400 text-xs font-bold tracking-widest uppercase mb-2">01 / PROFIL</p>
+            <h2 class="text-3xl md:text-4xl font-bold mb-8">Tentang Kami</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div class="space-y-4 text-slate-300 text-lg leading-relaxed">
+                    <p>
+                        <strong class="text-white">Elyasya Management</strong> adalah divisi dari <span class="text-sky-400">CV Elyasya Corp</span> yang fokus pada manajemen Shopee Live Affiliate.
+                    </p>
+                    <p>
+                        Kami membantu monitoring performa live, komisi affiliate, dan pemilihan produk agar lebih terarah dan efektif.
+                    </p>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="glass-card p-4 rounded-xl flex items-center gap-4">
+                        <div class="w-10 h-10 bg-blue-600/20 text-blue-400 rounded-lg flex items-center justify-center font-bold">✓</div>
+                        <p class="text-sm font-semibold text-slate-200">Divisi resmi dari CV Elyasya Corp</p>
+                    </div>
+                    <div class="glass-card p-4 rounded-xl flex items-center gap-4">
+                        <div class="w-10 h-10 bg-sky-600/20 text-sky-400 rounded-lg flex items-center justify-center font-bold">✓</div>
+                        <p class="text-sm font-semibold text-slate-200">Fokus pada Shopee Live Affiliate</p>
+                    </div>
+                    <div class="glass-card p-4 rounded-xl flex items-center gap-4">
+                        <div class="w-10 h-10 bg-indigo-600/20 text-indigo-400 rounded-lg flex items-center justify-center font-bold">✓</div>
+                        <p class="text-sm font-semibold text-slate-200">Berbasis monitoring, evaluasi, dan optimasi</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4 mt-12 text-center text-xs md:text-sm font-bold tracking-widest uppercase">
+                <div class="p-3 border border-slate-800 rounded-lg bg-slate-900/50 text-slate-400">Profesional</div>
+                <div class="p-3 border border-slate-800 rounded-lg bg-slate-900/50 text-slate-400">Terstruktur</div>
+                <div class="p-3 border border-slate-800 rounded-lg bg-slate-900/50 text-slate-400">Data-Driven</div>
+            </div>
         </div>
+        <div class="absolute bottom-6 text-xs text-slate-600">2/5</div>
+    </section>
+
+    <section class="min-h-screen flex flex-col justify-center items-center relative px-6 py-20 border-b border-slate-800">
+        <div class="max-w-5xl w-full" data-aos="fade-up">
+            <div class="text-center mb-12">
+                <p class="text-sky-400 text-xs font-bold tracking-widest uppercase mb-2">02 / PERAN INTI</p>
+                <h2 class="text-3xl md:text-4xl font-bold">Tugas Utama</h2>
+                <p class="text-slate-400 mt-2">Peran inti Elyasya Management dalam Shopee Live Affiliate</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="glass-card p-8 rounded-2xl border-t-4 border-blue-600 hover:scale-105 transition-transform duration-300">
+                    <div class="w-14 h-14 bg-blue-600/10 text-blue-400 rounded-full flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Tracking Omset Live</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Memantau omset live setiap 4 jam untuk melihat performa penjualan secara berkala.
+                    </p>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl border-t-4 border-sky-400 hover:scale-105 transition-transform duration-300">
+                    <div class="w-14 h-14 bg-sky-400/10 text-sky-400 rounded-full flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Tracking Komisi Harian</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Mencatat dan mengevaluasi komisi affiliate setiap hari agar hasil lebih terukur.
+                    </p>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl border-t-4 border-indigo-500 hover:scale-105 transition-transform duration-300">
+                    <div class="w-14 h-14 bg-indigo-500/10 text-indigo-400 rounded-full flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-magnifying-glass-chart"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Riset Etalase Pilihan</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Menyeleksi produk potensial untuk etalase agar lebih relevan dan menarik.
+                    </p>
+                </div>
+            </div>
+
+            <p class="text-center text-slate-500 text-sm mt-12 italic">
+                Semua proses dilakukan secara terstruktur dan berorientasi hasil.
+            </p>
+        </div>
+        <div class="absolute bottom-6 text-xs text-slate-600">3/5</div>
+    </section>
+
+    <section class="min-h-screen flex flex-col justify-center items-center relative px-6 py-20 border-b border-slate-800">
+        <div class="max-w-5xl w-full" data-aos="zoom-in">
+            <div class="text-center mb-16">
+                <p class="text-sky-400 text-xs font-bold tracking-widest uppercase mb-2">03 / PROSES</p>
+                <h2 class="text-3xl md:text-4xl font-bold">Alur Kerja</h2>
+                <p class="text-slate-400 mt-2">Sistem kerja yang membantu performa affiliate lebih terkendali.</p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+                <div class="glass-card p-6 rounded-xl relative">
+                    <span class="absolute -top-5 left-6 bg-blue-600 text-white font-bold w-10 h-10 rounded-full flex items-center justify-center shadow-lg">01</span>
+                    <h4 class="text-lg font-bold mt-4 mb-2">Monitoring Live</h4>
+                    <p class="text-slate-400 text-xs leading-relaxed">Memantau aktivitas dan omset live secara berkala.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-xl relative">
+                    <span class="absolute -top-5 left-6 bg-sky-500 text-white font-bold w-10 h-10 rounded-full flex items-center justify-center shadow-lg">02</span>
+                    <h4 class="text-lg font-bold mt-4 mb-2">Rekap Komisi</h4>
+                    <p class="text-slate-400 text-xs leading-relaxed">Mencatat komisi harian untuk evaluasi performa.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-xl relative">
+                    <span class="absolute -top-5 left-6 bg-indigo-500 text-white font-bold w-10 h-10 rounded-full flex items-center justify-center shadow-lg">03</span>
+                    <h4 class="text-lg font-bold mt-4 mb-2">Riset Produk</h4>
+                    <p class="text-slate-400 text-xs leading-relaxed">Menganalisa produk potensial untuk etalase pilihan.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-xl relative">
+                    <span class="absolute -top-5 left-6 bg-teal-500 text-white font-bold w-10 h-10 rounded-full flex items-center justify-center shadow-lg">04</span>
+                    <h4 class="text-lg font-bold mt-4 mb-2">Optimasi</h4>
+                    <p class="text-slate-400 text-xs leading-relaxed">Menyusun evaluasi agar strategi live lebih efektif.</p>
+                </div>
+            </div>
+
+            <p class="text-center text-sm text-sky-400 mt-16 font-medium">
+                Dengan alur yang rapi, keputusan dapat diambil lebih cepat dan tepat.
+            </p>
+        </div>
+        <div class="absolute bottom-6 text-xs text-slate-600">4/5</div>
+    </section>
+
+    <section class="min-h-screen flex flex-col justify-center items-center relative px-6 py-20">
+        <div class="max-w-4xl w-full" data-aos="fade-up">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold">
+                    Kenapa <span class="text-gradient">Elyasya Management?</span>
+                </h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="flex gap-4 items-start p-4 border border-slate-900 rounded-xl">
+                    <div class="text-blue-500 text-xl mt-1"><i class="fa-solid fa-clock"></i></div>
+                    <div>
+                        <h5 class="font-bold text-white mb-1">Monitoring Berkala</h5>
+                        <p class="text-slate-400 text-sm">Tracking omset live dilakukan setiap 4 jam.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-4 items-start p-4 border border-slate-900 rounded-xl">
+                    <div class="text-sky-400 text-xl mt-1"><i class="fa-solid fa-square-poll-vertical"></i></div>
+                    <div>
+                        <h5 class="font-bold text-white mb-1">Data Lebih Terukur</h5>
+                        <p class="text-slate-400 text-sm">Komisi harian dipantau dengan rapi dan konsisten.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-4 items-start p-4 border border-slate-900 rounded-xl">
+                    <div class="text-indigo-400 text-xl mt-1"><i class="fa-solid fa-basket-shopping"></i></div>
+                    <div>
+                        <h5 class="font-bold text-white mb-1">Produk Lebih Tepat</h5>
+                        <p class="text-slate-400 text-sm">Riset etalase membantu memilih produk potensial.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-4 items-start p-4 border border-slate-900 rounded-xl">
+                    <div class="text-teal-400 text-xl mt-1"><i class="fa-solid fa-arrow-up-right-dots"></i></div>
+                    <div>
+                        <h5 class="font-bold text-white mb-1">Fokus pada Pertumbuhan</h5>
+                        <p class="text-slate-400 text-sm">Setiap langkah diarahkan untuk hasil yang lebih optimal.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-16 text-center border-t border-slate-900 pt-8">
+                <p class="text-xl text-slate-300 italic max-w-xl mx-auto">
+                    " Siap mendukung pertumbuhan Shopee Live Affiliate yang lebih terarah. "
+                </p>
+                <p class="text-xs text-slate-500 tracking-widest mt-8 uppercase font-semibold">
+                    Bagian dari CV Elyasya Corp
+                </p>
+            </div>
+        </div>
+        <div class="absolute bottom-6 text-xs text-slate-600">5/5</div>
     </section>
 
     <!-- Footer -->
@@ -301,6 +310,12 @@
                         <a href="#" class="social-icon">💼 LinkedIn</a>
                     </div>
                 </div>
+                <div class="footer-section">
+                    <h4>Admin</h4>
+                    <ul>
+                        <li><a href="admin.html">🔐 Login Admin</a></li>
+                    </ul>
+                </div>
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2026 Elyasya Corp. All Rights Reserved.</p>
@@ -308,6 +323,13 @@
         </div>
     </footer>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+    </script>
     <script src="script.js"></script>
 </body>
 </html>

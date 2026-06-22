@@ -1,5 +1,84 @@
 // Admin Dashboard Script - Elyasya Corp
 
+// ==========================================
+// LOGIN HANDLER FUNCTION
+// ==========================================
+
+function handleLogin(event) {
+    event.preventDefault();
+    
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    
+    // Demo credentials
+    const validEmail = 'admin@elyasyacorp.com';
+    const validPassword = 'admin123';
+    
+    // Check if email and password are correct
+    if (email === validEmail && password === validPassword) {
+        // Hide login page and show dashboard
+        document.getElementById('loginPage').style.display = 'none';
+        document.getElementById('dashboardWrapper').style.display = 'flex';
+        
+        // Initialize dashboard after login
+        initializeDashboardAfterLogin();
+        showToast('Login berhasil! Selamat datang, Admin.', 'success');
+    } else {
+        showToast('Email atau password salah!', 'error');
+    }
+}
+
+// Initialize Dashboard after successful login
+function initializeDashboardAfterLogin() {
+    // Initialize charts if they exist
+    if (typeof initCharts === 'function') {
+        initCharts();
+    }
+    
+    // Load saved data
+    if (typeof loadSavedImages === 'function') {
+        loadSavedImages();
+    }
+    if (typeof loadAllPageImages === 'function') {
+        loadAllPageImages();
+    }
+    if (typeof loadAllManagementData === 'function') {
+        loadAllManagementData();
+    }
+    
+    // Set current date for date filters
+    const now = new Date();
+    const startDateInput = document.getElementById('startDate');
+    const endDateInput = document.getElementById('endDate');
+    
+    if (startDateInput) {
+        const startDate = new Date(now);
+        startDate.setDate(startDate.getDate() - 30);
+        startDateInput.valueAsDate = startDate;
+    }
+    if (endDateInput) {
+        endDateInput.valueAsDate = now;
+    }
+    
+    // Show dashboard section by default
+    showSection('dashboard');
+}
+
+// Logout Handler Function
+function handleLogout() {
+    if (confirm('Apakah Anda yakin ingin logout?')) {
+        // Show login page and hide dashboard
+        document.getElementById('loginPage').style.display = 'flex';
+        document.getElementById('dashboardWrapper').style.display = 'none';
+        
+        // Reset form
+        document.getElementById('loginForm').reset();
+        document.getElementById('twoFactorGroup').style.display = 'none';
+        
+        showToast('Anda telah berhasil logout.', 'info');
+    }
+}
+
 // DOM Elements
 const sidebar = document.getElementById('sidebar');
 const menuToggle = document.getElementById('menuToggle');
@@ -16,6 +95,9 @@ function initializeDashboard() {
     
     // Load saved data from localStorage
     loadSavedData();
+    
+    // Load all page logos
+    loadAllPageLogos();
     
     // Show welcome toast
     showToast('Selamat datang di Admin Dashboard!', 'info');
@@ -435,18 +517,297 @@ function filterMessages(filters) {
     });
 }
 
-// CRUD Operations for Slides
-function addSlide() {
-    showAddModal('slide');
+// ==========================================
+// HERO SLIDER MANAGEMENT (Full CRUD)
+// ==========================================
+
+// Default slides data
+const defaultHeroSlides = [
+    {
+        id: 1,
+        title: 'Design Interior',
+        description: 'Wujudkan Ruang Impian Anda dengan Sentuhan Profesional',
+        buttonText: 'Lihat Portfolio',
+        buttonLink: '#design-interior',
+        businessLine: 'Design Interior',
+        bgColor: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
+        bgImage: '',
+        status: 'active',
+        order: 0
+    },
+    {
+        id: 2,
+        title: 'Management Consulting',
+        description: 'Solusi Bisnis Terpadu untuk Pertumbuhan Perusahaan Anda',
+        buttonText: 'Konsultasi Sekarang',
+        buttonLink: '#management',
+        businessLine: 'Management',
+        bgColor: 'linear-gradient(135deg, #134e5e 0%, #71b280 100%)',
+        bgImage: '',
+        status: 'active',
+        order: 1
+    },
+    {
+        id: 3,
+        title: 'Hijab Collection',
+        description: 'Koleksi Hijab Premium untuk Gaya Muslimah Modern',
+        buttonText: 'Lihat Katalog',
+        buttonLink: '#hijab',
+        businessLine: 'Hijab',
+        bgColor: 'linear-gradient(135deg, #c94b4b 0%, #4b134f 100%)',
+        bgImage: '',
+        status: 'active',
+        order: 2
+    },
+    {
+        id: 4,
+        title: 'Kedai Sembako',
+        description: 'Kebutuhan Harian Berkualitas di Dekat Anda',
+        buttonText: 'Cek Lokasi',
+        buttonLink: '#sembako',
+        businessLine: 'Sembako',
+        bgColor: 'linear-gradient(135deg, #56ab2f 0%, #a8e063 100%)',
+        bgImage: '',
+        status: 'active',
+        order: 3
+    },
+    {
+        id: 5,
+        title: 'Travel Agent',
+        description: 'Perjalanan Impian Anda Dimulai dari Sini',
+        buttonText: 'Lihat Paket',
+        buttonLink: '#travel',
+        businessLine: 'Travel',
+        bgColor: 'linear-gradient(135deg, #f46b45 0%, #eea849 100%)',
+        bgImage: '',
+        status: 'active',
+        order: 4
+    }
+];
+
+// Load slides from localStorage
+function loadHeroSlides() {
+    const saved = localStorage.getItem('heroSlides');
+    if (saved) {
+        try {
+            const parsed = JSON.parse(saved);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+                return parsed;
+            }
+        } catch (e) {
+            console.error('Error parsing hero slides:', e);
+        }
+    }
+    return [...defaultHeroSlides];
 }
 
+// Save slides to localStorage
+function saveHeroSlides(slides) {
+    localStorage.setItem('heroSlides', JSON.stringify(slides));
+}
+
+// Render slides table
+function renderSlidesTable() {
+    const tbody = document.getElementById('slidesTableBody');
+    if (!tbody) return;
+    
+    const slides = loadHeroSlides();
+    slides.sort((a, b) => (a.order || 0) - (b.order || 0));
+    
+    tbody.innerHTML = '';
+    
+    slides.forEach((slide, index) => {
+        const statusBadge = slide.status === 'active' 
+            ? '<span class="badge badge-success">Aktif</span>' 
+            : '<span class="badge badge-secondary">Nonaktif</span>';
+        
+        const businessBadge = getBusinessBadge(slide.businessLine);
+        
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td><strong>${slide.title}</strong></td>
+            <td>${slide.description.substring(0, 40)}...</td>
+            <td>${businessBadge}</td>
+            <td>${statusBadge}</td>
+            <td>
+                <button class="btn-icon" onclick="editSlide(${slide.id})" title="Edit">✏️</button>
+                <button class="btn-icon" onclick="viewSlide(${slide.id})" title="Detail">👁️</button>
+                <button class="btn-icon" onclick="deleteSlide(${slide.id})" title="Hapus">🗑️</button>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+// Get business line badge
+function getBusinessBadge(businessLine) {
+    const badgeColors = {
+        'Design Interior': 'badge-blue',
+        'Management': 'badge-green',
+        'Hijab': 'badge-purple',
+        'Sembako': 'badge-orange',
+        'Travel': 'badge-orange',
+        'Umum': 'badge-secondary'
+    };
+    const colorClass = badgeColors[businessLine] || 'badge-secondary';
+    return `<span class="badge ${colorClass}">${businessLine || 'Umum'}</span>`;
+}
+
+// Open slide modal (for add)
+function openSlideModal() {
+    document.getElementById('slideModalTitle').textContent = 'Tambah Slide Baru';
+    document.getElementById('slideForm').reset();
+    document.getElementById('slideId').value = '';
+    document.getElementById('slideBgColor').value = 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)';
+    document.getElementById('slideStatus').value = 'active';
+    document.getElementById('slideOrder').value = '0';
+    document.getElementById('slideImagePreview').style.display = 'none';
+    document.getElementById('slideModal').style.display = 'flex';
+}
+
+// Close slide modal
+function closeSlideModal() {
+    document.getElementById('slideModal').style.display = 'none';
+}
+
+// Close generic modal
+function closeModal() {
+    document.getElementById('modalOverlay').style.display = 'none';
+}
+
+// Set background preset
+function setBgPreset(preset) {
+    document.getElementById('slideBgColor').value = preset;
+}
+
+// Preview slide image
+function previewSlideImage(input) {
+    const preview = document.getElementById('slideImagePreview');
+    const bgImageInput = document.getElementById('slideBgImage');
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+            // Update the URL input with the data URL so it gets saved
+            if (bgImageInput) {
+                bgImageInput.value = e.target.result;
+            }
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+// Edit slide
 function editSlide(id) {
-    showEditModal('slide', id);
+    const slides = loadHeroSlides();
+    const slide = slides.find(s => s.id === id);
+    if (!slide) {
+        showToast('Slide tidak ditemukan', 'error');
+        return;
+    }
+    
+    document.getElementById('slideModalTitle').textContent = 'Edit Slide';
+    document.getElementById('slideId').value = slide.id;
+    document.getElementById('slideTitle').value = slide.title;
+    document.getElementById('slideDescription').value = slide.description;
+    document.getElementById('slideButtonText').value = slide.buttonText;
+    document.getElementById('slideButtonLink').value = slide.buttonLink;
+    document.getElementById('slideBusinessLine').value = slide.businessLine || 'Umum';
+    document.getElementById('slideBgColor').value = slide.bgColor || '';
+    document.getElementById('slideBgImage').value = slide.bgImage || '';
+    document.getElementById('slideStatus').value = slide.status || 'active';
+    document.getElementById('slideOrder').value = slide.order || 0;
+    document.getElementById('slideImagePreview').style.display = 'none';
+    document.getElementById('slideModal').style.display = 'flex';
 }
 
-function deleteSlide(id) {
-    confirmDelete('slide', id);
+// View slide details
+function viewSlide(id) {
+    const slides = loadHeroSlides();
+    const slide = slides.find(s => s.id === id);
+    if (!slide) {
+        showToast('Slide tidak ditemukan', 'error');
+        return;
+    }
+    
+    const statusText = slide.status === 'active' ? 'Aktif' : 'Nonaktif';
+    const bgPreview = slide.bgImage 
+        ? `<img src="${slide.bgImage}" style="width:100%;max-width:400px;border-radius:8px;">`
+        : `<div style="width:100%;max-width:400px;height:150px;border-radius:8px;background:${slide.bgColor || '#ccc'};"></div>`;
+    
+    const modalBody = document.getElementById('modalBody');
+    modalBody.innerHTML = `
+        <div style="padding:10px;">
+            ${bgPreview}
+            <h3 style="margin-top:15px;">${slide.title}</h3>
+            <p>${slide.description}</p>
+            <p><strong>Tombol:</strong> ${slide.buttonText} → ${slide.buttonLink}</p>
+            <p><strong>Lini Bisnis:</strong> ${slide.businessLine || 'Umum'}</p>
+            <p><strong>Status:</strong> ${statusText}</p>
+            <p><strong>Urutan:</strong> ${slide.order || 0}</p>
+        </div>
+    `;
+    document.getElementById('modalTitle').textContent = 'Detail Slide';
+    document.getElementById('modalOverlay').style.display = 'flex';
 }
+
+// Save slide (add or update)
+function saveSlide(event) {
+    event.preventDefault();
+    
+    const slides = loadHeroSlides();
+    const slideId = document.getElementById('slideId').value;
+    
+    const slideData = {
+        title: document.getElementById('slideTitle').value,
+        description: document.getElementById('slideDescription').value,
+        buttonText: document.getElementById('slideButtonText').value,
+        buttonLink: document.getElementById('slideButtonLink').value,
+        businessLine: document.getElementById('slideBusinessLine').value,
+        bgColor: document.getElementById('slideBgColor').value,
+        bgImage: document.getElementById('slideBgImage').value,
+        status: document.getElementById('slideStatus').value,
+        order: parseInt(document.getElementById('slideOrder').value) || 0
+    };
+    
+    if (slideId) {
+        // Update existing slide
+        const index = slides.findIndex(s => s.id === parseInt(slideId));
+        if (index !== -1) {
+            slides[index] = { ...slides[index], ...slideData };
+            showToast('Slide berhasil diperbarui', 'success');
+        }
+    } else {
+        // Add new slide
+        const newId = slides.length > 0 ? Math.max(...slides.map(s => s.id)) + 1 : 1;
+        slides.push({ id: newId, ...slideData });
+        showToast('Slide baru berhasil ditambahkan', 'success');
+    }
+    
+    saveHeroSlides(slides);
+    renderSlidesTable();
+    closeSlideModal();
+}
+
+// Delete slide
+function deleteSlide(id) {
+    if (!confirm('Apakah Anda yakin ingin menghapus slide ini?')) {
+        return;
+    }
+    
+    let slides = loadHeroSlides();
+    slides = slides.filter(s => s.id !== id);
+    saveHeroSlides(slides);
+    renderSlidesTable();
+    showToast('Slide berhasil dihapus', 'success');
+}
+
+// Initialize slides table on page load
+document.addEventListener('DOMContentLoaded', () => {
+    renderSlidesTable();
+});
 
 // CRUD Operations for Articles
 function addArticle() {
@@ -1048,10 +1409,813 @@ function loadSavedImages() {
     });
 }
 
-// Initialize image loading on DOM ready
-document.addEventListener('DOMContentLoaded', function() {
-    loadSavedImages();
-});
+// ============================================
+// PAGE IMAGES MANAGEMENT (Gambar Halaman)
+// ============================================
+
+// Show page tab
+function showPageTab(tabName, event) {
+    // Hide all tab contents
+    document.querySelectorAll('.page-tab-content').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    
+    // Remove active from all tab buttons
+    document.querySelectorAll('.page-tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // Show selected tab
+    const pageElement = document.getElementById(`page-${tabName}`);
+    if (pageElement) {
+        pageElement.classList.add('active');
+    }
+    
+    // Set active button
+    if (event && event.target) {
+        event.target.classList.add('active');
+    }
+}
+
+// ============================================
+// PAGE LOGO MANAGEMENT
+// ============================================
+
+// Preview page logo from file upload
+function previewPageLogo(input, previewId) {
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        
+        // Validate file size (max 2MB)
+        if (file.size > 2 * 1024 * 1024) {
+            showToast('Ukuran file terlalu besar! Maksimal 2MB', 'error');
+            input.value = '';
+            return;
+        }
+        
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+            showToast('File harus berupa gambar!', 'error');
+            input.value = '';
+            return;
+        }
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById(previewId).src = e.target.result;
+            showToast('Preview logo berhasil dimuat', 'success');
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+// Preview page logo from URL
+function previewPageLogoFromUrl(url, previewId) {
+    if (url && url.trim() !== '') {
+        const img = document.getElementById(previewId);
+        img.src = url;
+        
+        img.onerror = function() {
+            showToast('URL logo tidak valid!', 'error');
+        };
+        
+        img.onload = function() {
+            showToast('Preview logo dari URL berhasil', 'success');
+        };
+    }
+}
+
+// Save page logo to localStorage
+function savePageLogo(page) {
+    const previewId = `${page}LogoPreview`;
+    const urlInputId = `${page}LogoUrl`;
+    
+    const imgElement = document.getElementById(previewId);
+    const urlInput = document.getElementById(urlInputId);
+    
+    if (!imgElement) {
+        showToast('Element logo tidak ditemukan!', 'error');
+        return;
+    }
+    
+    const logoData = {
+        page: page,
+        src: imgElement.src,
+        url: urlInput ? urlInput.value : '',
+        savedAt: new Date().toISOString()
+    };
+    
+    localStorage.setItem(`pageLogo_${page}`, JSON.stringify(logoData));
+    showToast(`Logo untuk halaman ${page} berhasil disimpan!`, 'success');
+}
+
+// Reset page logo to default
+function resetPageLogo(page) {
+    if (!confirm(`Apakah Anda yakin ingin mereset logo halaman ${page} ke default?`)) {
+        return;
+    }
+    
+    // Remove from localStorage
+    localStorage.removeItem(`pageLogo_${page}`);
+    
+    // Set default logo based on page
+    const defaultLogos = {
+        'hijab': 'https://ui-avatars.com/api/?name=Hijab&background=8B4557&color=fff&size=150',
+        'sembako': 'https://ui-avatars.com/api/?name=Sembako&background=2E7D32&color=fff&size=150',
+        'travel': 'https://ui-avatars.com/api/?name=Travel&background=0277BD&color=fff&size=150',
+        'design': 'https://ui-avatars.com/api/?name=Design&background=5D4037&color=fff&size=150',
+        'management': 'https://ui-avatars.com/api/?name=Management&background=1565C0&color=fff&size=150'
+    };
+    
+    const previewId = `${page}LogoPreview`;
+    const urlInputId = `${page}LogoUrl`;
+    const fileInputId = `${page}LogoImage`;
+    
+    const imgElement = document.getElementById(previewId);
+    const urlInput = document.getElementById(urlInputId);
+    const fileInput = document.getElementById(fileInputId);
+    
+    if (imgElement && defaultLogos[page]) {
+        imgElement.src = defaultLogos[page];
+    }
+    
+    if (urlInput) {
+        urlInput.value = '';
+    }
+    
+    if (fileInput) {
+        fileInput.value = '';
+    }
+    
+    showToast(`Logo halaman ${page} berhasil direset ke default!`, 'success');
+}
+
+// Load page logo from localStorage
+function loadPageLogo(page) {
+    const saved = localStorage.getItem(`pageLogo_${page}`);
+    
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            
+            const previewId = `${page}LogoPreview`;
+            const urlInputId = `${page}LogoUrl`;
+            
+            const imgElement = document.getElementById(previewId);
+            const urlInput = document.getElementById(urlInputId);
+            
+            if (imgElement && data.src) {
+                imgElement.src = data.src;
+            }
+            
+            if (urlInput && data.url) {
+                urlInput.value = data.url;
+            }
+        } catch (e) {
+            console.error(`Error loading page logo ${page}:`, e);
+        }
+    }
+}
+
+// Load all page logos
+function loadAllPageLogos() {
+    const pages = ['hijab', 'sembako', 'travel', 'design', 'management'];
+    pages.forEach(page => {
+        loadPageLogo(page);
+    });
+}
+
+// Preview page image from file upload
+function previewPageImage(input, previewId) {
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        
+        // Validate file size (max 2MB)
+        if (file.size > 2 * 1024 * 1024) {
+            showToast('Ukuran file terlalu besar! Maksimal 2MB', 'error');
+            input.value = '';
+            return;
+        }
+        
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+            showToast('File harus berupa gambar!', 'error');
+            input.value = '';
+            return;
+        }
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById(previewId).src = e.target.result;
+            showToast('Preview gambar berhasil dimuat', 'success');
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+// Preview page image from URL
+function previewPageImageFromUrl(url, previewId) {
+    if (url && url.trim() !== '') {
+        const img = document.getElementById(previewId);
+        img.src = url;
+        
+        img.onerror = function() {
+            showToast('URL gambar tidak valid!', 'error');
+        };
+        
+        img.onload = function() {
+            showToast('Preview gambar dari URL berhasil', 'success');
+        };
+    }
+}
+
+// Save page image (deprecated - hero removed)
+function savePageImage(page, type) {
+    // Hero image has been removed from page images section
+    showToast('Fitur hero image telah dihapus dari Gambar Halaman', 'warning');
+}
+
+// Save page gallery
+function savePageGallery(page) {
+    const galleryData = {
+        page: page,
+        images: [],
+        savedAt: new Date().toISOString()
+    };
+    
+    // Determine prefix based on page
+    let prefix = '';
+    let count = 6;
+    
+    switch(page) {
+        case 'hijab':
+            prefix = 'hijabProduct';
+            break;
+        case 'sembako':
+            prefix = 'sembakoProduct';
+            break;
+        case 'travel':
+            prefix = 'travelDest';
+            break;
+        case 'design':
+            prefix = 'designPort';
+            break;
+        case 'management':
+            prefix = 'managementServ';
+            break;
+    }
+    
+    // Collect all gallery images
+    for (let i = 1; i <= count; i++) {
+        const imgElement = document.getElementById(`${prefix}${i}Preview`);
+        const urlInput = document.getElementById(`${prefix}${i}Url`);
+        
+        if (imgElement) {
+            galleryData.images.push({
+                index: i,
+                src: imgElement.src,
+                url: urlInput ? urlInput.value : ''
+            });
+        }
+    }
+    
+    localStorage.setItem(`pageGallery_${page}`, JSON.stringify(galleryData));
+    showToast(`Galeri untuk halaman ${page} berhasil disimpan!`, 'success');
+}
+
+// Save page testimonials
+function savePageTestimonials(page) {
+    const testiData = {
+        page: page,
+        images: [],
+        savedAt: new Date().toISOString()
+    };
+    
+    // Collect testimonial images
+    for (let i = 1; i <= 3; i++) {
+        const imgElement = document.getElementById(`${page}Testi${i}Preview`);
+        const urlInput = document.getElementById(`${page}Testi${i}Url`);
+        
+        if (imgElement) {
+            testiData.images.push({
+                index: i,
+                src: imgElement.src,
+                url: urlInput ? urlInput.value : ''
+            });
+        }
+    }
+    
+    localStorage.setItem(`pageTestimonials_${page}`, JSON.stringify(testiData));
+    showToast(`Testimoni untuk halaman ${page} berhasil disimpan!`, 'success');
+}
+
+// Save all page images
+function saveAllPageImages() {
+    const pages = ['hijab', 'sembako', 'travel', 'design', 'management'];
+    
+    pages.forEach(page => {
+        // Save logo
+        savePageLogo(page);
+        
+        // Save gallery
+        savePageGallery(page);
+        
+        // Save testimonials (only for hijab)
+        if (page === 'hijab') {
+            savePageTestimonials(page);
+        }
+    });
+    
+    showToast('Semua gambar halaman berhasil disimpan!', 'success');
+}
+
+// Reset all page images to default
+function resetAllPageImages() {
+    if (!confirm('Apakah Anda yakin ingin mereset semua gambar halaman ke default?')) {
+        return;
+    }
+    
+    const pages = ['hijab', 'sembako', 'travel', 'design', 'management'];
+    
+    pages.forEach(page => {
+        // Remove from localStorage
+        localStorage.removeItem(`pageLogo_${page}`);
+        localStorage.removeItem(`pageGallery_${page}`);
+        localStorage.removeItem(`pageTestimonials_${page}`);
+    });
+    
+    showToast('Semua gambar halaman berhasil direset ke default!', 'success');
+    
+    // Reload page to show defaults
+    setTimeout(() => {
+        location.reload();
+    }, 1000);
+}
+
+// Load all saved page images
+function loadAllPageImages() {
+    const pages = ['hijab', 'sembako', 'travel', 'design', 'management'];
+    
+    pages.forEach(page => {
+        // Load logo
+        loadPageLogo(page);
+        
+        // Load gallery
+        loadPageGallery(page);
+        
+        // Load testimonials
+        loadPageTestimonials(page);
+    });
+    
+    showToast('Gambar tersimpan berhasil dimuat!', 'success');
+}
+
+// Load single page image (deprecated - hero removed)
+function loadPageImage(page, type) {
+    // Hero image has been removed from page images section
+    // This function is kept for backward compatibility
+}
+
+// Load page gallery
+function loadPageGallery(page) {
+    const saved = localStorage.getItem(`pageGallery_${page}`);
+    
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            
+            let prefix = '';
+            switch(page) {
+                case 'hijab':
+                    prefix = 'hijabProduct';
+                    break;
+                case 'sembako':
+                    prefix = 'sembakoProduct';
+                    break;
+                case 'travel':
+                    prefix = 'travelDest';
+                    break;
+                case 'design':
+                    prefix = 'designPort';
+                    break;
+                case 'management':
+                    prefix = 'managementServ';
+                    break;
+            }
+            
+            data.images.forEach(img => {
+                const imgElement = document.getElementById(`${prefix}${img.index}Preview`);
+                const urlInput = document.getElementById(`${prefix}${img.index}Url`);
+                
+                if (imgElement && img.src) {
+                    imgElement.src = img.src;
+                }
+                if (urlInput && img.url) {
+                    urlInput.value = img.url;
+                }
+            });
+        } catch (e) {
+            console.error(`Error loading page gallery ${page}:`, e);
+        }
+    }
+}
+
+// Load page testimonials
+function loadPageTestimonials(page) {
+    const saved = localStorage.getItem(`pageTestimonials_${page}`);
+    
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            
+            data.images.forEach(img => {
+                const imgElement = document.getElementById(`${page}Testi${img.index}Preview`);
+                const urlInput = document.getElementById(`${page}Testi${img.index}Url`);
+                
+                if (imgElement && img.src) {
+                    imgElement.src = img.src;
+                }
+                if (urlInput && img.url) {
+                    urlInput.value = img.url;
+                }
+            });
+        } catch (e) {
+            console.error(`Error loading page testimonials ${page}:`, e);
+        }
+    }
+}
+
+// ============================================
+// MANAGEMENT PAGE SPECIFIC FUNCTIONS
+// ============================================
+
+// Default SVG logo for Management hero section
+const defaultManagementHeroLogo = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 100 100'%3E%3Cpath d='M15 85 V25 C15 25, 35 55, 50 55 C65 55, 85 25, 85 25 V85' fill='none' stroke='%232563eb' stroke-width='12' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M25 45 C35 25, 65 25, 75 45 C65 65, 35 65, 25 45 Z' fill='none' stroke='%2338bdf8' stroke-width='8' stroke-linecap='round'/%3E%3C/svg%3E";
+
+// Preview Management hero logo from file upload
+function previewManagementHeroLogo(input) {
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        
+        // Validate file size (max 2MB)
+        if (file.size > 2 * 1024 * 1024) {
+            showToast('Ukuran file terlalu besar! Maksimal 2MB', 'error');
+            input.value = '';
+            return;
+        }
+        
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+            showToast('File harus berupa gambar!', 'error');
+            input.value = '';
+            return;
+        }
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('managementHeroLogoPreview').src = e.target.result;
+            showToast('Preview logo hero berhasil dimuat', 'success');
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+// Preview Management hero logo from URL
+function previewManagementHeroLogoFromUrl(url) {
+    if (url && url.trim() !== '') {
+        const img = document.getElementById('managementHeroLogoPreview');
+        img.src = url;
+        
+        img.onerror = function() {
+            showToast('URL logo tidak valid!', 'error');
+        };
+        
+        img.onload = function() {
+            showToast('Preview logo hero dari URL berhasil', 'success');
+        };
+    }
+}
+
+// Save Management hero logo to localStorage
+function saveManagementHeroLogo() {
+    const imgElement = document.getElementById('managementHeroLogoPreview');
+    const urlInput = document.getElementById('managementHeroLogoUrl');
+    
+    if (!imgElement) {
+        showToast('Element logo hero tidak ditemukan!', 'error');
+        return;
+    }
+    
+    const logoData = {
+        src: imgElement.src,
+        url: urlInput ? urlInput.value : '',
+        savedAt: new Date().toISOString()
+    };
+    
+    localStorage.setItem('managementHeroLogo', JSON.stringify(logoData));
+    showToast('Logo hero Management berhasil disimpan!', 'success');
+}
+
+// Reset Management hero logo to default
+function resetManagementHeroLogo() {
+    if (!confirm('Apakah Anda yakin ingin mereset logo hero ke default?')) {
+        return;
+    }
+    
+    // Remove from localStorage
+    localStorage.removeItem('managementHeroLogo');
+    
+    // Set default SVG logo
+    document.getElementById('managementHeroLogoPreview').src = defaultManagementHeroLogo;
+    document.getElementById('managementHeroLogoUrl').value = '';
+    document.getElementById('managementHeroLogoImage').value = '';
+    
+    showToast('Logo hero Management berhasil direset ke default!', 'success');
+}
+
+// Load Management hero logo from localStorage
+function loadManagementHeroLogo() {
+    const saved = localStorage.getItem('managementHeroLogo');
+    
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            
+            if (data.src) {
+                document.getElementById('managementHeroLogoPreview').src = data.src;
+            }
+            if (data.url) {
+                document.getElementById('managementHeroLogoUrl').value = data.url;
+            }
+        } catch (e) {
+            console.error('Error loading management hero logo:', e);
+        }
+    }
+}
+
+// Update Management icon preview
+function updateManagementIconPreview(num, iconClass) {
+    const previewElement = document.getElementById(`managementIcon${num}Preview`);
+    if (previewElement) {
+        const colors = ['#3b82f6', '#38bdf8', '#6366f1'];
+        previewElement.innerHTML = `<i class="fa-solid ${iconClass}" style="font-size: 2rem; color: ${colors[num-1]};"></i>`;
+    }
+}
+
+// Save Management main service icons
+function saveManagementIcons() {
+    const iconsData = {
+        icon1: document.getElementById('managementIcon1').value,
+        icon2: document.getElementById('managementIcon2').value,
+        icon3: document.getElementById('managementIcon3').value,
+        savedAt: new Date().toISOString()
+    };
+    
+    localStorage.setItem('managementIcons', JSON.stringify(iconsData));
+    showToast('Ikon Tugas Utama Management berhasil disimpan!', 'success');
+}
+
+// Load Management main service icons
+function loadManagementIcons() {
+    const saved = localStorage.getItem('managementIcons');
+    
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            
+            if (data.icon1) {
+                document.getElementById('managementIcon1').value = data.icon1;
+                updateManagementIconPreview(1, data.icon1);
+            }
+            if (data.icon2) {
+                document.getElementById('managementIcon2').value = data.icon2;
+                updateManagementIconPreview(2, data.icon2);
+            }
+            if (data.icon3) {
+                document.getElementById('managementIcon3').value = data.icon3;
+                updateManagementIconPreview(3, data.icon3);
+            }
+        } catch (e) {
+            console.error('Error loading management icons:', e);
+        }
+    }
+}
+
+// Save Management workflow steps
+function saveManagementSteps() {
+    const stepsData = {
+        step1: document.getElementById('managementStep1Title').value,
+        step2: document.getElementById('managementStep2Title').value,
+        step3: document.getElementById('managementStep3Title').value,
+        step4: document.getElementById('managementStep4Title').value,
+        savedAt: new Date().toISOString()
+    };
+    
+    localStorage.setItem('managementSteps', JSON.stringify(stepsData));
+    showToast('Alur Kerja Management berhasil disimpan!', 'success');
+}
+
+// Load Management workflow steps
+function loadManagementSteps() {
+    const saved = localStorage.getItem('managementSteps');
+    
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            
+            if (data.step1) document.getElementById('managementStep1Title').value = data.step1;
+            if (data.step2) document.getElementById('managementStep2Title').value = data.step2;
+            if (data.step3) document.getElementById('managementStep3Title').value = data.step3;
+            if (data.step4) document.getElementById('managementStep4Title').value = data.step4;
+        } catch (e) {
+            console.error('Error loading management steps:', e);
+        }
+    }
+}
+
+// Save Management advantage icons
+function saveManagementAdvIcons() {
+    const advIconsData = {
+        icon1: document.getElementById('managementAdvIcon1').value,
+        icon2: document.getElementById('managementAdvIcon2').value,
+        icon3: document.getElementById('managementAdvIcon3').value,
+        icon4: document.getElementById('managementAdvIcon4').value,
+        savedAt: new Date().toISOString()
+    };
+    
+    localStorage.setItem('managementAdvIcons', JSON.stringify(advIconsData));
+    showToast('Ikon Keunggulan Management berhasil disimpan!', 'success');
+}
+
+// Load Management advantage icons
+function loadManagementAdvIcons() {
+    const saved = localStorage.getItem('managementAdvIcons');
+    
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            
+            if (data.icon1) document.getElementById('managementAdvIcon1').value = data.icon1;
+            if (data.icon2) document.getElementById('managementAdvIcon2').value = data.icon2;
+            if (data.icon3) document.getElementById('managementAdvIcon3').value = data.icon3;
+            if (data.icon4) document.getElementById('managementAdvIcon4').value = data.icon4;
+        } catch (e) {
+            console.error('Error loading management advantage icons:', e);
+        }
+    }
+}
+
+// Load all Management specific data
+function loadAllManagementData() {
+    loadManagementHeroLogo();
+    loadManagementIcons();
+    loadManagementSteps();
+    loadManagementAdvIcons();
+}
+
+// ==========================================
+// GAMBAR HALAMAN (PAGE IMAGES) FUNCTIONS
+// ==========================================
+
+// Show page tab for image management
+function showPageTab(pageName) {
+    // Remove active class from all tabs
+    document.querySelectorAll('.page-tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.page-tab-content').forEach(content => content.classList.remove('active'));
+    
+    // Add active class to selected tab
+    event.target.closest('.page-tab-btn').classList.add('active');
+    document.getElementById('page-tab-' + pageName).classList.add('active');
+}
+
+// Show add image modal
+function showAddImageModal() {
+    const modalBody = `
+        <form id="addImageForm">
+            <div class="form-group">
+                <label>Pilih Halaman</label>
+                <select id="imagePage" required>
+                    <option value="">-- Pilih Halaman --</option>
+                    <option value="index">Beranda</option>
+                    <option value="hijab">Hijab</option>
+                    <option value="sembako">Kedai Sembako</option>
+                    <option value="travel">Travel Agent</option>
+                    <option value="design">Design Interior</option>
+                    <option value="management">Management</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Jenis Gambar</label>
+                <select id="imageType" required>
+                    <option value="">-- Pilih Jenis --</option>
+                    <option value="banner">Banner</option>
+                    <option value="gallery">Gallery</option>
+                    <option value="section">Section</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Judul Gambar</label>
+                <input type="text" id="imageTitle" placeholder="Masukkan judul gambar" required>
+            </div>
+            <div class="form-group">
+                <label>Upload Gambar</label>
+                <input type="file" id="imageFile" accept="image/*" onchange="previewNewImage(this)">
+            </div>
+            <div class="form-group">
+                <label>Atau URL Gambar</label>
+                <input type="url" id="imageUrl" placeholder="https://...">
+            </div>
+            <div class="image-preview-container" id="newImagePreview" style="display: none;">
+                <img id="newImagePreviewImg" src="" alt="Preview">
+            </div>
+        </form>
+    `;
+    
+    openModal('Tambah Gambar Baru', modalBody);
+    document.getElementById('modalConfirmBtn').onclick = saveNewImage;
+}
+
+// Preview new image before upload
+function previewNewImage(input) {
+    const preview = document.getElementById('newImagePreview');
+    const previewImg = document.getElementById('newImagePreviewImg');
+    
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            previewImg.src = e.target.result;
+            preview.style.display = 'block';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+// Save new image
+function saveNewImage() {
+    const page = document.getElementById('imagePage').value;
+    const type = document.getElementById('imageType').value;
+    const title = document.getElementById('imageTitle').value;
+    const url = document.getElementById('imageUrl').value;
+    const file = document.getElementById('imageFile').files[0];
+    
+    if (!page || !type || !title) {
+        showToast('Mohon lengkapi semua field yang wajib diisi!', 'error');
+        return;
+    }
+    
+    if (!url && !file) {
+        showToast('Mohon upload gambar atau masukkan URL gambar!', 'error');
+        return;
+    }
+    
+    // Simulate saving
+    showToast('Gambar berhasil ditambahkan!', 'success');
+    closeModal();
+}
+
+// Preview image from file input
+function previewImage(input, targetId) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = input.closest('.hero-image-item, .page-image-card, .page-gallery-item').querySelector('img');
+            if (preview) {
+                preview.src = e.target.result;
+            }
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+// Save gallery image
+function saveGalleryImage(pageName, imageIndex) {
+    const galleryItem = event.target.closest('.page-gallery-item');
+    const fileInput = galleryItem.querySelector('input[type="file"]');
+    
+    if (fileInput.files && fileInput.files[0]) {
+        showToast(`Gambar gallery ${pageName} #${imageIndex} berhasil diupdate!`, 'success');
+    } else {
+        showToast('Mohon pilih gambar baru!', 'error');
+    }
+}
+
+// Reset page images to default
+function resetPageImages() {
+    if (confirm('Apakah Anda yakin ingin mereset semua gambar ke default?')) {
+        // Clear localStorage image data
+        const keysToRemove = [];
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key.includes('Image') || key.includes('image')) {
+                keysToRemove.push(key);
+            }
+        }
+        keysToRemove.forEach(key => localStorage.removeItem(key));
+        
+        showToast('Gambar berhasil direset ke default!', 'success');
+        setTimeout(() => location.reload(), 1000);
+    }
+}
 
 // Console welcome message
 console.log('%c Elyasya Corp Admin Dashboard ', 'background: #1e3c72; color: white; font-size: 16px; padding: 10px;');

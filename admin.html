@@ -5,816 +5,1498 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Elyasya Corp</title>
     <link rel="stylesheet" href="admin-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <h2>ELYASYA CORP</h2>
-            <p>Admin Dashboard</p>
-        </div>
-        <nav class="sidebar-nav">
-            <a href="#dashboard" class="nav-item active" onclick="showSection('dashboard')">
-                <span class="icon">📊</span>
-                <span>Dashboard</span>
-            </a>
-            <a href="#hero" class="nav-item" onclick="showSection('hero')">
-                <span class="icon">🎨</span>
-                <span>Hero Slider</span>
-            </a>
-            <a href="#bisnis" class="nav-item" onclick="showSection('bisnis')">
-                <span class="icon">🏢</span>
-                <span>Lini Bisnis</span>
-            </a>
-            <a href="#berita" class="nav-item" onclick="showSection('berita')">
-                <span class="icon">📰</span>
-                <span>Media & Berita</span>
-            </a>
-            <a href="#kontak" class="nav-item" onclick="showSection('kontak')">
-                <span class="icon">📞</span>
-                <span>Kontak Info</span>
-            </a>
-            <a href="#pesan" class="nav-item" onclick="showSection('pesan')">
-                <span class="icon">💬</span>
-                <span>Pesan Masuk</span>
-            </a>
-            <a href="#gambar" class="nav-item" onclick="showSection('gambar')">
-                <span class="icon">🖼️</span>
-                <span>Gambar</span>
-            </a>
-            <a href="#pengaturan" class="nav-item" onclick="showSection('pengaturan')">
-                <span class="icon">⚙️</span>
-                <span>Pengaturan</span>
-            </a>
-            <a href="index.html" class="nav-item" target="_blank">
-                <span class="icon">🌐</span>
-                <span>Lihat Website</span>
-            </a>
-        </nav>
-        <div class="sidebar-footer">
-            <button class="btn-logout" onclick="logout()">
-                <span class="icon">🚪</span>
-                Logout
-            </button>
+    <!-- Login Page -->
+    <div class="login-page" id="loginPage">
+        <div class="login-container">
+            <div class="login-header">
+                <h1>ELYASYA CORP</h1>
+                <p>Admin Dashboard Control Panel</p>
+            </div>
+            <form class="login-form" id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" placeholder="admin@elyasyacorp.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="Masukkan password" required>
+                </div>
+                <button type="submit" class="btn-login">
+                    <span>Login</span>
+                </button>
+                <div class="login-footer">
+                    <p>Demo: admin@elyasyacorp.com / admin123</p>
+                </div>
+            </form>
         </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <!-- Top Bar -->
-        <div class="topbar">
-            <button class="menu-toggle" id="menuToggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <div class="topbar-right">
-                <div class="notification">
-                    <span class="icon">🔔</span>
-                    <span class="badge">3</span>
-                </div>
-                <div class="user-profile">
-                    <img src="https://ui-avatars.com/api/?name=Admin&background=1e3c72&color=fff" alt="Admin">
-                    <span>Admin</span>
-                </div>
+    <!-- Main Dashboard -->
+    <div class="dashboard-wrapper" id="dashboardWrapper" style="display: none;">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>ELYASYA CORP</h2>
+                <p>Admin Dashboard</p>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="nav-item active" onclick="showSection('dashboard')">
+                    <span class="icon">📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#pengguna" class="nav-item" onclick="showSection('pengguna')">
+                    <span class="icon">👥</span>
+                    <span>Manajemen Pengguna</span>
+                </a>
+                <a href="#produk" class="nav-item" onclick="showSection('produk')">
+                    <span class="icon">📦</span>
+                    <span>Manajemen Produk</span>
+                </a>
+                <a href="#hero" class="nav-item" onclick="showSection('hero')">
+                    <span class="icon">🎨</span>
+                    <span>Hero Slider</span>
+                </a>
+                <a href="#bisnis" class="nav-item" onclick="showSection('bisnis')">
+                    <span class="icon">🏢</span>
+                    <span>Lini Bisnis</span>
+                </a>
+                <a href="#gambar" class="nav-item" onclick="showSection('gambar')">
+                    <span class="icon">🖼️</span>
+                    <span>Gambar Halaman</span>
+                </a>
+                <a href="#berita" class="nav-item" onclick="showSection('berita')">
+                    <span class="icon">📰</span>
+                    <span>Media & Berita</span>
+                </a>
+                <a href="#laporan" class="nav-item" onclick="showSection('laporan')">
+                    <span class="icon">📈</span>
+                    <span>Laporan</span>
+                </a>
+                <a href="#keamanan" class="nav-item" onclick="showSection('keamanan')">
+                    <span class="icon">🔒</span>
+                    <span>Keamanan</span>
+                </a>
+                <a href="#pesan" class="nav-item" onclick="showSection('pesan')">
+                    <span class="icon">💬</span>
+                    <span>Pesan Masuk</span>
+                </a>
+                <a href="#pengaturan" class="nav-item" onclick="showSection('pengaturan')">
+                    <span class="icon">⚙️</span>
+                    <span>Pengaturan</span>
+                </a>
+                <a href="index.html" class="nav-item" target="_blank">
+                    <span class="icon">🌐</span>
+                    <span>Lihat Website</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="btn-logout" onclick="logout()">
+                    <span class="icon">🚪</span>
+                    Logout
+                </button>
             </div>
         </div>
 
-        <!-- Dashboard Section -->
-        <section id="section-dashboard" class="content-section active">
-            <div class="page-header">
-                <h1>Dashboard</h1>
-                <p>Selamat datang di Admin Dashboard Elyasya Corp</p>
-            </div>
-
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">👥</div>
-                    <div class="stat-info">
-                        <h3>1,234</h3>
-                        <p>Total Pengunjung</p>
-                        <span class="stat-change positive">+12% dari bulan lalu</span>
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Bar -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <button class="menu-toggle" id="menuToggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <div class="search-bar">
+                        <input type="text" id="globalSearch" placeholder="Cari menu, data, atau pengaturan..." onkeyup="handleGlobalSearch(event)">
+                        <span class="search-icon">🔍</span>
                     </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">📧</div>
-                    <div class="stat-info">
-                        <h3>45</h3>
-                        <p>Pesan Masuk</p>
-                        <span class="stat-change positive">+8 pesan baru</span>
+                <div class="topbar-right">
+                    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle Dark Mode">
+                        <span class="theme-icon">🌙</span>
+                    </button>
+                    <div class="user-profile" onclick="toggleUserDropdown()">
+                        <img src="https://ui-avatars.com/api/?name=Admin&background=1e3c72&color=fff" alt="Admin" id="userAvatar">
+                        <span id="userName">Admin</span>
+                        <span class="dropdown-arrow">▼</span>
                     </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">📰</div>
-                    <div class="stat-info">
-                        <h3>12</h3>
-                        <p>Artikel Aktif</p>
-                        <span class="stat-change">3 draft</span>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">🏢</div>
-                    <div class="stat-info">
-                        <h3>5</h3>
-                        <p>Lini Bisnis</p>
-                        <span class="stat-change">Semua aktif</span>
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="dropdown-header">
+                            <strong id="dropdownUserName">Administrator</strong>
+                            <span id="dropdownUserRole" class="role-badge">Super Admin</span>
+                        </div>
+                        <a href="#" onclick="showSection('pengaturan')">⚙️ Pengaturan Akun</a>
+                        <a href="#" onclick="showSection('keamanan')">🔒 Keamanan</a>
+                        <hr>
+                        <a href="#" onclick="logout()" class="logout-link">🚪 Logout</a>
                     </div>
                 </div>
             </div>
 
-            <div class="dashboard-grid">
-                <div class="dashboard-card">
-                    <h3>Aktivitas Terbaru</h3>
-                    <div class="activity-list">
-                        <div class="activity-item">
-                            <span class="activity-icon">📝</span>
-                            <div class="activity-content">
-                                <p><strong>Artikel baru dipublikasikan</strong></p>
-                                <span class="activity-time">2 jam yang lalu</span>
+            <!-- Dashboard Section -->
+            <section id="section-dashboard" class="content-section active">
+                <div class="page-header">
+                    <div class="page-header-left">
+                        <h1>Dashboard</h1>
+                        <p>Selamat datang di Admin Dashboard Elyasya Corp</p>
+                    </div>
+                    <div class="page-header-right">
+                        <div class="date-filter">
+                            <select id="dateFilter" onchange="updateDashboardData()">
+                                <option value="today">Hari Ini</option>
+                                <option value="7days" selected>7 Hari Terakhir</option>
+                                <option value="30days">30 Hari Terakhir</option>
+                                <option value="custom">Kustom</option>
+                            </select>
+                            <div class="custom-date-range" id="customDateRange" style="display: none;">
+                                <input type="date" id="startDate">
+                                <span>hingga</span>
+                                <input type="date" id="endDate">
+                                <button onclick="applyCustomDate()">Terapkan</button>
                             </div>
                         </div>
-                        <div class="activity-item">
-                            <span class="activity-icon">💬</span>
-                            <div class="activity-content">
-                                <p><strong>Pesan baru dari Design Interior</strong></p>
-                                <span class="activity-time">5 jam yang lalu</span>
+                        <button class="btn-refresh" onclick="refreshDashboard()">🔄 Refresh</button>
+                    </div>
+                </div>
+
+                <!-- Info Cards / Widgets -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">💰</div>
+                        <div class="stat-info">
+                            <h3 id="statRevenue">Rp 125.450.000</h3>
+                            <p>Total Pendapatan</p>
+                            <span class="stat-change positive">↑ +18.5% dari bulan lalu</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">👥</div>
+                        <div class="stat-info">
+                            <h3 id="statUsers">1,234</h3>
+                            <p>Pengguna Baru</p>
+                            <span class="stat-change positive">↑ +12% dari bulan lalu</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">🛒</div>
+                        <div class="stat-info">
+                            <h3 id="statTransactions">456</h3>
+                            <p>Transaksi Aktif</p>
+                            <span class="stat-change positive">↑ +8.2% dari bulan lalu</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">📈</div>
+                        <div class="stat-info">
+                            <h3 id="statConversion">3.8%</h3>
+                            <p>Rasio Konversi</p>
+                            <span class="stat-change negative">↓ -0.5% dari bulan lalu</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="charts-grid">
+                    <div class="chart-card large">
+                        <div class="chart-header">
+                            <h3>Tren Performa Bulanan</h3>
+                            <div class="chart-legend">
+                                <span class="legend-item"><span class="dot" style="background: #667eea;"></span> Pendapatan</span>
+                                <span class="legend-item"><span class="dot" style="background: #f5576c;"></span> Pengeluaran</span>
                             </div>
                         </div>
-                        <div class="activity-item">
-                            <span class="activity-icon">🎨</span>
-                            <div class="activity-content">
-                                <p><strong>Hero slider diperbarui</strong></p>
-                                <span class="activity-time">1 hari yang lalu</span>
-                            </div>
+                        <div class="chart-container">
+                            <canvas id="lineChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Kategori Produk Terlaris</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="pieChart"></canvas>
                         </div>
                     </div>
                 </div>
 
-                <div class="dashboard-card">
-                    <h3>Quick Actions</h3>
-                    <div class="quick-actions">
-                        <button class="action-btn" onclick="showSection('berita')">
-                            <span class="icon">➕</span>
-                            Tambah Berita
-                        </button>
-                        <button class="action-btn" onclick="showSection('bisnis')">
-                            <span class="icon">✏️</span>
-                            Edit Lini Bisnis
-                        </button>
-                        <button class="action-btn" onclick="showSection('pesan')">
-                            <span class="icon">📧</span>
-                            Lihat Pesan
-                        </button>
-                        <button class="action-btn" onclick="window.open('index.html', '_blank')">
-                            <span class="icon">🌐</span>
-                            Preview Website
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Hero Slider Section -->
-        <section id="section-hero" class="content-section">
-            <div class="page-header">
-                <h1>Kelola Hero Slider</h1>
-                <p>Atur tampilan slider utama di halaman beranda</p>
-            </div>
-
-            <div class="content-card">
-                <div class="card-header">
-                    <h3>Slide Hero Banner</h3>
-                    <button class="btn-primary" onclick="addSlide()">+ Tambah Slide</button>
-                </div>
-                <div class="table-responsive">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Judul</th>
-                                <th>Deskripsi</th>
-                                <th>Lini Bisnis</th>
-                                <th>Status</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Design Interior</td>
-                                <td>Wujudkan Ruang Impian Anda...</td>
-                                <td><span class="badge badge-blue">Design Interior</span></td>
-                                <td><span class="badge badge-success">Aktif</span></td>
-                                <td>
-                                    <button class="btn-icon" onclick="editSlide(1)">✏️</button>
-                                    <button class="btn-icon" onclick="deleteSlide(1)">🗑️</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Management Consulting</td>
-                                <td>Solusi Bisnis Terpadu...</td>
-                                <td><span class="badge badge-green">Management</span></td>
-                                <td><span class="badge badge-success">Aktif</span></td>
-                                <td>
-                                    <button class="btn-icon" onclick="editSlide(2)">✏️</button>
-                                    <button class="btn-icon" onclick="deleteSlide(2)">🗑️</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Hijab Collection</td>
-                                <td>Koleksi Hijab Premium...</td>
-                                <td><span class="badge badge-purple">Hijab</span></td>
-                                <td><span class="badge badge-success">Aktif</span></td>
-                                <td>
-                                    <button class="btn-icon" onclick="editSlide(3)">✏️</button>
-                                    <button class="btn-icon" onclick="deleteSlide(3)">🗑️</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- Lini Bisnis Section -->
-        <section id="section-bisnis" class="content-section">
-            <div class="page-header">
-                <h1>Kelola Lini Bisnis</h1>
-                <p>Edit informasi dan konten untuk setiap lini bisnis</p>
-            </div>
-
-            <div class="business-tabs">
-                <button class="tab-btn active" onclick="showBusinessTab('design')">Design Interior</button>
-                <button class="tab-btn" onclick="showBusinessTab('management')">Management</button>
-                <button class="tab-btn" onclick="showBusinessTab('hijab')">Hijab</button>
-                <button class="tab-btn" onclick="showBusinessTab('sembako')">Kedai Sembako</button>
-                <button class="tab-btn" onclick="showBusinessTab('travel')">Travel Agent</button>
-            </div>
-
-            <div class="content-card">
-                <form class="business-form">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Nama Lini Bisnis</label>
-                            <input type="text" id="businessName" value="Design Interior" placeholder="Nama lini bisnis">
+                <!-- Secondary Charts & Activity -->
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>📋 Aktivitas Terbaru</h3>
+                            <a href="#" onclick="showSection('keamanan')">Lihat Semua →</a>
                         </div>
-                        <div class="form-group">
-                            <label>Icon Emoji</label>
-                            <input type="text" id="businessIcon" value="🏠" placeholder="Icon emoji">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Deskripsi Singkat</label>
-                        <textarea id="businessDesc" rows="3" placeholder="Deskripsi singkat lini bisnis">Layanan desain interior profesional untuk rumah, kantor, dan komersial. Dari konsep hingga eksekusi.</textarea>
-                    </div>
-
-                    <!-- Gambar Lini Bisnis -->
-                    <div class="form-group">
-                        <label>📷 Gambar Lini Bisnis</label>
-                        <div class="business-image-upload">
-                            <div class="business-image-preview" id="businessImagePreviewBox">
-                                <img id="businessImagePreview" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=400&h=250&fit=crop" alt="Preview Gambar Bisnis">
-                                <div class="image-overlay">
-                                    <span>Gambar Utama</span>
+                        <div class="activity-list" id="activityList">
+                            <div class="activity-item">
+                                <span class="activity-icon">📝</span>
+                                <div class="activity-content">
+                                    <p><strong>Admin</strong> memperbarui produk "Hijab Premium Silk"</p>
+                                    <span class="activity-time">2 jam yang lalu • IP: 192.168.1.100</span>
                                 </div>
                             </div>
-                            <div class="business-image-controls">
-                                <div class="form-group">
-                                    <label>Upload Gambar</label>
-                                    <input type="file" id="businessImage" accept="image/*" onchange="previewBusinessImage(this)">
-                                    <small>Format: PNG, JPG, WebP. Ukuran maksimal: 2MB. Rekomendasi: 800x500px</small>
+                            <div class="activity-item">
+                                <span class="activity-icon">👤</span>
+                                <div class="activity-content">
+                                    <p><strong>Admin</strong> menambahkan pengguna baru "Siti Aminah"</p>
+                                    <span class="activity-time">3 jam yang lalu • IP: 192.168.1.100</span>
                                 </div>
-                                <div class="form-group">
-                                    <label>Atau Masukkan URL Gambar</label>
-                                    <input type="url" id="businessImageUrl" placeholder="https://example.com/gambar-bisnis.jpg" onchange="previewBusinessImageFromUrl(this.value)">
+                            </div>
+                            <div class="activity-item">
+                                <span class="activity-icon">🗑️</span>
+                                <div class="activity-content">
+                                    <p><strong>Admin</strong> menghapus artikel "Promo Lama"</p>
+                                    <span class="activity-time">5 jam yang lalu • IP: 192.168.1.100</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <span class="activity-icon">🔐</span>
+                                <div class="activity-content">
+                                    <p><strong>System</strong> mendeteksi percobaan login gagal (3x)</p>
+                                    <span class="activity-time">6 jam yang lalu • IP: 10.0.0.55</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Galeri Gambar Tambahan -->
-                    <div class="form-group">
-                        <label>🖼️ Galeri Gambar Tambahan (Opsional)</label>
-                        <div class="business-gallery">
-                            <div class="gallery-item">
-                                <div class="gallery-preview" id="gallery1PreviewBox">
-                                    <img id="gallery1Preview" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=200&h=150&fit=crop" alt="Gallery 1">
-                                </div>
-                                <input type="file" id="gallery1Image" accept="image/*" onchange="previewGalleryImage(this, 'gallery1Preview')">
-                                <input type="url" id="gallery1ImageUrl" placeholder="URL gambar..." onchange="previewGalleryFromUrl(this.value, 'gallery1Preview')">
-                            </div>
-                            <div class="gallery-item">
-                                <div class="gallery-preview" id="gallery2PreviewBox">
-                                    <img id="gallery2Preview" src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=200&h=150&fit=crop" alt="Gallery 2">
-                                </div>
-                                <input type="file" id="gallery2Image" accept="image/*" onchange="previewGalleryImage(this, 'gallery2Preview')">
-                                <input type="url" id="gallery2ImageUrl" placeholder="URL gambar..." onchange="previewGalleryFromUrl(this.value, 'gallery2Preview')">
-                            </div>
-                            <div class="gallery-item">
-                                <div class="gallery-preview" id="gallery3PreviewBox">
-                                    <img id="gallery3Preview" src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=200&h=150&fit=crop" alt="Gallery 3">
-                                </div>
-                                <input type="file" id="gallery3Image" accept="image/*" onchange="previewGalleryImage(this, 'gallery3Preview')">
-                                <input type="url" id="gallery3ImageUrl" placeholder="URL gambar..." onchange="previewGalleryFromUrl(this.value, 'gallery3Preview')">
-                            </div>
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>⚡ Quick Actions</h3>
                         </div>
-                        <small>Tambahkan hingga 3 gambar tambahan untuk galeri bisnis</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Fitur Unggulan (pisahkan dengan enter)</label>
-                        <textarea id="businessFeatures" rows="4" placeholder="Satu fitur per baris">Konsultasi Gratis
-Portfolio 100+ Proyek
-Garansi Kepuasan</textarea>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Nomor WhatsApp</label>
-                            <input type="text" id="businessWhatsapp" value="+62 812 3456 7890" placeholder="+62 xxx">
+                        <div class="quick-actions">
+                            <button class="action-btn" onclick="showSection('produk')">
+                                <span class="icon">➕</span>
+                                Tambah Produk
+                            </button>
+                            <button class="action-btn" onclick="showSection('berita')">
+                                <span class="icon">📰</span>
+                                Tambah Berita
+                            </button>
+                            <button class="action-btn" onclick="showSection('pesan')">
+                                <span class="icon">📧</span>
+                                Lihat Pesan
+                            </button>
+                            <button class="action-btn" onclick="showSection('laporan')">
+                                <span class="icon">📊</span>
+                                Unduh Laporan
+                            </button>
                         </div>
-                        <div class="form-group">
-                            <label>Status</label>
-                            <select id="businessStatus">
-                                <option value="aktif">Aktif</option>
-                                <option value="nonaktif">Non-Aktif</option>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Manajemen Pengguna Section -->
+            <section id="section-pengguna" class="content-section">
+                <div class="page-header">
+                    <div class="page-header-left">
+                        <h1>Manajemen Pengguna</h1>
+                        <p>Kelola akun pengguna dan hak akses (RBAC)</p>
+                    </div>
+                    <button class="btn-primary" onclick="showAddUserModal()">+ Tambah Pengguna</button>
+                </div>
+
+                <div class="content-card">
+                    <div class="table-controls">
+                        <div class="table-search">
+                            <input type="text" id="userSearch" placeholder="Cari pengguna..." onkeyup="filterUserTable()">
+                        </div>
+                        <div class="table-filters">
+                            <select id="userRoleFilter" onchange="filterUserTable()">
+                                <option value="">Semua Role</option>
+                                <option value="super_admin">Super Admin</option>
+                                <option value="operations">Operations/Content Manager</option>
+                                <option value="viewer">Viewer/Analyst</option>
+                            </select>
+                            <select id="userStatusFilter" onchange="filterUserTable()">
+                                <option value="">Semua Status</option>
+                                <option value="active">Aktif</option>
+                                <option value="inactive">Non-Aktif</option>
+                            </select>
+                        </div>
+                        <div class="table-pagination-control">
+                            <label>Tampilkan:</label>
+                            <select id="userPageSize" onchange="changeUserPageSize()">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="form-actions">
-                        <button type="button" class="btn-secondary" onclick="resetBusinessForm()">🔄 Reset</button>
-                        <button type="button" class="btn-primary" onclick="saveBusinessData()">💾 Simpan Perubahan</button>
-                    </div>
-                </form>
-            </div>
-        </section>
-
-        <!-- Media & Berita Section -->
-        <section id="section-berita" class="content-section">
-            <div class="page-header">
-                <h1>Kelola Media & Berita</h1>
-                <p>Tambah, edit, atau hapus artikel dan berita perusahaan</p>
-            </div>
-
-            <div class="content-card">
-                <div class="card-header">
-                    <h3>Daftar Artikel</h3>
-                    <button class="btn-primary" onclick="addArticle()">+ Tambah Artikel</button>
-                </div>
-
-                <div class="article-grid">
-                    <div class="article-card">
-                        <div class="article-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
-                        <div class="article-content">
-                            <span class="article-date">10 Juni 2026</span>
-                            <h4>Ekspansi Bisnis Design Interior ke 5 Kota Besar</h4>
-                            <p>Elyasya Corp membuka cabang baru untuk layanan design interior...</p>
-                            <div class="article-actions">
-                                <button class="btn-icon" onclick="editArticle(1)">✏️ Edit</button>
-                                <button class="btn-icon" onclick="deleteArticle(1)">🗑️ Hapus</button>
-                            </div>
-                        </div>
+                    <div class="table-responsive">
+                        <table class="data-table" id="userTable">
+                            <thead>
+                                <tr>
+                                    <th onclick="sortUserTable('id')">ID ↕</th>
+                                    <th onclick="sortUserTable('name')">Nama ↕</th>
+                                    <th onclick="sortUserTable('email')">Email ↕</th>
+                                    <th onclick="sortUserTable('role')">Role ↕</th>
+                                    <th onclick="sortUserTable('status')">Status ↕</th>
+                                    <th onclick="sortUserTable('lastLogin')">Login Terakhir ↕</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userTableBody">
+                                <!-- Populated by JavaScript -->
+                            </tbody>
+                        </table>
                     </div>
 
-                    <div class="article-card">
-                        <div class="article-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
-                        <div class="article-content">
-                            <span class="article-date">5 Juni 2026</span>
-                            <h4>Koleksi Hijab Ramadan 2026 Telah Hadir</h4>
-                            <p>Dapatkan koleksi hijab eksklusif untuk menyambut bulan suci...</p>
-                            <div class="article-actions">
-                                <button class="btn-icon" onclick="editArticle(2)">✏️ Edit</button>
-                                <button class="btn-icon" onclick="deleteArticle(2)">🗑️ Hapus</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="article-card">
-                        <div class="article-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
-                        <div class="article-content">
-                            <span class="article-date">1 Juni 2026</span>
-                            <h4>Paket Umroh Spesial dengan Harga Terjangkau</h4>
-                            <p>Travel Agent Elyasya Corp meluncurkan paket umroh...</p>
-                            <div class="article-actions">
-                                <button class="btn-icon" onclick="editArticle(3)">✏️ Edit</button>
-                                <button class="btn-icon" onclick="deleteArticle(3)">🗑️ Hapus</button>
-                            </div>
+                    <div class="table-footer">
+                        <span class="table-info" id="userTableInfo">Menampilkan 1-10 dari 25 data</span>
+                        <div class="pagination" id="userPagination">
+                            <!-- Populated by JavaScript -->
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Kontak Info Section -->
-        <section id="section-kontak" class="content-section">
-            <div class="page-header">
-                <h1>Informasi Kontak</h1>
-                <p>Kelola informasi kontak perusahaan</p>
-            </div>
-
-            <div class="content-card">
-                <form class="contact-form">
-                    <div class="form-group">
-                        <label>Alamat Kantor</label>
-                        <textarea rows="3" placeholder="Alamat lengkap">Jl. Bisnis Raya No. 123
-Jakarta Selatan, DKI Jakarta 12345</textarea>
+            <!-- Manajemen Produk Section -->
+            <section id="section-produk" class="content-section">
+                <div class="page-header">
+                    <div class="page-header-left">
+                        <h1>Manajemen Produk</h1>
+                        <p>Kelola katalog produk dari semua lini bisnis</p>
                     </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Nomor Telepon</label>
-                            <input type="text" value="+62 21 1234 5678" placeholder="Nomor telepon">
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" value="info@elyasyacorp.com" placeholder="Email">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>WhatsApp</label>
-                            <input type="text" value="+62 812 3456 7890" placeholder="WhatsApp">
-                        </div>
-                        <div class="form-group">
-                            <label>Jam Operasional</label>
-                            <input type="text" value="Senin - Jumat, 09:00 - 17:00" placeholder="Jam operasional">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Link Google Maps</label>
-                        <input type="url" placeholder="https://maps.google.com/...">
-                    </div>
-
-                    <h3 style="margin-top: 2rem;">Social Media</h3>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Facebook</label>
-                            <input type="url" placeholder="https://facebook.com/...">
-                        </div>
-                        <div class="form-group">
-                            <label>Instagram</label>
-                            <input type="url" placeholder="https://instagram.com/...">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Twitter</label>
-                            <input type="url" placeholder="https://twitter.com/...">
-                        </div>
-                        <div class="form-group">
-                            <label>LinkedIn</label>
-                            <input type="url" placeholder="https://linkedin.com/...">
-                        </div>
-                    </div>
-
-                    <div class="form-actions">
-                        <button type="button" class="btn-secondary">Reset</button>
-                        <button type="submit" class="btn-primary">Simpan Perubahan</button>
-                    </div>
-                </form>
-            </div>
-        </section>
-
-        <!-- Pesan Masuk Section -->
-        <section id="section-pesan" class="content-section">
-            <div class="page-header">
-                <h1>Pesan Masuk</h1>
-                <p>Kelola pesan dari pengunjung website</p>
-            </div>
-
-            <div class="content-card">
-                <div class="filter-bar">
-                    <select class="filter-select">
-                        <option>Semua Lini Bisnis</option>
-                        <option>Design Interior</option>
-                        <option>Management</option>
-                        <option>Hijab</option>
-                        <option>Kedai Sembako</option>
-                        <option>Travel Agent</option>
-                    </select>
-                    <select class="filter-select">
-                        <option>Semua Status</option>
-                        <option>Belum Dibaca</option>
-                        <option>Sudah Dibaca</option>
-                    </select>
+                    <button class="btn-primary" onclick="showAddProductModal()">+ Tambah Produk</button>
                 </div>
 
-                <div class="messages-list">
-                    <div class="message-item unread">
-                        <div class="message-header">
-                            <div class="message-sender">
-                                <strong>Budi Santoso</strong>
-                                <span class="badge badge-blue">Design Interior</span>
-                            </div>
-                            <span class="message-time">2 jam yang lalu</span>
+                <div class="content-card">
+                    <div class="table-controls">
+                        <div class="table-search">
+                            <input type="text" id="productSearch" placeholder="Cari produk..." onkeyup="filterProductTable()">
                         </div>
-                        <div class="message-content">
-                            <p><strong>Email:</strong> budi@email.com | <strong>Telp:</strong> +62 812 3456 7890</p>
-                            <p>Saya tertarik dengan layanan design interior untuk renovasi rumah. Bisa minta informasi lebih lanjut mengenai harga dan proses konsultasi?</p>
+                        <div class="table-filters">
+                            <select id="productCategoryFilter" onchange="filterProductTable()">
+                                <option value="">Semua Kategori</option>
+                                <option value="hijab">Hijab</option>
+                                <option value="sembako">Sembako</option>
+                                <option value="travel">Travel</option>
+                                <option value="design">Design Interior</option>
+                                <option value="management">Management</option>
+                            </select>
+                            <select id="productStatusFilter" onchange="filterProductTable()">
+                                <option value="">Semua Status</option>
+                                <option value="active">Aktif</option>
+                                <option value="draft">Draft</option>
+                                <option value="archived">Arsip</option>
+                            </select>
                         </div>
-                        <div class="message-actions">
-                            <button class="btn-small btn-primary">Balas via WhatsApp</button>
-                            <button class="btn-small btn-secondary">Tandai Dibaca</button>
-                            <button class="btn-small">Hapus</button>
-                        </div>
-                    </div>
-
-                    <div class="message-item">
-                        <div class="message-header">
-                            <div class="message-sender">
-                                <strong>Siti Aminah</strong>
-                                <span class="badge badge-purple">Hijab</span>
-                            </div>
-                            <span class="message-time">5 jam yang lalu</span>
-                        </div>
-                        <div class="message-content">
-                            <p><strong>Email:</strong> siti@email.com | <strong>Telp:</strong> +62 813 9876 5432</p>
-                            <p>Apakah ada katalog hijab terbaru? Saya ingin melihat koleksi untuk acara pernikahan.</p>
-                        </div>
-                        <div class="message-actions">
-                            <button class="btn-small btn-primary">Balas via WhatsApp</button>
-                            <button class="btn-small">Hapus</button>
+                        <div class="table-pagination-control">
+                            <label>Tampilkan:</label>
+                            <select id="productPageSize" onchange="changeProductPageSize()">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                            </select>
                         </div>
                     </div>
 
-                    <div class="message-item">
-                        <div class="message-header">
-                            <div class="message-sender">
-                                <strong>Ahmad Rizki</strong>
-                                <span class="badge badge-orange">Travel Agent</span>
-                            </div>
-                            <span class="message-time">1 hari yang lalu</span>
-                        </div>
-                        <div class="message-content">
-                            <p><strong>Email:</strong> ahmad@email.com | <strong>Telp:</strong> +62 815 1234 5678</p>
-                            <p>Mohon info paket umroh untuk bulan depan. Berapa harga untuk 2 orang?</p>
-                        </div>
-                        <div class="message-actions">
-                            <button class="btn-small btn-primary">Balas via WhatsApp</button>
-                            <button class="btn-small">Hapus</button>
+                    <div class="table-responsive">
+                        <table class="data-table" id="productTable">
+                            <thead>
+                                <tr>
+                                    <th onclick="sortProductTable('id')">ID ↕</th>
+                                    <th onclick="sortProductTable('name')">Nama Produk ↕</th>
+                                    <th onclick="sortProductTable('category')">Kategori ↕</th>
+                                    <th onclick="sortProductTable('price')">Harga ↕</th>
+                                    <th onclick="sortProductTable('stock')">Stok ↕</th>
+                                    <th onclick="sortProductTable('status')">Status ↕</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productTableBody">
+                                <!-- Populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-footer">
+                        <span class="table-info" id="productTableInfo">Menampilkan 1-10 dari 50 data</span>
+                        <div class="pagination" id="productPagination">
+                            <!-- Populated by JavaScript -->
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Gambar Section -->
-        <section id="section-gambar" class="content-section">
-            <div class="page-header">
-                <h1>Kelola Gambar</h1>
-                <p>Upload dan ubah gambar untuk header, footer, dan hero slider</p>
-            </div>
-
-            <!-- Header Image -->
-            <div class="content-card">
-                <div class="card-header">
-                    <h3>🖼️ Gambar Header (Logo)</h3>
+            <!-- Hero Slider Section -->
+            <section id="section-hero" class="content-section">
+                <div class="page-header">
+                    <h1>Kelola Hero Slider</h1>
+                    <p>Atur tampilan slider utama di halaman beranda</p>
                 </div>
-                <div class="image-upload-container">
-                    <div class="image-preview-box" id="headerPreviewBox">
-                        <img id="headerPreview" src="https://ui-avatars.com/api/?name=EC&background=1e3c72&color=fff&size=150" alt="Header Preview">
-                        <div class="image-overlay">
-                            <span>Header Logo</span>
-                        </div>
+
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Slide Hero Banner</h3>
+                        <button class="btn-primary" onclick="openSlideModal()">+ Tambah Slide</button>
                     </div>
-                    <div class="image-upload-form">
-                        <div class="form-group">
-                            <label>Upload Logo Header</label>
-                            <input type="file" id="headerImage" accept="image/*" onchange="previewUploadedImage(this, 'headerPreview')">
-                            <small>Format: PNG, JPG, SVG. Ukuran maksimal: 2MB. Rekomendasi: 200x80px</small>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Judul</th>
+                                    <th>Deskripsi</th>
+                                    <th>Lini Bisnis</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="slidesTableBody">
+                                <!-- Slides will be dynamically rendered -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Hero Slide Modal -->
+            <div id="slideModal" class="modal" style="display:none;">
+                <div class="modal-content" style="max-width:700px;">
+                    <div class="modal-header">
+                        <h2 id="slideModalTitle">Tambah Slide Baru</h2>
+                        <span class="close" onclick="closeSlideModal()">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <form id="slideForm" onsubmit="saveSlide(event)">
+                            <input type="hidden" id="slideId" value="">
+                            
+                            <div class="form-group">
+                                <label>Judul Slide *</label>
+                                <input type="text" id="slideTitle" class="form-control" placeholder="Contoh: Design Interior" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Deskripsi *</label>
+                                <textarea id="slideDescription" class="form-control" rows="3" placeholder="Deskripsi singkat untuk slide" required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Teks Tombol *</label>
+                                <input type="text" id="slideButtonText" class="form-control" placeholder="Contoh: Lihat Portfolio" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Link Tombol *</label>
+                                <input type="text" id="slideButtonLink" class="form-control" placeholder="Contoh: #design-interior atau https://..." required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Lini Bisnis</label>
+                                <select id="slideBusinessLine" class="form-control">
+                                    <option value="Design Interior">Design Interior</option>
+                                    <option value="Management">Management</option>
+                                    <option value="Hijab">Hijab</option>
+                                    <option value="Sembako">Sembako</option>
+                                    <option value="Travel">Travel</option>
+                                    <option value="Umum">Umum</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Warna Background (Gradient)</label>
+                                <input type="text" id="slideBgColor" class="form-control" placeholder="linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)">
+                                <small style="color:#666;">Atau pilih preset di bawah</small>
+                                <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
+                                    <button type="button" class="btn-preset" onclick="setBgPreset('linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)')" style="padding:8px 12px;background:linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);border:none;border-radius:4px;cursor:pointer;color:white;font-size:11px;">Biru</button>
+                                    <button type="button" class="btn-preset" onclick="setBgPreset('linear-gradient(135deg, #134e5e 0%, #71b280 100%)')" style="padding:8px 12px;background:linear-gradient(135deg, #134e5e 0%, #71b280 100%);border:none;border-radius:4px;cursor:pointer;color:white;font-size:11px;">Hijau</button>
+                                    <button type="button" class="btn-preset" onclick="setBgPreset('linear-gradient(135deg, #c94b4b 0%, #4b134f 100%)')" style="padding:8px 12px;background:linear-gradient(135deg, #c94b4b 0%, #4b134f 100%);border:none;border-radius:4px;cursor:pointer;color:white;font-size:11px;">Merah</button>
+                                    <button type="button" class="btn-preset" onclick="setBgPreset('linear-gradient(135deg, #56ab2f 0%, #a8e063 100%)')" style="padding:8px 12px;background:linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);border:none;border-radius:4px;cursor:pointer;color:white;font-size:11px;">Hijau Muda</button>
+                                    <button type="button" class="btn-preset" onclick="setBgPreset('linear-gradient(135deg, #f46b45 0%, #eea849 100%)')" style="padding:8px 12px;background:linear-gradient(135deg, #f46b45 0%, #eea849 100%);border:none;border-radius:4px;cursor:pointer;color:white;font-size:11px;">Orange</button>
+                                    <button type="button" class="btn-preset" onclick="setBgPreset('linear-gradient(135deg, #667eea 0%, #764ba2 100%)')" style="padding:8px 12px;background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);border:none;border-radius:4px;cursor:pointer;color:white;font-size:11px;">Ungu</button>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Gambar Background (URL)</label>
+                                <input type="url" id="slideBgImage" class="form-control" placeholder="https://example.com/image.jpg">
+                                <small style="color:#666;">Jika diisi, akan menimpa warna background</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Atau Upload Gambar</label>
+                                <input type="file" id="slideBgImageFile" class="form-control" accept="image/*" onchange="previewSlideImage(this)">
+                                <img id="slideImagePreview" style="display:none;max-width:200px;margin-top:10px;border-radius:8px;">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select id="slideStatus" class="form-control">
+                                    <option value="active">Aktif</option>
+                                    <option value="inactive">Nonaktif</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Urutan</label>
+                                <input type="number" id="slideOrder" class="form-control" value="0" min="0">
+                                <small style="color:#666;">Slide dengan urutan lebih kecil akan muncul lebih dulu</small>
+                            </div>
+                            
+                            <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;">
+                                <button type="button" class="btn-secondary" onclick="closeSlideModal()">Batal</button>
+                                <button type="submit" class="btn-primary">Simpan Slide</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lini Bisnis Section -->
+            <section id="section-bisnis" class="content-section">
+                <div class="page-header">
+                    <h1>Kelola Lini Bisnis</h1>
+                    <p>Edit informasi dan konten untuk setiap lini bisnis</p>
+                </div>
+
+                <div class="business-tabs">
+                    <button class="tab-btn active" onclick="showBusinessTab('design')">Design Interior</button>
+                    <button class="tab-btn" onclick="showBusinessTab('management')">Management</button>
+                    <button class="tab-btn" onclick="showBusinessTab('hijab')">Hijab</button>
+                    <button class="tab-btn" onclick="showBusinessTab('sembako')">Kedai Sembako</button>
+                    <button class="tab-btn" onclick="showBusinessTab('travel')">Travel Agent</button>
+                </div>
+
+                <div class="content-card">
+                    <form class="business-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Nama Lini Bisnis</label>
+                                <input type="text" id="businessName" value="Design Interior" placeholder="Nama lini bisnis">
+                            </div>
+                            <div class="form-group">
+                                <label>Icon Emoji</label>
+                                <input type="text" id="businessIcon" value="🏠" placeholder="Icon emoji">
+                            </div>
                         </div>
+
                         <div class="form-group">
-                            <label>Atau Masukkan URL Gambar</label>
-                            <input type="url" id="headerImageUrl" placeholder="https://example.com/logo.png" onchange="previewFromUrl(this.value, 'headerPreview')">
+                            <label>Deskripsi Singkat</label>
+                            <textarea id="businessDesc" rows="3" placeholder="Deskripsi singkat lini bisnis">Layanan desain interior profesional untuk rumah, kantor, dan komersial. Dari konsep hingga eksekusi.</textarea>
                         </div>
+
+                        <div class="form-group">
+                            <label>Fitur Unggulan (pisahkan dengan enter)</label>
+                            <textarea id="businessFeatures" rows="4" placeholder="Satu fitur per baris">Konsultasi Gratis
+Portfolio 100+ Proyek
+Garansi Kepuasan</textarea>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Nomor WhatsApp</label>
+                                <input type="text" id="businessWhatsapp" value="+62 812 3456 7890" placeholder="+62 xxx">
+                            </div>
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select id="businessStatus">
+                                    <option value="aktif">Aktif</option>
+                                    <option value="nonaktif">Non-Aktif</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="form-actions">
-                            <button type="button" class="btn-primary" onclick="saveImage('header')">💾 Simpan Gambar Header</button>
-                            <button type="button" class="btn-secondary" onclick="resetImage('header')">🔄 Reset</button>
+                            <button type="button" class="btn-secondary" onclick="resetBusinessForm()">🔄 Reset</button>
+                            <button type="button" class="btn-primary" onclick="saveBusinessData()">💾 Simpan Perubahan</button>
                         </div>
-                    </div>
+                    </form>
                 </div>
-            </div>
+            </section>
 
-            <!-- Hero Slider Images -->
-            <div class="content-card">
-                <div class="card-header">
-                    <h3>🎨 Gambar Hero Slider</h3>
-                    <p style="margin: 0; font-size: 0.9rem; color: #666;">Kelola gambar background untuk setiap slide hero</p>
+            <!-- Gambar Halaman Section -->
+            <section id="section-gambar" class="content-section">
+                <div class="page-header">
+                    <div class="page-header-left">
+                        <h1>Kelola Gambar Halaman</h1>
+                        <p>Upload dan kelola gambar untuk semua halaman website</p>
+                    </div>
+                    <button class="btn-primary" onclick="showAddImageModal()">+ Tambah Gambar</button>
                 </div>
-                
-                <div class="hero-images-grid">
-                    <!-- Slide 1 -->
-                    <div class="hero-image-item">
-                        <div class="hero-image-preview" id="hero1PreviewBox">
-                            <img id="hero1Preview" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=400&h=250&fit=crop" alt="Hero 1">
-                            <div class="hero-image-label">Slide 1 - Design Interior</div>
-                        </div>
-                        <div class="form-group">
-                            <input type="file" id="hero1Image" accept="image/*" onchange="previewUploadedImage(this, 'hero1Preview')">
-                        </div>
-                        <div class="form-group">
-                            <input type="url" id="hero1ImageUrl" placeholder="URL gambar..." onchange="previewFromUrl(this.value, 'hero1Preview')">
-                        </div>
-                        <button type="button" class="btn-small btn-primary" onclick="saveImage('hero1')">Simpan</button>
-                    </div>
 
-                    <!-- Slide 2 -->
-                    <div class="hero-image-item">
-                        <div class="hero-image-preview" id="hero2PreviewBox">
-                            <img id="hero2Preview" src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&h=250&fit=crop" alt="Hero 2">
-                            <div class="hero-image-label">Slide 2 - Management</div>
-                        </div>
-                        <div class="form-group">
-                            <input type="file" id="hero2Image" accept="image/*" onchange="previewUploadedImage(this, 'hero2Preview')">
-                        </div>
-                        <div class="form-group">
-                            <input type="url" id="hero2ImageUrl" placeholder="URL gambar..." onchange="previewFromUrl(this.value, 'hero2Preview')">
-                        </div>
-                        <button type="button" class="btn-small btn-primary" onclick="saveImage('hero2')">Simpan</button>
-                    </div>
-
-                    <!-- Slide 3 -->
-                    <div class="hero-image-item">
-                        <div class="hero-image-preview" id="hero3PreviewBox">
-                            <img id="hero3Preview" src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=250&fit=crop" alt="Hero 3">
-                            <div class="hero-image-label">Slide 3 - Hijab</div>
-                        </div>
-                        <div class="form-group">
-                            <input type="file" id="hero3Image" accept="image/*" onchange="previewUploadedImage(this, 'hero3Preview')">
-                        </div>
-                        <div class="form-group">
-                            <input type="url" id="hero3ImageUrl" placeholder="URL gambar..." onchange="previewFromUrl(this.value, 'hero3Preview')">
-                        </div>
-                        <button type="button" class="btn-small btn-primary" onclick="saveImage('hero3')">Simpan</button>
-                    </div>
-
-                    <!-- Slide 4 -->
-                    <div class="hero-image-item">
-                        <div class="hero-image-preview" id="hero4PreviewBox">
-                            <img id="hero4Preview" src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&h=250&fit=crop" alt="Hero 4">
-                            <div class="hero-image-label">Slide 4 - Sembako</div>
-                        </div>
-                        <div class="form-group">
-                            <input type="file" id="hero4Image" accept="image/*" onchange="previewUploadedImage(this, 'hero4Preview')">
-                        </div>
-                        <div class="form-group">
-                            <input type="url" id="hero4ImageUrl" placeholder="URL gambar..." onchange="previewFromUrl(this.value, 'hero4Preview')">
-                        </div>
-                        <button type="button" class="btn-small btn-primary" onclick="saveImage('hero4')">Simpan</button>
-                    </div>
-
-                    <!-- Slide 5 -->
-                    <div class="hero-image-item">
-                        <div class="hero-image-preview" id="hero5PreviewBox">
-                            <img id="hero5Preview" src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=250&fit=crop" alt="Hero 5">
-                            <div class="hero-image-label">Slide 5 - Travel</div>
-                        </div>
-                        <div class="form-group">
-                            <input type="file" id="hero5Image" accept="image/*" onchange="previewUploadedImage(this, 'hero5Preview')">
-                        </div>
-                        <div class="form-group">
-                            <input type="url" id="hero5ImageUrl" placeholder="URL gambar..." onchange="previewFromUrl(this.value, 'hero5Preview')">
-                        </div>
-                        <button type="button" class="btn-small btn-primary" onclick="saveImage('hero5')">Simpan</button>
-                    </div>
+                <!-- Page Tabs -->
+                <div class="page-tabs">
+                    <button class="page-tab-btn active" onclick="showPageTab('index')">
+                        <span>🏠</span> Beranda
+                    </button>
+                    <button class="page-tab-btn" onclick="showPageTab('hijab')">
+                        <span>🧕</span> Hijab
+                    </button>
+                    <button class="page-tab-btn" onclick="showPageTab('sembako')">
+                        <span>🛒</span> Kedai Sembako
+                    </button>
+                    <button class="page-tab-btn" onclick="showPageTab('travel')">
+                        <span>✈️</span> Travel Agent
+                    </button>
+                    <button class="page-tab-btn" onclick="showPageTab('design')">
+                        <span>🎨</span> Design Interior
+                    </button>
+                    <button class="page-tab-btn" onclick="showPageTab('management')">
+                        <span>💼</span> Management
+                    </button>
                 </div>
-            </div>
 
-            <!-- Footer Image -->
-            <div class="content-card">
-                <div class="card-header">
-                    <h3>📎 Gambar Footer</h3>
-                </div>
-                <div class="image-upload-container">
-                    <div class="image-preview-box" id="footerPreviewBox">
-                        <img id="footerPreview" src="https://ui-avatars.com/api/?name=EC&background=1e3c72&color=fff&size=150" alt="Footer Preview">
-                        <div class="image-overlay">
-                            <span>Footer Logo</span>
-                        </div>
-                    </div>
-                    <div class="image-upload-form">
-                        <div class="form-group">
-                            <label>Upload Logo Footer</label>
-                            <input type="file" id="footerImage" accept="image/*" onchange="previewUploadedImage(this, 'footerPreview')">
-                            <small>Format: PNG, JPG, SVG. Ukuran maksimal: 2MB. Rekomendasi: 200x80px</small>
-                        </div>
-                        <div class="form-group">
-                            <label>Atau Masukkan URL Gambar</label>
-                            <input type="url" id="footerImageUrl" placeholder="https://example.com/logo-footer.png" onchange="previewFromUrl(this.value, 'footerPreview')">
-                        </div>
-                        <div class="form-group">
-                            <label>Gambar Background Footer (Opsional)</label>
-                            <input type="file" id="footerBgImage" accept="image/*" onchange="previewUploadedImage(this, 'footerBgPreview')">
-                            <small>Format: PNG, JPG. Ukuran maksimal: 5MB. Rekomendasi: 1920x400px</small>
-                        </div>
-                        <div class="image-preview-box wide" id="footerBgPreviewBox">
-                            <img id="footerBgPreview" src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600&h=150&fit=crop" alt="Footer Background Preview">
-                            <div class="image-overlay">
-                                <span>Footer Background</span>
+                <!-- Index Page Images -->
+                <div class="page-tab-content active" id="page-tab-index">
+                    <div class="content-card">
+                        <div class="card-header">
+                            <div>
+                                <h3>🏠 Gambar Halaman Beranda</h3>
+                                <p>Kelola gambar hero slider dan section beranda</p>
                             </div>
                         </div>
-                        <div class="form-actions">
-                            <button type="button" class="btn-primary" onclick="saveImage('footer')">💾 Simpan Gambar Footer</button>
-                            <button type="button" class="btn-secondary" onclick="resetImage('footer')">🔄 Reset</button>
+
+                        <h4 class="page-section-title">Hero Slider Images</h4>
+                        <div class="hero-images-grid">
+                            <div class="hero-image-item">
+                                <div class="hero-image-preview">
+                                    <img src="https://images.unsplash.com/photo-1618245318763-a15156d6b23c?w=800" alt="Hero 1">
+                                    <div class="hero-image-label">Slide 1 - Design Interior</div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="file" accept="image/*" onchange="previewImage(this, 'hero1')">
+                                </div>
+                                <div class="form-group">
+                                    <input type="url" placeholder="Atau masukkan URL gambar..." value="https://images.unsplash.com/photo-1618245318763-a15156d6b23c?w=800">
+                                </div>
+                                <button class="btn-small btn-primary" onclick="saveHeroImage(1)">💾 Simpan</button>
+                            </div>
+
+                            <div class="hero-image-item">
+                                <div class="hero-image-preview">
+                                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800" alt="Hero 2">
+                                    <div class="hero-image-label">Slide 2 - Management</div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="file" accept="image/*" onchange="previewImage(this, 'hero2')">
+                                </div>
+                                <div class="form-group">
+                                    <input type="url" placeholder="Atau masukkan URL gambar..." value="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800">
+                                </div>
+                                <button class="btn-small btn-primary" onclick="saveHeroImage(2)">💾 Simpan</button>
+                            </div>
+
+                            <div class="hero-image-item">
+                                <div class="hero-image-preview">
+                                    <img src="https://images.unsplash.com/photo-1611042553484-d61f90d30c73?w=800" alt="Hero 3">
+                                    <div class="hero-image-label">Slide 3 - Hijab</div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="file" accept="image/*" onchange="previewImage(this, 'hero3')">
+                                </div>
+                                <div class="form-group">
+                                    <input type="url" placeholder="Atau masukkan URL gambar..." value="https://images.unsplash.com/photo-1611042553484-d61f90d30c73?w=800">
+                                </div>
+                                <button class="btn-small btn-primary" onclick="saveHeroImage(3)">💾 Simpan</button>
+                            </div>
+                        </div>
+
+                        <h4 class="page-section-title">Section Images</h4>
+                        <div class="page-image-grid">
+                            <div class="page-image-card">
+                                <h4>📸 About Section</h4>
+                                <img class="image-preview" src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=400" alt="About">
+                                <div class="form-group">
+                                    <label>Upload Gambar Baru</label>
+                                    <input type="file" accept="image/*">
+                                </div>
+                                <div class="form-group">
+                                    <label>Atau URL Gambar</label>
+                                    <input type="url" placeholder="https://...">
+                                </div>
+                                <button class="btn-small btn-primary" onclick="saveSectionImage('about')">💾 Simpan</button>
+                            </div>
+
+                            <div class="page-image-card">
+                                <h4>📸 Contact Section</h4>
+                                <img class="image-preview" src="https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=400" alt="Contact">
+                                <div class="form-group">
+                                    <label>Upload Gambar Baru</label>
+                                    <input type="file" accept="image/*">
+                                </div>
+                                <div class="form-group">
+                                    <label>Atau URL Gambar</label>
+                                    <input type="url" placeholder="https://...">
+                                </div>
+                                <button class="btn-small btn-primary" onclick="saveSectionImage('contact')">💾 Simpan</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Bulk Actions -->
-            <div class="content-card">
-                <div class="card-header">
-                    <h3>⚡ Aksi Cepat</h3>
+                <!-- Hijab Page Images -->
+                <div class="page-tab-content" id="page-tab-hijab">
+                    <div class="content-card">
+                        <div class="card-header">
+                            <div>
+                                <h3>🧕 Gambar Halaman Hijab</h3>
+                                <p>Kelola gambar produk dan banner hijab</p>
+                            </div>
+                        </div>
+
+                        <h4 class="page-section-title">Banner Image</h4>
+                        <div class="page-image-grid">
+                            <div class="page-image-card">
+                                <h4>🖼️ Banner Utama</h4>
+                                <img class="image-preview" src="https://images.unsplash.com/photo-1611042553484-d61f90d30c73?w=400" alt="Hijab Banner">
+                                <div class="form-group">
+                                    <label>Upload Gambar Baru</label>
+                                    <input type="file" accept="image/*">
+                                </div>
+                                <div class="form-group">
+                                    <label>Atau URL Gambar</label>
+                                    <input type="url" placeholder="https://...">
+                                </div>
+                                <button class="btn-small btn-primary" onclick="savePageImage('hijab', 'banner')">💾 Simpan</button>
+                            </div>
+                        </div>
+
+                        <h4 class="page-section-title">Product Images</h4>
+                        <div class="page-gallery-grid">
+                            <div class="page-gallery-item">
+                                <img src="https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=300" alt="Product 1">
+                                <input type="text" value="Hijab Premium Silk" readonly>
+                                <input type="file" accept="image/*">
+                                <button class="btn-small" onclick="saveGalleryImage('hijab', 1)">Update</button>
+                            </div>
+                            <div class="page-gallery-item">
+                                <img src="https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=300" alt="Product 2">
+                                <input type="text" value="Hijab Voal Premium" readonly>
+                                <input type="file" accept="image/*">
+                                <button class="btn-small" onclick="saveGalleryImage('hijab', 2)">Update</button>
+                            </div>
+                            <div class="page-gallery-item">
+                                <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=300" alt="Product 3">
+                                <input type="text" value="Hijab Pashmina" readonly>
+                                <input type="file" accept="image/*">
+                                <button class="btn-small" onclick="saveGalleryImage('hijab', 3)">Update</button>
+                            </div>
+                            <div class="page-gallery-item">
+                                <img src="https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=300" alt="Product 4">
+                                <input type="text" value="Hijab Bergo" readonly>
+                                <input type="file" accept="image/*">
+                                <button class="btn-small" onclick="saveGalleryImage('hijab', 4)">Update</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="quick-actions-grid">
-                    <button type="button" class="action-btn-large" onclick="saveAllImages()">
-                        <span class="icon">💾</span>
-                        <span>Simpan Semua Gambar</span>
-                    </button>
-                    <button type="button" class="action-btn-large" onclick="resetAllImages()">
-                        <span class="icon">🔄</span>
-                        <span>Reset Semua ke Default</span>
-                    </button>
-                    <button type="button" class="action-btn-large" onclick="previewWebsite()">
-                        <span class="icon">👁️</span>
-                        <span>Preview Website</span>
-                    </button>
+
+                <!-- Sembako Page Images -->
+                <div class="page-tab-content" id="page-tab-sembako">
+                    <div class="content-card">
+                        <div class="card-header">
+                            <div>
+                                <h3>🛒 Gambar Halaman Kedai Sembako</h3>
+                                <p>Kelola gambar produk sembako</p>
+                            </div>
+                        </div>
+
+                        <h4 class="page-section-title">Banner Image</h4>
+                        <div class="page-image-grid">
+                            <div class="page-image-card">
+                                <h4>🖼️ Banner Utama</h4>
+                                <img class="image-preview" src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=400" alt="Sembako Banner">
+                                <div class="form-group">
+                                    <label>Upload Gambar Baru</label>
+                                    <input type="file" accept="image/*">
+                                </div>
+                                <div class="form-group">
+                                    <label>Atau URL Gambar</label>
+                                    <input type="url" placeholder="https://...">
+                                </div>
+                                <button class="btn-small btn-primary" onclick="savePageImage('sembako', 'banner')">💾 Simpan</button>
+                            </div>
+                        </div>
+
+                        <h4 class="page-section-title">Product Images</h4>
+                        <div class="page-gallery-grid">
+                            <div class="page-gallery-item">
+                                <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300" alt="Product 1">
+                                <input type="text" value="Beras Premium" readonly>
+                                <input type="file" accept="image/*">
+                                <button class="btn-small" onclick="saveGalleryImage('sembako', 1)">Update</button>
+                            </div>
+                            <div class="page-gallery-item">
+                                <img src="https://images.unsplash.com/photo-1599909533730-33c5a7fd5f9d?w=300" alt="Product 2">
+                                <input type="text" value="Minyak Goreng" readonly>
+                                <input type="file" accept="image/*">
+                                <button class="btn-small" onclick="saveGalleryImage('sembako', 2)">Update</button>
+                            </div>
+                            <div class="page-gallery-item">
+                                <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300" alt="Product 3">
+                                <input type="text" value="Gula Pasir" readonly>
+                                <input type="file" accept="image/*">
+                                <button class="btn-small" onclick="saveGalleryImage('sembako', 3)">Update</button>
+                            </div>
+                            <div class="page-gallery-item">
+                                <img src="https://images.unsplash.com/photo-1563636619-e9143da7973b?w=300" alt="Product 4">
+                                <input type="text" value="Susu" readonly>
+                                <input type="file" accept="image/*">
+                                <button class="btn-small" onclick="saveGalleryImage('sembako', 4)">Update</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- Pengaturan Section -->
-        <section id="section-pengaturan" class="content-section">
-            <div class="page-header">
-                <h1>Pengaturan</h1>
-                <p>Konfigurasi umum website</p>
-            </div>
-
-            <div class="content-card">
-                <h3>Informasi Website</h3>
-                <form class="settings-form">
-                    <div class="form-group">
-                        <label>Nama Website</label>
-                        <input type="text" value="Elyasya Corp - Company Profile">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Tagline</label>
-                        <input type="text" value="Holding Company dengan 5 Lini Bisnis Terpercaya">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Meta Description</label>
-                        <textarea rows="3">Elyasya Corp - Holding Company dengan 5 Lini Bisnis: Design Interior, Management, Hijab, Kedai Sembako, dan Travel Agent</textarea>
-                    </div>
-
-                    <h3 style="margin-top: 2rem;">Warna Brand</h3>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Warna Utama</label>
-                            <input type="color" value="#1e3c72">
+                <!-- Travel Page Images -->
+                <div class="page-tab-content" id="page-tab-travel">
+                    <div class="content-card">
+                        <div class="card-header">
+                            <div>
+                                <h3>✈️ Gambar Halaman Travel Agent</h3>
+                                <p>Kelola gambar paket travel dan destinasi</p>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Warna Sekunder</label>
-                            <input type="color" value="#2a5298">
+
+                        <h4 class="page-section-title">Banner Image</h4>
+                        <div class="page-image-grid">
+                            <div class="page-image-card">
+                                <h4>🖼️ Banner Utama</h4>
+                                <img class="image-preview" src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=400" alt="Travel Banner">
+                                <div class="form-group">
+                                    <label>Upload Gambar Baru</label>
+                                    <input type="file" accept="image/*">
+                                </div>
+                                <div class="form-group">
+                                    <label>Atau URL Gambar</label>
+                                    <input type="url" placeholder="https://...">
+                                </div>
+                                <button class="btn-small btn-primary" onclick="savePageImage('travel', 'banner')">💾 Simpan</button>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Warna Aksen</label>
-                            <input type="color" value="#d4af37">
+
+                        <h4 class="page-section-title">Destination Images</h4>
+                        <div class="page-gallery-grid">
+                            <div class="page-gallery-item">
+                                <img src="https://images.unsplash.com/photo-1542816417-0983c9c9ad53?w=300" alt="Mekah">
+                                <input type="text" value="Paket Umroh" readonly>
+                                <input type="file" accept="image/*">
+                                <button class="btn-small" onclick="saveGalleryImage('travel', 1)">Update</button>
+                            </div>
+                            <div class="page-gallery-item">
+                                <img src="https://images.unsplash.com/photo-1528164344705-47542687000d?w=300" alt="Jepang">
+                                <input type="text" value="Tour Jepang" readonly>
+                                <input type="file" accept="image/*">
+                                <button class="btn-small" onclick="saveGalleryImage('travel', 2)">Update</button>
+                            </div>
+                            <div class="page-gallery-item">
+                                <img src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=300" alt="Eropa">
+                                <input type="text" value="Tour Eropa" readonly>
+                                <input type="file" accept="image/*">
+                                <button class="btn-small" onclick="saveGalleryImage('travel', 3)">Update</button>
+                            </div>
+                            <div class="page-gallery-item">
+                                <img src="https://images.unsplash.com/photo-1508061253366-f7da158b6d46?w=300" alt="Bali">
+                                <input type="text" value="Tour Bali" readonly>
+                                <input type="file" accept="image/*">
+                                <button class="btn-small" onclick="saveGalleryImage('travel', 4)">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Design Interior Page Images -->
+                <div class="page-tab-content" id="page-tab-design">
+                    <div class="content-card">
+                        <div class="card-header">
+                            <div>
+                                <h3>🎨 Gambar Halaman Design Interior</h3>
+                                <p>Kelola gambar portfolio dan layanan design</p>
+                            </div>
+                        </div>
+
+                        <h4 class="page-section-title">Banner Image</h4>
+                        <div class="page-image-grid">
+                            <div class="page-image-card">
+                                <h4>🖼️ Banner Utama</h4>
+                                <img class="image-preview" src="https://images.unsplash.com/photo-1618245318763-a15156d6b23c?w=400" alt="Design Banner">
+                                <div class="form-group">
+                                    <label>Upload Gambar Baru</label>
+                                    <input type="file" accept="image/*">
+                                </div>
+                                <div class="form-group">
+                                    <label>Atau URL Gambar</label>
+                                    <input type="url" placeholder="https://...">
+                                </div>
+                                <button class="btn-small btn-primary" onclick="savePageImage('design', 'banner')">💾 Simpan</button>
+                            </div>
+                        </div>
+
+                        <h4 class="page-section-title">Portfolio Images</h4>
+                        <div class="page-gallery-grid">
+                            <div class="page-gallery-item">
+                                <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=300" alt="Portfolio 1">
+                                <input type="text" value="Modern Living Room" readonly>
+                                <input type="file" accept="image/*">
+                                <button class="btn-small" onclick="saveGalleryImage('design', 1)">Update</button>
+                            </div>
+                            <div class="page-gallery-item">
+                                <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=300" alt="Portfolio 2">
+                                <input type="text" value="Minimalist Bedroom" readonly>
+                                <input type="file" accept="image/*">
+                                <button class="btn-small" onclick="saveGalleryImage('design', 2)">Update</button>
+                            </div>
+                            <div class="page-gallery-item">
+                                <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=300" alt="Portfolio 3">
+                                <input type="text" value="Office Design" readonly>
+                                <input type="file" accept="image/*">
+                                <button class="btn-small" onclick="saveGalleryImage('design', 3)">Update</button>
+                            </div>
+                            <div class="page-gallery-item">
+                                <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=300" alt="Portfolio 4">
+                                <input type="text" value="Kitchen Design" readonly>
+                                <input type="file" accept="image/*">
+                                <button class="btn-small" onclick="saveGalleryImage('design', 4)">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Management Page Images -->
+                <div class="page-tab-content" id="page-tab-management">
+                    <div class="content-card">
+                        <div class="card-header">
+                            <div>
+                                <h3>💼 Gambar Halaman Management</h3>
+                                <p>Kelola gambar layanan consulting dan management</p>
+                            </div>
+                        </div>
+
+                        <h4 class="page-section-title">Banner Image</h4>
+                        <div class="page-image-grid">
+                            <div class="page-image-card">
+                                <h4>🖼️ Banner Utama</h4>
+                                <img class="image-preview" src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400" alt="Management Banner">
+                                <div class="form-group">
+                                    <label>Upload Gambar Baru</label>
+                                    <input type="file" accept="image/*">
+                                </div>
+                                <div class="form-group">
+                                    <label>Atau URL Gambar</label>
+                                    <input type="url" placeholder="https://...">
+                                </div>
+                                <button class="btn-small btn-primary" onclick="savePageImage('management', 'banner')">💾 Simpan</button>
+                            </div>
+                        </div>
+
+                        <h4 class="page-section-title">Service Images</h4>
+                        <div class="page-gallery-grid">
+                            <div class="page-gallery-item">
+                                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=300" alt="Service 1">
+                                <input type="text" value="Business Consulting" readonly>
+                                <input type="file" accept="image/*">
+                                <button class="btn-small" onclick="saveGalleryImage('management', 1)">Update</button>
+                            </div>
+                            <div class="page-gallery-item">
+                                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=300" alt="Service 2">
+                                <input type="text" value="Financial Planning" readonly>
+                                <input type="file" accept="image/*">
+                                <button class="btn-small" onclick="saveGalleryImage('management', 2)">Update</button>
+                            </div>
+                            <div class="page-gallery-item">
+                                <img src="https://images.unsplash.com/photo-1507672699982-1d69a25e7374?w=300" alt="Service 3">
+                                <input type="text" value="Team Meeting" readonly>
+                                <input type="file" accept="image/*">
+                                <button class="btn-small" onclick="saveGalleryImage('management', 3)">Update</button>
+                            </div>
+                            <div class="page-gallery-item">
+                                <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=300" alt="Service 4">
+                                <input type="text" value="Strategy Planning" readonly>
+                                <input type="file" accept="image/*">
+                                <button class="btn-small" onclick="saveGalleryImage('management', 4)">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="page-action-buttons">
+                    <button class="btn btn-primary" onclick="saveAllPageImages()">💾 Simpan Semua Perubahan</button>
+                    <button class="btn btn-secondary" onclick="resetPageImages()">🔄 Reset ke Default</button>
+                </div>
+            </section>
+
+            <!-- Media & Berita Section -->
+            <section id="section-berita" class="content-section">
+                <div class="page-header">
+                    <h1>Kelola Media & Berita</h1>
+                    <p>Tambah, edit, atau hapus artikel dan berita perusahaan</p>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Daftar Artikel</h3>
+                        <button class="btn-primary" onclick="addArticle()">+ Tambah Artikel</button>
+                    </div>
+
+                    <div class="article-grid">
+                        <div class="article-card">
+                            <div class="article-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                            <div class="article-content">
+                                <span class="article-date">10 Juni 2026</span>
+                                <h4>Ekspansi Bisnis Design Interior ke 5 Kota Besar</h4>
+                                <p>Elyasya Corp membuka cabang baru untuk layanan design interior...</p>
+                                <div class="article-actions">
+                                    <button class="btn-icon" onclick="editArticle(1)">✏️ Edit</button>
+                                    <button class="btn-icon" onclick="viewArticle(1)">👁️ Detail</button>
+                                    <button class="btn-icon" onclick="deleteArticle(1)">🗑️ Hapus</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="article-card">
+                            <div class="article-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+                            <div class="article-content">
+                                <span class="article-date">5 Juni 2026</span>
+                                <h4>Koleksi Hijab Ramadan 2026 Telah Hadir</h4>
+                                <p>Dapatkan koleksi hijab eksklusif untuk menyambut bulan suci...</p>
+                                <div class="article-actions">
+                                    <button class="btn-icon" onclick="editArticle(2)">✏️ Edit</button>
+                                    <button class="btn-icon" onclick="viewArticle(2)">👁️ Detail</button>
+                                    <button class="btn-icon" onclick="deleteArticle(2)">🗑️ Hapus</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="article-card">
+                            <div class="article-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+                            <div class="article-content">
+                                <span class="article-date">1 Juni 2026</span>
+                                <h4>Paket Umroh Spesial dengan Harga Terjangkau</h4>
+                                <p>Travel Agent Elyasya Corp meluncurkan paket umroh...</p>
+                                <div class="article-actions">
+                                    <button class="btn-icon" onclick="editArticle(3)">✏️ Edit</button>
+                                    <button class="btn-icon" onclick="viewArticle(3)">👁️ Detail</button>
+                                    <button class="btn-icon" onclick="deleteArticle(3)">🗑️ Hapus</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Laporan Section -->
+            <section id="section-laporan" class="content-section">
+                <div class="page-header">
+                    <div class="page-header-left">
+                        <h1>Laporan</h1>
+                        <p>Unduh dan lihat laporan bisnis</p>
+                    </div>
+                </div>
+
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <div class="report-icon">📊</div>
+                        <h3>Laporan Penjualan</h3>
+                        <p>Ringkasan penjualan per lini bisnis</p>
+                        <div class="report-actions">
+                            <select class="report-period">
+                                <option>Bulan Ini</option>
+                                <option>3 Bulan Terakhir</option>
+                                <option>6 Bulan Terakhir</option>
+                                <option>Tahun Ini</option>
+                            </select>
+                            <button class="btn-primary" onclick="downloadReport('sales')">📥 Unduh PDF</button>
                         </div>
                     </div>
 
-                    <h3 style="margin-top: 2rem;">Keamanan</h3>
-                    <div class="form-group">
-                        <label>Username Admin</label>
-                        <input type="text" value="admin">
+                    <div class="report-card">
+                        <div class="report-icon">👥</div>
+                        <h3>Laporan Pengguna</h3>
+                        <p>Statistik pertumbuhan pengguna</p>
+                        <div class="report-actions">
+                            <select class="report-period">
+                                <option>Bulan Ini</option>
+                                <option>3 Bulan Terakhir</option>
+                                <option>6 Bulan Terakhir</option>
+                                <option>Tahun Ini</option>
+                            </select>
+                            <button class="btn-primary" onclick="downloadReport('users')">📥 Unduh PDF</button>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>Password Baru</label>
-                        <input type="password" placeholder="Kosongkan jika tidak ingin mengubah">
+                    <div class="report-card">
+                        <div class="report-icon">💰</div>
+                        <h3>Laporan Keuangan</h3>
+                        <p>Pendapatan, pengeluaran, dan profit</p>
+                        <div class="report-actions">
+                            <select class="report-period">
+                                <option>Bulan Ini</option>
+                                <option>3 Bulan Terakhir</option>
+                                <option>6 Bulan Terakhir</option>
+                                <option>Tahun Ini</option>
+                            </select>
+                            <button class="btn-primary" onclick="downloadReport('finance')">📥 Unduh PDF</button>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>Konfirmasi Password</label>
-                        <input type="password" placeholder="Konfirmasi password baru">
+                    <div class="report-card">
+                        <div class="report-icon">📦</div>
+                        <h3>Laporan Inventaris</h3>
+                        <p>Status stok produk dan pergerakan</p>
+                        <div class="report-actions">
+                            <select class="report-period">
+                                <option>Saat Ini</option>
+                                <option>Minggu Ini</option>
+                                <option>Bulan Ini</option>
+                            </select>
+                            <button class="btn-primary" onclick="downloadReport('inventory')">📥 Unduh PDF</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Keamanan Section (Audit Trail) -->
+            <section id="section-keamanan" class="content-section">
+                <div class="page-header">
+                    <div class="page-header-left">
+                        <h1>Keamanan & Audit Trail</h1>
+                        <p>Pantau aktivitas dan log keamanan sistem</p>
+                    </div>
+                    <button class="btn-secondary" onclick="exportAuditLog()">📥 Export Log</button>
+                </div>
+
+                <!-- Security Stats -->
+                <div class="security-stats">
+                    <div class="security-stat">
+                        <span class="stat-number">156</span>
+                        <span class="stat-label">Login Berhasil (7 hari)</span>
+                    </div>
+                    <div class="security-stat warning">
+                        <span class="stat-number">12</span>
+                        <span class="stat-label">Login Gagal (7 hari)</span>
+                    </div>
+                    <div class="security-stat danger">
+                        <span class="stat-number">3</span>
+                        <span class="stat-label">Akses Ditolak</span>
+                    </div>
+                    <div class="security-stat success">
+                        <span class="stat-number">99.9%</span>
+                        <span class="stat-label">Uptime Sistem</span>
+                    </div>
+                </div>
+
+                <!-- Audit Log Table -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>📋 Activity Logs</h3>
+                        <div class="log-filters">
+                            <select id="logActionFilter" onchange="filterAuditLog()">
+                                <option value="">Semua Aksi</option>
+                                <option value="login">Login</option>
+                                <option value="create">Create</option>
+                                <option value="update">Update</option>
+                                <option value="delete">Delete</option>
+                                <option value="export">Export</option>
+                            </select>
+                            <select id="logUserFilter" onchange="filterAuditLog()">
+                                <option value="">Semua User</option>
+                                <option value="admin">Admin</option>
+                                <option value="operations">Operations</option>
+                                <option value="viewer">Viewer</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div class="form-actions">
-                        <button type="button" class="btn-secondary">Reset</button>
-                        <button type="submit" class="btn-primary">Simpan Pengaturan</button>
+                    <div class="table-responsive">
+                        <table class="data-table audit-table">
+                            <thead>
+                                <tr>
+                                    <th>Waktu</th>
+                                    <th>User</th>
+                                    <th>Role</th>
+                                    <th>Aksi</th>
+                                    <th>Detail</th>
+                                    <th>IP Address</th>
+                                </tr>
+                            </thead>
+                            <tbody id="auditLogBody">
+                                <tr>
+                                    <td>2026-06-17 01:45:23</td>
+                                    <td><strong>Admin</strong></td>
+                                    <td><span class="badge badge-danger">Super Admin</span></td>
+                                    <td><span class="action-badge action-update">UPDATE</span></td>
+                                    <td>Memperbarui produk "Hijab Premium Silk"</td>
+                                    <td>192.168.1.100</td>
+                                </tr>
+                                <tr>
+                                    <td>2026-06-17 01:30:15</td>
+                                    <td><strong>Admin</strong></td>
+                                    <td><span class="badge badge-danger">Super Admin</span></td>
+                                    <td><span class="action-badge action-create">CREATE</span></td>
+                                    <td>Menambahkan pengguna baru "Siti Aminah"</td>
+                                    <td>192.168.1.100</td>
+                                </tr>
+                                <tr>
+                                    <td>2026-06-17 00:15:42</td>
+                                    <td><strong>System</strong></td>
+                                    <td><span class="badge badge-secondary">System</span></td>
+                                    <td><span class="action-badge action-login">LOGIN</span></td>
+                                    <td>Login berhasil - Admin</td>
+                                    <td>192.168.1.100</td>
+                                </tr>
+                                <tr>
+                                    <td>2026-06-16 23:45:10</td>
+                                    <td><strong>Unknown</strong></td>
+                                    <td><span class="badge badge-secondary">-</span></td>
+                                    <td><span class="action-badge action-failed">FAILED</span></td>
+                                    <td>Percobaan login gagal (password salah) - admin@elyasyacorp.com</td>
+                                    <td>10.0.0.55</td>
+                                </tr>
+                                <tr>
+                                    <td>2026-06-16 22:30:00</td>
+                                    <td><strong>Operations</strong></td>
+                                    <td><span class="badge badge-blue">Operations</span></td>
+                                    <td><span class="action-badge action-delete">DELETE</span></td>
+                                    <td>Menghapus artikel "Promo Lama"</td>
+                                    <td>192.168.1.105</td>
+                                </tr>
+                                <tr>
+                                    <td>2026-06-16 20:15:33</td>
+                                    <td><strong>Viewer</strong></td>
+                                    <td><span class="badge badge-green">Viewer</span></td>
+                                    <td><span class="action-badge action-export">EXPORT</span></td>
+                                    <td>Mengunduh laporan penjualan bulan Juni</td>
+                                    <td>192.168.1.110</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                </form>
-            </div>
-        </section>
+
+                    <div class="table-footer">
+                        <span class="table-info">Menampilkan 1-10 dari 500 log</span>
+                        <div class="pagination">
+                            <button class="page-btn" disabled>←</button>
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn">2</button>
+                            <button class="page-btn">3</button>
+                            <button class="page-btn">...</button>
+                            <button class="page-btn">50</button>
+                            <button class="page-btn">→</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pesan Masuk Section -->
+            <section id="section-pesan" class="content-section">
+                <div class="page-header">
+                    <h1>Pesan Masuk</h1>
+                    <p>Kelola pesan dari pengunjung website</p>
+                </div>
+
+                <div class="content-card">
+                    <div class="filter-bar">
+                        <select class="filter-select">
+                            <option>Semua Lini Bisnis</option>
+                            <option>Design Interior</option>
+                            <option>Management</option>
+                            <option>Hijab</option>
+                            <option>Kedai Sembako</option>
+                            <option>Travel Agent</option>
+                        </select>
+                        <select class="filter-select">
+                            <option>Semua Status</option>
+                            <option>Belum Dibaca</option>
+                            <option>Sudah Dibaca</option>
+                        </select>
+                    </div>
+
+                    <div class="messages-list">
+                        <div class="message-item unread">
+                            <div class="message-header">
+                                <div class="message-sender">
+                                    <strong>Budi Santoso</strong>
+                                    <span class="badge badge-blue">Design Interior</span>
+                                </div>
+                                <span class="message-time">2 jam yang lalu</span>
+                            </div>
+                            <div class="message-content">
+                                <p><strong>Email:</strong> budi@email.com | <strong>Telp:</strong> +62 812 3456 7890</p>
+                                <p>Saya tertarik dengan layanan design interior untuk renovasi rumah. Bisa minta informasi lebih lanjut mengenai harga dan proses konsultasi?</p>
+                            </div>
+                            <div class="message-actions">
+                                <button class="btn-small btn-primary">Balas via WhatsApp</button>
+                                <button class="btn-small btn-secondary">Tandai Dibaca</button>
+                                <button class="btn-small">Hapus</button>
+                            </div>
+                        </div>
+
+                        <div class="message-item">
+                            <div class="message-header">
+                                <div class="message-sender">
+                                    <strong>Siti Aminah</strong>
+                                    <span class="badge badge-purple">Hijab</span>
+                                </div>
+                                <span class="message-time">5 jam yang lalu</span>
+                            </div>
+                            <div class="message-content">
+                                <p><strong>Email:</strong> siti@email.com | <strong>Telp:</strong> +62 813 9876 5432</p>
+                                <p>Apakah ada katalog hijab terbaru? Saya ingin melihat koleksi untuk acara pernikahan.</p>
+                            </div>
+                            <div class="message-actions">
+                                <button class="btn-small btn-primary">Balas via WhatsApp</button>
+                                <button class="btn-small">Hapus</button>
+                            </div>
+                        </div>
+
+                        <div class="message-item">
+                            <div class="message-header">
+                                <div class="message-sender">
+                                    <strong>Ahmad Rizki</strong>
+                                    <span class="badge badge-orange">Travel Agent</span>
+                                </div>
+                                <span class="message-time">1 hari yang lalu</span>
+                            </div>
+                            <div class="message-content">
+                                <p><strong>Email:</strong> ahmad@email.com | <strong>Telp:</strong> +62 815 1234 5678</p>
+                                <p>Mohon info paket umroh untuk bulan depan. Berapa harga untuk 2 orang?</p>
+                            </div>
+                            <div class="message-actions">
+                                <button class="btn-small btn-primary">Balas via WhatsApp</button>
+                                <button class="btn-small">Hapus</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pengaturan Section -->
+            <section id="section-pengaturan" class="content-section">
+                <div class="page-header">
+                    <h1>Pengaturan</h1>
+                    <p>Konfigurasi sistem dan preferensi akun</p>
+                </div>
+
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <h3>👤 Profil Akun</h3>
+                        <form class="settings-form">
+                            <div class="form-group">
+                                <label>Nama Lengkap</label>
+                                <input type="text" value="Administrator" id="settingsName">
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" value="admin@elyasyacorp.com" id="settingsEmail">
+                            </div>
+                            <div class="form-group">
+                                <label>Nomor Telepon</label>
+                                <input type="text" value="+62 812 3456 7890" id="settingsPhone">
+                            </div>
+                            <button type="button" class="btn-primary" onclick="saveProfile()">💾 Simpan Profil</button>
+                        </form>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>🔒 Keamanan Akun</h3>
+                        <form class="settings-form">
+                            <div class="form-group">
+                                <label>Password Lama</label>
+                                <input type="password" placeholder="Masukkan password lama">
+                            </div>
+                            <div class="form-group">
+                                <label>Password Baru</label>
+                                <input type="password" placeholder="Masukkan password baru">
+                            </div>
+                            <div class="form-group">
+                                <label>Konfirmasi Password Baru</label>
+                                <input type="password" placeholder="Konfirmasi password baru">
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" checked>
+                                    <span>Aktifkan Two-Factor Authentication (2FA)</span>
+                                </label>
+                            </div>
+                            <button type="button" class="btn-primary" onclick="changePassword()">🔐 Ubah Password</button>
+                        </form>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>⚙️ Pengaturan Sistem</h3>
+                        <form class="settings-form">
+                            <div class="form-group">
+                                <label>Session Timeout (menit)</label>
+                                <input type="number" value="30" min="5" max="120">
+                            </div>
+                            <div class="form-group">
+                                <label>Bahasa</label>
+                                <select>
+                                    <option>Bahasa Indonesia</option>
+                                    <option>English</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Zona Waktu</label>
+                                <select>
+                                    <option>Asia/Jakarta (WIB)</option>
+                                    <option>Asia/Makassar (WITA)</option>
+                                    <option>Asia/Jayapura (WIT)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" checked>
+                                    <span>Aktifkan notifikasi email</span>
+                                </label>
+                            </div>
+                            <button type="button" class="btn-primary" onclick="saveSystemSettings()">💾 Simpan Pengaturan</button>
+                        </form>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>🎨 Tampilan</h3>
+                        <form class="settings-form">
+                            <div class="form-group">
+                                <label>Tema</label>
+                                <select id="themeSelect" onchange="setTheme(this.value)">
+                                    <option value="light">Light Mode</option>
+                                    <option value="dark">Dark Mode</option>
+                                    <option value="auto">Auto (System)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Ukuran Font</label>
+                                <select>
+                                    <option>Kecil</option>
+                                    <option selected>Normal</option>
+                                    <option>Besar</option>
+                                </select>
+                            </div>
+                            <button type="button" class="btn-primary" onclick="showToast('Pengaturan tampilan disimpan!', 'success')">💾 Simpan</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
     </div>
+
+    <!-- Modal Container -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 id="modalTitle">Modal Title</h3>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Dynamic content -->
+            </div>
+            <div class="modal-footer" id="modalFooter">
+                <button class="btn-secondary" onclick="closeModal()">Batal</button>
+                <button class="btn-primary" id="modalConfirmBtn">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
 
     <script src="admin-script.js"></script>
 </body>

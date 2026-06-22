@@ -3,169 +3,1015 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Elyasya Corp - Hijab Collection: Koleksi hijab premium untuk gaya muslimah modern">
-    <title>Hijab Collection - Elyasya Corp</title>
+    <meta name="description" content="Elyasya Fashion Hijab - Toko hijab paling lengkap, terjangkau, dan bisa grosir. Hadir sejak 2016 melayani retail maupun grosir.">
+    <title>Elyasya Fashion Hijab - Toko Hijab Lengkap & Terjangkau</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .business-hero {
-            background: linear-gradient(135deg, #c94b4b 0%, #4b134f 100%);
-            color: white;
-            padding: 100px 0 60px;
-            text-align: center;
+        :root {
+            --hijab-primary: #8B4557;
+            --hijab-secondary: #D4A5A5;
+            --hijab-accent: #F5E6E8;
+            --hijab-gold: #C9A96E;
+            --hijab-dark: #2D2D2D;
+            --hijab-light: #FFF9F9;
         }
-        .business-hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+
+        body {
+            font-family: 'Poppins', sans-serif;
         }
-        .business-hero p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-        .business-content {
-            padding: 60px 0;
-        }
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        .product-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
-        .product-image {
-            height: 280px;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+
+        /* Hero Section */
+        .hijab-hero {
+            position: relative;
+            height: 90vh;
+            min-height: 600px;
+            background: linear-gradient(135deg, rgba(139, 69, 87, 0.85), rgba(45, 45, 45, 0.7)),
+                        url('hijab.jpeg') center/cover no-repeat;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-        }
-        .product-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .product-image .placeholder-icon {
-            font-size: 4rem;
+            text-align: center;
             color: white;
-            opacity: 0.8;
+            overflow: hidden;
         }
-        .product-badge {
+
+        .hijab-hero::before {
+            content: '';
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #d4af37;
-            color: #1e3c72;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 0 C60 30 70 30 100 50 C70 70 60 70 50 100 C40 70 30 70 0 50 C30 30 40 30 50 0' fill='rgba(255,255,255,0.03)'/%3E%3C/svg%3E") repeat;
+            background-size: 100px;
+            animation: patternMove 20s linear infinite;
         }
-        .product-info {
-            padding: 1.5rem;
+
+        @keyframes patternMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100px); }
         }
-        .product-info h3 {
-            color: #4b134f;
-            margin-bottom: 0.5rem;
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 2rem;
         }
-        .product-info .price {
-            color: #c94b4b;
-            font-size: 1.25rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
+
+        .hero-logo {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            border-radius: 50%;
+            border: 3px solid var(--hijab-gold);
+            margin-bottom: 1.5rem;
+            animation: fadeInDown 1s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
-        .product-info p {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-        .btn-order {
+
+        .hero-badge {
             display: inline-block;
-            background: linear-gradient(135deg, #c94b4b 0%, #4b134f 100%);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
+            background: rgba(201, 169, 110, 0.3);
+            border: 1px solid var(--hijab-gold);
+            color: var(--hijab-gold);
+            padding: 8px 24px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            animation: fadeInDown 1s ease;
+        }
+
+        .hero-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .hero-content h1 span {
+            color: var(--hijab-gold);
+            font-style: italic;
+        }
+
+        .hero-tagline {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            margin-bottom: 0.5rem;
+            animation: fadeInUp 1s ease 0.5s both;
+            font-weight: 500;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            opacity: 0.85;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.7s both;
+        }
+
+        .btn-hero-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--hijab-gold);
+            color: var(--hijab-dark);
+            padding: 16px 36px;
+            border-radius: 50px;
             text-decoration: none;
-            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(201, 169, 110, 0.4);
+        }
+
+        .btn-hero-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(201, 169, 110, 0.5);
+            background: white;
+        }
+
+        .btn-hero-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: transparent;
+            color: white;
+            padding: 16px 36px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 2px solid rgba(255,255,255,0.5);
             transition: all 0.3s ease;
         }
-        .btn-order:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(201, 75, 75, 0.3);
+
+        .btn-hero-secondary:hover {
+            background: white;
+            color: var(--hijab-primary);
+            border-color: white;
         }
-        .category-section {
-            background: #f8f9fa;
-            padding: 60px 0;
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .category-grid {
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* About Section */
+        .hijab-about {
+            padding: 100px 0;
+            background: var(--hijab-light);
+        }
+
+        .about-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(139, 69, 87, 0.2);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .about-image::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: -20px;
+            bottom: -20px;
+            border: 3px solid var(--hijab-gold);
+            border-radius: 20px;
+            z-index: -1;
+        }
+
+        .about-text h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--hijab-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .about-text h2 span {
+            color: var(--hijab-gold);
+        }
+
+        .about-subtitle {
+            color: var(--hijab-gold);
+            font-size: 1rem;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-text p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-categories {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-category-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--hijab-dark);
+            font-weight: 500;
+        }
+
+        .about-category-item .check {
+            color: var(--hijab-gold);
+            font-size: 1.2rem;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
             margin-top: 2rem;
         }
-        .category-card {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
+
+        .about-feature {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .about-feature .icon {
+            width: 40px;
+            height: 40px;
+            background: var(--hijab-accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .about-feature span {
+            font-weight: 500;
+            color: var(--hijab-dark);
+            font-size: 0.9rem;
+        }
+
+        /* Section Header */
+        .section-header {
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 60px;
+        }
+
+        .section-header .subtitle {
+            color: var(--hijab-gold);
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            color: var(--hijab-primary);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Categories Section - Hijab Variants */
+        .hijab-categories {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .category-card {
+            background: var(--hijab-light);
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            background: white;
+            border-color: var(--hijab-gold);
+            box-shadow: 0 15px 40px rgba(139, 69, 87, 0.15);
+        }
+
+        .category-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--hijab-primary), var(--hijab-secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .category-card:hover .category-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .category-card h3 {
+            color: var(--hijab-primary);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-card p {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* Advantages */
+        .advantages-list {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .advantage-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--hijab-accent);
+            padding: 12px 24px;
+            border-radius: 30px;
+        }
+
+        .advantage-item .icon {
+            color: var(--hijab-gold);
+        }
+
+        .advantage-item span {
+            color: var(--hijab-dark);
+            font-weight: 500;
+        }
+
+        /* Inner & Accessories Section */
+        .hijab-inner {
+            padding: 100px 0;
+            background: var(--hijab-light);
+        }
+
+        .inner-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .inner-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .inner-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--hijab-secondary);
+            box-shadow: 0 10px 30px rgba(139, 69, 87, 0.1);
+        }
+
+        .inner-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .inner-card h4 {
+            color: var(--hijab-primary);
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .feature-tags {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .feature-tag {
+            background: var(--hijab-primary);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* Women's Accessories Section */
+        .hijab-accessories {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .accessories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .accessory-card {
+            background: var(--hijab-light);
+            border-radius: 15px;
+            padding: 2rem 1rem;
+            text-align: center;
             transition: all 0.3s ease;
         }
-        .category-card:hover {
+
+        .accessory-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(139, 69, 87, 0.1);
         }
-        .category-card .icon {
+
+        .accessory-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .accessory-card h4 {
+            color: var(--hijab-primary);
+            font-size: 0.95rem;
+        }
+
+        /* Use Cases Section */
+        .hijab-usecases {
+            padding: 100px 0;
+            background: linear-gradient(180deg, var(--hijab-light) 0%, white 100%);
+        }
+
+        .usecase-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .usecase-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            text-align: center;
+        }
+
+        .usecase-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(139, 69, 87, 0.15);
+        }
+
+        .usecase-image {
+            height: 180px;
+            background: linear-gradient(135deg, var(--hijab-primary), var(--hijab-secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .usecase-content {
+            padding: 1.5rem;
+        }
+
+        .usecase-content h3 {
+            color: var(--hijab-primary);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .usecase-target {
+            color: var(--hijab-gold);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.3rem;
+        }
+
+        .usecase-vibe {
+            color: #888;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        /* Pricing Tiers Section */
+        .hijab-pricing {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            background: var(--hijab-light);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--hijab-gold);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured::before {
+            content: '⭐ Popular';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--hijab-gold);
+            color: white;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(139, 69, 87, 0.15);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+
+        .pricing-icon {
             font-size: 3rem;
             margin-bottom: 1rem;
         }
-        .category-card h3 {
-            color: #4b134f;
-            margin-bottom: 0.5rem;
-        }
-        .promo-section {
-            background: linear-gradient(135deg, #c94b4b 0%, #4b134f 100%);
-            color: white;
-            padding: 60px 0;
-            text-align: center;
-        }
-        .promo-section h2 {
-            font-size: 2rem;
+
+        .pricing-card h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--hijab-primary);
+            font-size: 1.5rem;
             margin-bottom: 1rem;
         }
-        .cta-section {
-            background: linear-gradient(135deg, #c94b4b 0%, #4b134f 100%);
-            color: white;
-            padding: 60px 0;
-            text-align: center;
-            margin-top: 60px;
+
+        .pricing-card p {
+            color: #666;
+            line-height: 1.7;
+            font-size: 0.95rem;
         }
-        .btn-cta {
-            display: inline-block;
-            background: #d4af37;
-            color: #4b134f;
-            padding: 15px 40px;
-            border-radius: 8px;
-            font-weight: bold;
-            text-decoration: none;
-            margin-top: 1rem;
+
+        .pricing-note {
+            text-align: center;
+            margin-top: 2rem;
+            color: #888;
+            font-style: italic;
+        }
+
+        /* Grosir Section */
+        .hijab-grosir {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--hijab-primary) 0%, #5a2d3a 100%);
+            color: white;
+        }
+
+        .hijab-grosir .section-header h2 {
+            color: white;
+        }
+
+        .hijab-grosir .section-header p {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .hijab-grosir .section-header .subtitle {
+            color: var(--hijab-gold);
+        }
+
+        .grosir-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .grosir-target h3,
+        .grosir-benefits h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--hijab-gold);
+        }
+
+        .grosir-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .grosir-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 1rem;
+        }
+
+        .grosir-list li .icon {
+            color: var(--hijab-gold);
+            font-size: 1.2rem;
+        }
+
+        /* Why Choose Us Section */
+        .hijab-why {
+            padding: 100px 0;
+            background: var(--hijab-light);
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .why-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
             transition: all 0.3s ease;
         }
-        .btn-cta:hover {
-            background: white;
+
+        .why-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(139, 69, 87, 0.1);
+        }
+
+        .why-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--hijab-primary), var(--hijab-secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.8rem;
+        }
+
+        .why-card h4 {
+            color: var(--hijab-primary);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        /* CTA Section */
+        .hijab-cta {
+            padding: 100px 0;
+            background: linear-gradient(135deg, rgba(139, 69, 87, 0.9), rgba(45, 45, 45, 0.8)),
+                        url('hijab.jpeg') center/cover no-repeat;
+            text-align: center;
+            color: white;
+        }
+
+        .hijab-cta h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-closing {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        .cta-badges {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .cta-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.15);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+        }
+
+        .cta-badge .icon {
+            color: var(--hijab-gold);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .btn-cta-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--hijab-gold);
+            color: white;
+            padding: 18px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(201, 169, 110, 0.4);
+        }
+
+        .btn-cta-primary:hover {
             transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(201, 169, 110, 0.6);
+            background: white;
+            color: var(--hijab-primary);
+        }
+
+        .btn-cta-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: transparent;
+            color: white;
+            padding: 18px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: 2px solid rgba(255,255,255,0.5);
+            transition: all 0.3s ease;
+        }
+
+        .btn-cta-secondary:hover {
+            background: white;
+            color: var(--hijab-primary);
+            border-color: white;
+        }
+
+        /* Contact Info in CTA */
+        .contact-info-section {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .contact-info-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--hijab-gold);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            text-align: left;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .contact-item .icon {
+            font-size: 1.5rem;
+            min-width: 30px;
+        }
+
+        .contact-item-content {
+            text-align: left;
+        }
+
+        .contact-item label {
+            display: block;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 3px;
+        }
+
+        .contact-item a,
+        .contact-item span {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .contact-item a:hover {
+            color: var(--hijab-gold);
+        }
+
+        .contact-address {
+            grid-column: span 2;
+            margin-top: 0.5rem;
+        }
+
+        .contact-address .address-text {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .category-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .usecase-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .why-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .inner-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .about-image {
+                order: -1;
+            }
+            
+            .about-image img {
+                height: auto;
+                max-height: 350px;
+            }
+            
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.featured {
+                transform: none;
+            }
+
+            .pricing-card.featured:hover {
+                transform: translateY(-10px);
+            }
+            
+            .grosir-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .usecase-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .why-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .inner-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-address {
+                grid-column: span 1;
+            }
+            
+            .section-header h2 {
+                font-size: 2rem;
+            }
+            
+            .hijab-cta h2 {
+                font-size: 2rem;
+            }
+
+            .about-categories {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .inner-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-badges {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .feature-tags {
+                flex-direction: column;
+                align-items: center;
+            }
         }
     </style>
 </head>
-<body>
+<body class="hijab-page">
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
@@ -198,154 +1044,434 @@
         </div>
     </nav>
 
-    <!-- Business Hero -->
-    <section class="business-hero">
-        <div class="container">
-            <h1>👗 Hijab Collection</h1>
-            <p>Koleksi Hijab Premium untuk Gaya Muslimah Modern</p>
+    <!-- Hero Section -->
+    <section class="hijab-hero">
+        <div class="hero-content">
+            <img src="hijab logo.jpeg" alt="Elyasya Fashion Hijab Logo" class="hero-logo">
+            <span class="hero-badge">✨ Hadir Sejak 2016</span>
+            <h1>Elyasya <span>Fashion</span> Hijab</h1>
+            <p class="hero-tagline">Toko hijab paling lengkap, terjangkau, dan bisa grosir.</p>
+            <p>Melayani retail maupun grosir untuk kebutuhan hijab, inner, dan aksesori wanita Anda</p>
+            <div class="hero-buttons">
+                <a href="https://wa.me/628952537425?text=Halo, saya ingin melihat katalog Elyasya Fashion Hijab" class="btn-hero-primary" target="_blank">
+                    🛍️ Belanja Sekarang
+                </a>
+                <a href="#categories" class="btn-hero-secondary">
+                    📋 Lihat Koleksi
+                </a>
+            </div>
         </div>
     </section>
 
-    <!-- Category Section -->
-    <section class="category-section">
+    <!-- About Section -->
+    <section class="hijab-about" id="about">
         <div class="container">
-            <h2 class="section-title">Kategori Produk</h2>
-            <p class="section-subtitle">Temukan hijab yang sesuai dengan gaya Anda</p>
+            <div class="about-grid">
+                <div class="about-image">
+                    <img src="hijab.jpeg" alt="Elyasya Fashion Hijab">
+                </div>
+                <div class="about-text">
+                    <h2>Tentang <span>Kami</span></h2>
+                    <p class="about-subtitle">Teman belanja hijab & aksesori sejak 2016</p>
+                    <p>Elyasya Fashion Hijab adalah toko hijab fashion yang telah hadir sejak 2016. Menyediakan koleksi hijab, inner, dan aksesori wanita pilihan dengan kualitas terbaik untuk melengkapi setiap penampilan, melayani pelanggan retail maupun grosir.</p>
+                    
+                    <h4 style="color: var(--hijab-primary); margin-bottom: 0.8rem;">Kategori Utama Kami:</h4>
+                    <div class="about-categories">
+                        <div class="about-category-item">
+                            <span class="check">✓</span>
+                            <span>Semua Jenis Hijab</span>
+                        </div>
+                        <div class="about-category-item">
+                            <span class="check">✓</span>
+                            <span>Inner Hijab</span>
+                        </div>
+                        <div class="about-category-item">
+                            <span class="check">✓</span>
+                            <span>Aksesori Pendukung Hijab</span>
+                        </div>
+                        <div class="about-category-item">
+                            <span class="check">✓</span>
+                            <span>Aksesori Wanita Lainnya</span>
+                        </div>
+                    </div>
+
+                    <div class="about-features">
+                        <div class="about-feature">
+                            <div class="icon">📦</div>
+                            <span>Pilihan produk sangat lengkap</span>
+                        </div>
+                        <div class="about-feature">
+                            <div class="icon">💎</div>
+                            <span>Premium hingga affordable</span>
+                        </div>
+                        <div class="about-feature">
+                            <div class="icon">🛒</div>
+                            <span>Satuan maupun grosir</span>
+                        </div>
+                        <div class="about-feature">
+                            <div class="icon">👥</div>
+                            <span>Pelajar hingga reseller</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hijab Categories Section -->
+    <section class="hijab-categories" id="categories">
+        <div class="container">
+            <div class="section-header">
+                <p class="subtitle">Koleksi Hijab</p>
+                <h2>Pilihan Hijab untuk Setiap Gaya</h2>
+                <p>Dari daily wear sampai momen spesial</p>
+            </div>
             
             <div class="category-grid">
                 <div class="category-card">
-                    <div class="icon">🧕</div>
+                    <div class="category-icon">🧣</div>
                     <h3>Pashmina</h3>
-                    <p>Hijab panjang yang versatile untuk berbagai gaya</p>
+                    <p>Fleksibel & mudah styling</p>
                 </div>
                 <div class="category-card">
-                    <div class="icon">👒</div>
+                    <div class="category-icon">🔲</div>
                     <h3>Segi Empat</h3>
-                    <p>Hijab klasik yang mudah dibentuk</p>
+                    <p>Rapi untuk aktivitas harian</p>
                 </div>
                 <div class="category-card">
-                    <div class="icon">🎀</div>
-                    <h3>Instant Hijab</h3>
-                    <p>Praktis dan siap pakai untuk aktivitas harian</p>
+                    <div class="category-icon">⚡</div>
+                    <h3>Hijab Instan</h3>
+                    <p>Praktis dipakai</p>
                 </div>
                 <div class="category-card">
-                    <div class="icon">✨</div>
-                    <h3>Premium Collection</h3>
-                    <p>Koleksi eksklusif untuk acara spesial</p>
+                    <div class="category-icon">🧕</div>
+                    <h3>Bergo</h3>
+                    <p>Nyaman & simpel</p>
                 </div>
                 <div class="category-card">
-                    <div class="icon">🌸</div>
-                    <h3>Sport Hijab</h3>
-                    <p>Nyaman untuk aktivitas olahraga</p>
+                    <div class="category-icon">👑</div>
+                    <h3>Khimar</h3>
+                    <p>Syar'i dan anggun</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">✨</div>
+                    <h3>Koleksi Premium</h3>
+                    <p>Material pilihan</p>
+                </div>
+            </div>
+
+            <div class="advantages-list">
+                <div class="advantage-item">
+                    <span class="icon">✓</span>
+                    <span>Pilihan lengkap sesuai kebutuhan</span>
+                </div>
+                <div class="advantage-item">
+                    <span class="icon">✓</span>
+                    <span>Material berkualitas, nyaman dipakai</span>
+                </div>
+                <div class="advantage-item">
+                    <span class="icon">✓</span>
+                    <span>Desain elegan & versatile</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Products Section -->
-    <section class="business-content">
+    <!-- Inner Hijab & Accessories Section -->
+    <section class="hijab-inner" id="inner">
         <div class="container">
-            <h2 class="section-title">Produk Unggulan</h2>
-            <p class="section-subtitle">Koleksi terbaik kami untuk Anda</p>
+            <div class="section-header">
+                <p class="subtitle">Pelengkap Hijab</p>
+                <h2>Inner Hijab & Aksesori Pendukung</h2>
+                <p>Bikin hijab makin rapi, nyaman, dan anti ribet</p>
+            </div>
             
-            <div class="product-grid">
-                <div class="product-card">
-                    <div class="product-image">
-                        <img id="product-img-1" src="" alt="Pashmina Premium" style="display:none;">
-                        <span class="placeholder-icon">🧕</span>
-                        <span class="product-badge">Best Seller</span>
-                    </div>
-                    <div class="product-info">
-                        <h3>Pashmina Premium Silk</h3>
-                        <div class="price">Rp 125.000</div>
-                        <p>Bahan silk premium yang lembut dan jatuh sempurna, cocok untuk acara formal maupun casual.</p>
-                        <a href="https://wa.me/6281234567890?text=Halo, saya tertarik dengan Pashmina Premium Silk" class="btn-order" target="_blank">Pesan Sekarang</a>
+            <div class="inner-grid">
+                <div class="inner-card">
+                    <div class="icon">🎽</div>
+                    <h4>Ciput/Inner Ninja</h4>
+                </div>
+                <div class="inner-card">
+                    <div class="icon">🎀</div>
+                    <h4>Inner Bandana</h4>
+                </div>
+                <div class="inner-card">
+                    <div class="icon">🧶</div>
+                    <h4>Inner Rajut</h4>
+                </div>
+                <div class="inner-card">
+                    <div class="icon">📌</div>
+                    <h4>Peniti</h4>
+                </div>
+                <div class="inner-card">
+                    <div class="icon">📍</div>
+                    <h4>Jarum Pentul</h4>
+                </div>
+                <div class="inner-card">
+                    <div class="icon">💇</div>
+                    <h4>Jepit Rambut</h4>
+                </div>
+                <div class="inner-card">
+                    <div class="icon">🔗</div>
+                    <h4>Jedai</h4>
+                </div>
+                <div class="inner-card">
+                    <div class="icon">🎗️</div>
+                    <h4>Scrunchie</h4>
+                </div>
+            </div>
+
+            <div class="feature-tags">
+                <span class="feature-tag">Nyaman</span>
+                <span class="feature-tag">Rapi</span>
+                <span class="feature-tag">Praktis</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Women's Accessories Section -->
+    <section class="hijab-accessories" id="accessories">
+        <div class="container">
+            <div class="section-header">
+                <p class="subtitle">One Stop Shopping</p>
+                <h2>Aksesori Wanita Lainnya</h2>
+                <p>Belanja makin lengkap dalam satu toko</p>
+            </div>
+            
+            <div class="accessories-grid">
+                <div class="accessory-card">
+                    <div class="icon">📿</div>
+                    <h4>Gelang</h4>
+                </div>
+                <div class="accessory-card">
+                    <div class="icon">🪮</div>
+                    <h4>Sisir</h4>
+                </div>
+                <div class="accessory-card">
+                    <div class="icon">🪞</div>
+                    <h4>Kaca Makeup</h4>
+                </div>
+                <div class="accessory-card">
+                    <div class="icon">🧽</div>
+                    <h4>Spons Makeup</h4>
+                </div>
+                <div class="accessory-card">
+                    <div class="icon">💎</div>
+                    <h4>Anting Telinga</h4>
+                </div>
+                <div class="accessory-card">
+                    <div class="icon">⌚</div>
+                    <h4>Jam Tangan Wanita</h4>
+                </div>
+                <div class="accessory-card">
+                    <div class="icon">👜</div>
+                    <h4>Aksesori Harian</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section class="hijab-usecases" id="usecases">
+        <div class="container">
+            <div class="section-header">
+                <p class="subtitle">Untuk Setiap Kebutuhanmu</p>
+                <h2>Dari Sekolah Sampai Acara Spesial</h2>
+                <p>Temukan gaya hijab yang sesuai dengan aktivitasmu</p>
+            </div>
+            
+            <div class="usecase-grid">
+                <div class="usecase-card">
+                    <div class="usecase-image">🎒</div>
+                    <div class="usecase-content">
+                        <p class="usecase-target">Pelajar</p>
+                        <h3>Gaya Sekolah</h3>
+                        <p class="usecase-vibe">Simple & Nyaman</p>
                     </div>
                 </div>
-                <div class="product-card">
-                    <div class="product-image" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
-                        <img id="product-img-2" src="" alt="Segi Empat Voal" style="display:none;">
-                        <span class="placeholder-icon">👒</span>
-                        <span class="product-badge">New</span>
-                    </div>
-                    <div class="product-info">
-                        <h3>Segi Empat Voal Ultrafine</h3>
-                        <div class="price">Rp 85.000</div>
-                        <p>Voal ultrafine yang adem dan mudah dibentuk, tersedia dalam berbagai warna pastel.</p>
-                        <a href="https://wa.me/6281234567890?text=Halo, saya tertarik dengan Segi Empat Voal Ultrafine" class="btn-order" target="_blank">Pesan Sekarang</a>
+                <div class="usecase-card">
+                    <div class="usecase-image">📚</div>
+                    <div class="usecase-content">
+                        <p class="usecase-target">Mahasiswa</p>
+                        <h3>Look Kuliah</h3>
+                        <p class="usecase-vibe">Simple & Elegan</p>
                     </div>
                 </div>
-                <div class="product-card">
-                    <div class="product-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                        <img id="product-img-3" src="" alt="Instant Hijab" style="display:none;">
-                        <span class="placeholder-icon">🎀</span>
-                    </div>
-                    <div class="product-info">
-                        <h3>Instant Hijab Daily</h3>
-                        <div class="price">Rp 65.000</div>
-                        <p>Hijab instant praktis untuk penggunaan sehari-hari, bahan jersey yang nyaman.</p>
-                        <a href="https://wa.me/6281234567890?text=Halo, saya tertarik dengan Instant Hijab Daily" class="btn-order" target="_blank">Pesan Sekarang</a>
+                <div class="usecase-card">
+                    <div class="usecase-image">💼</div>
+                    <div class="usecase-content">
+                        <p class="usecase-target">Pekerja</p>
+                        <h3>Office Wear</h3>
+                        <p class="usecase-vibe">Elegan</p>
                     </div>
                 </div>
-                <div class="product-card">
-                    <div class="product-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-                        <img id="product-img-4" src="" alt="Hijab Syar'i" style="display:none;">
-                        <span class="placeholder-icon">✨</span>
-                        <span class="product-badge">Premium</span>
-                    </div>
-                    <div class="product-info">
-                        <h3>Hijab Syar'i Exclusive</h3>
-                        <div class="price">Rp 175.000</div>
-                        <p>Koleksi syar'i eksklusif dengan bahan premium dan bordir halus untuk tampilan anggun.</p>
-                        <a href="https://wa.me/6281234567890?text=Halo, saya tertarik dengan Hijab Syar'i Exclusive" class="btn-order" target="_blank">Pesan Sekarang</a>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-image" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
-                        <img id="product-img-5" src="" alt="Sport Hijab" style="display:none;">
-                        <span class="placeholder-icon">🌸</span>
-                    </div>
-                    <div class="product-info">
-                        <h3>Sport Hijab Active</h3>
-                        <div class="price">Rp 95.000</div>
-                        <p>Hijab khusus olahraga dengan bahan dry-fit yang menyerap keringat dan tetap nyaman.</p>
-                        <a href="https://wa.me/6281234567890?text=Halo, saya tertarik dengan Sport Hijab Active" class="btn-order" target="_blank">Pesan Sekarang</a>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
-                        <img id="product-img-6" src="" alt="Hijab Set" style="display:none;">
-                        <span class="placeholder-icon">🎁</span>
-                        <span class="product-badge">Bundle</span>
-                    </div>
-                    <div class="product-info">
-                        <h3>Hijab Set Bundle (3 pcs)</h3>
-                        <div class="price">Rp 225.000</div>
-                        <p>Paket hemat 3 hijab dengan warna senada, cocok untuk mix & match outfit harian.</p>
-                        <a href="https://wa.me/6281234567890?text=Halo, saya tertarik dengan Hijab Set Bundle" class="btn-order" target="_blank">Pesan Sekarang</a>
+                <div class="usecase-card">
+                    <div class="usecase-image">🎉</div>
+                    <div class="usecase-content">
+                        <p class="usecase-target">Ibu muda / Komunitas</p>
+                        <h3>Momen Spesial</h3>
+                        <p class="usecase-vibe">Premium Look</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Promo Section -->
-    <section class="promo-section">
+    <!-- Pricing Tiers Section -->
+    <section class="hijab-pricing" id="pricing">
         <div class="container">
-            <h2>🎉 Promo Spesial Bulan Ini!</h2>
-            <p>Diskon hingga 30% untuk koleksi Ramadan dan Lebaran</p>
-            <p style="margin-top: 1rem; font-size: 1.1rem;">Gunakan kode: <strong>ELYASYA30</strong> saat pemesanan via WhatsApp</p>
+            <div class="section-header">
+                <p class="subtitle">Harga Fleksibel</p>
+                <h2>Untuk Semua Kalangan</h2>
+                <p>Ada pilihan premium sampai affordable</p>
+            </div>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card featured">
+                    <div class="pricing-icon">💎</div>
+                    <h3>Premium Look</h3>
+                    <p>Kualitas terbaik dengan bahan pilihan dan detail mewah untuk tampilan elegan maksimal.</p>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-icon">🌟</div>
+                    <h3>Daily Essential</h3>
+                    <p>Nyaman dipakai sehari-hari dengan bahan berkualitas dan desain timeless.</p>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-icon">🎒</div>
+                    <h3>School Friendly</h3>
+                    <p>Praktis, nyaman, dan terjangkau untuk aktivitas sekolah setiap hari.</p>
+                </div>
+            </div>
+            <p class="pricing-note">* Harga menyesuaikan jenis, bahan, dan detail produk.</p>
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="cta-section">
+    <!-- Grosir Section -->
+    <section class="hijab-grosir" id="grosir">
         <div class="container">
-            <h2>Tertarik dengan Koleksi Kami?</h2>
-            <p>Hubungi kami untuk melihat katalog lengkap atau kunjungi toko kami</p>
-            <a href="https://wa.me/6281234567890?text=Halo, saya ingin melihat katalog lengkap Hijab Elyasya Corp" class="btn-cta" target="_blank">
-                💬 Lihat Katalog via WhatsApp
-            </a>
+            <div class="section-header">
+                <p class="subtitle">Belanja Grosir</p>
+                <h2>Bisa Belanja Grosir</h2>
+                <p>Solusi untuk belanja banyak dengan lebih praktis</p>
+            </div>
+            
+            <div class="grosir-content">
+                <div class="grosir-target">
+                    <h3>Cocok Untuk:</h3>
+                    <ul class="grosir-list">
+                        <li><span class="icon">🏪</span> Reseller</li>
+                        <li><span class="icon">🏬</span> Toko Kecil</li>
+                        <li><span class="icon">👥</span> Komunitas / Seragam</li>
+                        <li><span class="icon">🎁</span> Hadiah & Event</li>
+                    </ul>
+                </div>
+                <div class="grosir-benefits">
+                    <h3>Keuntungan Grosir:</h3>
+                    <ul class="grosir-list">
+                        <li><span class="icon">✓</span> Pilihan produk beragam</li>
+                        <li><span class="icon">✓</span> Cocok untuk restock</li>
+                        <li><span class="icon">✓</span> Praktis belanja banyak</li>
+                        <li><span class="icon">✓</span> Bisa sesuaikan kebutuhan</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="hijab-why" id="why">
+        <div class="container">
+            <div class="section-header">
+                <p class="subtitle">Keunggulan Kami</p>
+                <h2>Kenapa Pilih Elyasya?</h2>
+                <p>Lengkap, terjangkau, dan terpercaya</p>
+            </div>
+            
+            <div class="why-grid">
+                <div class="why-card">
+                    <div class="why-icon">📦</div>
+                    <h4>Pilihan sangat lengkap</h4>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">💎</div>
+                    <h4>Ada produk premium & affordable</h4>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">🎀</div>
+                    <h4>Aksesori hijab & wanita lengkap</h4>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">🛒</div>
+                    <h4>Bisa ecer dan grosir</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section with Contact Info -->
+    <section class="hijab-cta" id="contact">
+        <div class="container">
+            <h2>Yuk Temukan Koleksi Favoritmu!</h2>
+            <p class="cta-closing">Elyasya Fashion Hijab siap menjadi teman belanja hijab & aksesori wanita yang lengkap, nyaman, dan terpercaya. Tersedia pilihan ecer maupun grosir untuk kebutuhan harian, kerja, sekolah, komunitas, hingga seragaman.</p>
+            
+            <div class="cta-badges">
+                <div class="cta-badge">
+                    <span class="icon">✓</span>
+                    <span>Produk pilihan berkualitas</span>
+                </div>
+                <div class="cta-badge">
+                    <span class="icon">✓</span>
+                    <span>Harga terbaik bisa grosir</span>
+                </div>
+                <div class="cta-badge">
+                    <span class="icon">✓</span>
+                    <span>Pelayanan ramah & terpercaya</span>
+                </div>
+            </div>
+
+            <div class="cta-buttons">
+                <a href="https://wa.me/628952537425?text=Halo, saya ingin melihat katalog Elyasya Fashion Hijab" class="btn-cta-primary" target="_blank">
+                    💬 Hubungi via WhatsApp
+                </a>
+                <a href="https://instagram.com/elyasya_fashionhijab" class="btn-cta-secondary" target="_blank">
+                    📷 Follow Instagram
+                </a>
+            </div>
+
+            <div class="contact-info-section">
+                <h3>Informasi Kontak</h3>
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <span class="icon">📷</span>
+                        <div class="contact-item-content">
+                            <label>Instagram</label>
+                            <a href="https://instagram.com/elyasya_fashionhijab" target="_blank">@elyasya_fashionhijab</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <span class="icon">💬</span>
+                        <div class="contact-item-content">
+                            <label>WhatsApp Admin</label>
+                            <a href="https://wa.me/628952537425" target="_blank">+62 895-2537-4257</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <span class="icon">🛍️</span>
+                        <div class="contact-item-content">
+                            <label>Marketplace</label>
+                            <span>elyasyahijab</span>
+                        </div>
+                    </div>
+                    <div class="contact-item contact-address">
+                        <span class="icon">📍</span>
+                        <div class="contact-item-content">
+                            <label>Alamat Toko</label>
+                            <span class="address-text">Jl. KH. Ahmad Kholil, Dusun Cangaan, Genteng Wetan, Kec. Genteng, Kabupaten Banyuwangi, Jawa Timur 68465, Indonesia</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -354,7 +1480,10 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>ELYASYA CORP</h3>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                        <img src="hijab logo.jpeg" alt="Elyasya Logo" style="height: 40px; width: auto; border-radius: 6px;">
+                        <h3 style="margin: 0;">ELYASYA CORP</h3>
+                    </div>
                     <p>Holding company terpercaya dengan 5 lini bisnis yang melayani berbagai kebutuhan Anda.</p>
                 </div>
                 <div class="footer-section">
@@ -376,12 +1505,11 @@
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h4>Ikuti Kami</h4>
+                    <h4>Elyasya Fashion Hijab</h4>
                     <div class="social-links">
-                        <a href="#" class="social-icon">📘 Facebook</a>
-                        <a href="#" class="social-icon">📷 Instagram</a>
-                        <a href="#" class="social-icon">🐦 Twitter</a>
-                        <a href="#" class="social-icon">💼 LinkedIn</a>
+                        <a href="https://instagram.com/elyasya_fashionhijab" class="social-icon" target="_blank">📷 @elyasya_fashionhijab</a>
+                        <a href="https://wa.me/628952537425" class="social-icon" target="_blank">💬 +62 895-2537-4257</a>
+                        <a href="#" class="social-icon">🛍️ elyasyahijab</a>
                     </div>
                 </div>
             </div>
@@ -393,22 +1521,62 @@
 
     <script src="script.js"></script>
     <script>
-        // Load product images from localStorage
-        document.addEventListener('DOMContentLoaded', function() {
-            const businessImages = JSON.parse(localStorage.getItem('businessImages_hijab') || '{}');
-            if (businessImages.gallery) {
-                businessImages.gallery.forEach((img, index) => {
-                    const imgEl = document.getElementById(`product-img-${index + 1}`);
-                    if (imgEl && img) {
-                        imgEl.src = img;
-                        imgEl.style.display = 'block';
-                        // Hide placeholder
-                        const placeholder = imgEl.parentElement.querySelector('.placeholder-icon');
-                        if (placeholder) placeholder.style.display = 'none';
-                    }
-                });
-            }
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
         });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.category-card, .inner-card, .accessory-card, .usecase-card, .pricing-card, .why-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Load saved logo from localStorage
+        function loadSavedLogo() {
+            const saved = localStorage.getItem('pageLogo_hijab');
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    if (data.src) {
+                        const logoImg = document.querySelector('.logo-img');
+                        if (logoImg) {
+                            logoImg.src = data.src;
+                        }
+                    }
+                } catch (e) {
+                    console.error('Error loading saved logo:', e);
+                }
+            }
+        }
+
+        // Load saved logo on page load
+        loadSavedLogo();
     </script>
 </body>
 </html>

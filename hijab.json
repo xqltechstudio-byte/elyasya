@@ -1,0 +1,202 @@
+{
+  "company_profile": {
+    "brand_name": "Elyasya Fashion Hijab",
+    "established_year": 2016,
+    "tagline": "Toko hijab paling lengkap, terjangkau, dan bisa grosir.",
+    "about_us": "Elyasya Fashion Hijab adalah toko hijab fashion yang telah hadir sejak 2016. Menyediakan koleksi hijab, inner, dan aksesori wanita pilihan dengan kualitas terbaik untuk melengkapi setiap penampilan, melayani pelanggan retail maupun grosir.",
+    "value_proposition": {
+      "completeness": "Lengkap & Terjangkau",
+      "segments": "Premium sampai Affordable",
+      "concept": "One stop shopping: Hijab, Inner, & Aksesori wanita"
+    },
+    "target_audience": [
+      "Pelajar",
+      "Mahasiswa",
+      "Pekerja",
+      "Ibu muda",
+      "Reseller"
+    ],
+    "pages": [
+      {
+        "page": 1,
+        "section": "Cover & Introduction",
+        "title": "Kenalan dengan Elyasya Fashion Hijab",
+        "description": "Toko hijab paling lengkap, terjangkau, dan bisa grosir. Hadir sejak 2016 melayani retail maupun grosir."
+      },
+      {
+        "page": 2,
+        "section": "Tentang Kami",
+        "subtitle": "Teman belanja hijab & aksesori sejak 2016",
+        "main_categories": [
+          "Semua Jenis Hijab",
+          "Inner Hijab",
+          "Aksesori Pendukung Hijab",
+          "Aksesori Wanita Lainnya"
+        ],
+        "key_points": [
+          "Pilihan produk sangat lengkap",
+          "Ada kelas premium hingga affordable",
+          "Bisa belanja satuan maupun grosir",
+          "Cocok untuk pelajar, pekerja, hingga reseller"
+        ]
+      },
+      {
+        "page": 3,
+        "section": "Pilihan Hijab untuk Setiap Gaya",
+        "subtitle": "Dari daily wear sampai momen spesial",
+        "product_variants": [
+          {
+            "name": "Pashmina",
+            "features": "fleksibel & mudah styling"
+          },
+          {
+            "name": "Segi Empat",
+            "features": "rapi untuk aktivitas harian"
+          },
+          {
+            "name": "Hijab Instan",
+            "features": "praktis dipakai"
+          },
+          {
+            "name": "Bergo",
+            "features": "nyaman & simpel"
+          },
+          {
+            "name": "Khimar",
+            "features": "syar'i dan anggun"
+          },
+          {
+            "name": "Koleksi Premium",
+            "features": "material pilihan"
+          }
+        ],
+        "advantages": [
+          "Pilihan lengkap sesuai kebutuhan",
+          "Material berkualitas, nyaman dipakai",
+          "Desain elegan & versatile"
+        ]
+      },
+      {
+        "page": 4,
+        "section": "Inner Hijab & Aksesori Pendukung",
+        "tagline": "Bikin hijab makin rapi, nyaman, dan anti ribet",
+        "products": [
+          "Ciput/Inner Ninja",
+          "Inner Bandana",
+          "Inner Rajut",
+          "Peniti",
+          "Jarum Pentul",
+          "Jepit Rambut",
+          "Jedai",
+          "Scrunchie"
+        ],
+        "features_tags": ["Nyaman", "Rapi", "Praktis"]
+      },
+      {
+        "page": 5,
+        "section": "Aksesori Wanita Lainnya",
+        "tagline": "Belanja makin lengkap dalam satu toko",
+        "products": [
+          "Gelang",
+          "Sisir",
+          "Kaca Makeup",
+          "Spons Makeup",
+          "Anting Telinga",
+          "Jam Tangan Wanita",
+          "Aksesori Harian"
+        ]
+      },
+      {
+        "page": 6,
+        "section": "Untuk Setiap Kebutuhanmu",
+        "tagline": "Dari sekolah sampai acara spesial",
+        "use_cases": [
+          {
+            "name": "Gaya Sekolah",
+            "target": "Pelajar",
+            "vibe": "Simple & Nyaman"
+          },
+          {
+            "name": "Look Kuliah",
+            "target": "Mahasiswa",
+            "vibe": "Simple & Elegan"
+          },
+          {
+            "name": "Office Wear",
+            "target": "Pekerja",
+            "vibe": "Elegan"
+          },
+          {
+            "name": "Momen Spesial",
+            "target": "Ibu muda / Komunitas",
+            "vibe": "Premium Look"
+          }
+        ]
+      },
+      {
+        "page": 7,
+        "section": "Harga Fleksibel untuk Semua",
+        "subtitle": "Ada pilihan premium sampai affordable",
+        "tiers": [
+          {
+            "class": "Premium Look",
+            "description": "Kualitas terbaik dengan bahan pilihan dan detail mewah untuk tampilan elegan maksimal."
+          },
+          {
+            "class": "Daily Essential",
+            "description": "Nyaman dipakai sehari-hari dengan bahan berkualitas dan desain timeless."
+          },
+          {
+            "class": "School Friendly",
+            "description": "Praktis, nyaman, dan terjangkau untuk aktivitas sekolah setiap hari."
+          }
+        ],
+        "note": "Harga menyesuaikan jenis, bahan, dan detail produk."
+      },
+      {
+        "page": 8,
+        "section": "Bisa Belanja Grosir",
+        "subtitle": "Solusi untuk belanja banyak dengan lebih praktis",
+        "target_grosir": [
+          "Reseller",
+          "Toko Kecil",
+          "Komunitas / Seragam",
+          "Hadiah & Event"
+        ],
+        "benefits": [
+          "Pilihan produk beragam",
+          "Cocok untuk restock",
+          "Praktis belanja banyak",
+          "Bisa sesuaikan kebutuhan"
+        ]
+      },
+      {
+        "page": 9,
+        "section": "Kenapa Pilih Elyasya?",
+        "subtitle": "Lengkap, terjangkau, dan terpercaya",
+        "reasons": [
+          "Pilihan sangat lengkap",
+          "Ada produk premium & affordable",
+          "Aksesori hijab & wanita lengkap",
+          "Bisa ecer dan grosir"
+        ]
+      },
+      {
+        "page": 10,
+        "section": "Yuk Temukan Koleksi Favoritmu",
+        "closing_statement": "Elyasya Fashion Hijab siap menjadi teman belanja hijab & aksesori wanita yang lengkap, nyaman, dan terpercaya. Tersedia pilihan ecer maupun grosir untuk kebutuhan harian, kerja, sekolah, komunitas, hingga seragaman.",
+        "badges": [
+          "Produk pilihan berkualitas",
+          "Harga terbaik bisa grosir",
+          "Pelayanan ramah & terpercaya"
+        ],
+        "contact_info": {
+          "instagram": "@elyasya_fashionhijab",
+          "whatsapp_admin": "+62 895-2537-4257",
+          "marketplace": "elyasyahijab",
+          "address": "Jl. KH. Ahmad Kholil, Dusun Cangaan, Genteng Wetan, Kec. Genteng, Kabupaten Banyuwangi, Jawa Timur 68465, Indonesia"
+        }
+      }
+    ]
+  }
+}
