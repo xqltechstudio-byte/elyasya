@@ -47,28 +47,65 @@ let sliderInterval = null;
 
 // Default slide data dengan fallback gambar lokal (anti-404)
 // Menggunakan jalur relatif yang aman untuk hosting/GitHub Pages
+// 5 Slide untuk 5 Lini Bisnis Elyasya Corp
 const defaultSlides = [
     {
         id: 1,
-        title: 'Elyasya Corp',
-        description: 'Holding Company dengan 5 Lini Bisnis Terpercaya',
-        buttonText: 'Jelajahi Bisnis Kami',
-        buttonLink: '#bisnis',
-        businessLine: 'Umum',
+        title: 'Design Interior',
+        description: 'Layanan desain interior profesional untuk rumah, kantor, dan komersial',
+        buttonText: 'Lihat Portfolio',
+        buttonLink: 'design-interior.html',
+        businessLine: 'Design Interior',
         bgColor: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
-        bgImage: 'assets/img/placeholder.svg',
+        bgImage: 'slide design.png',
         imageBase64: '',
         status: 'active'
     },
     {
         id: 2,
-        title: 'Innovative Solutions',
-        description: 'Fashion | Travel | Food | Management | Design',
-        buttonText: 'Lihat Layanan',
-        buttonLink: '#bisnis',
-        businessLine: 'Umum',
+        title: 'Management',
+        description: 'Konsultasi manajemen bisnis, optimasi operasional, dan strategi pertumbuhan',
+        buttonText: 'Konsultasi Sekarang',
+        buttonLink: 'management.html',
+        businessLine: 'Management',
         bgColor: 'linear-gradient(135deg, #2a5298 0%, #1e3c72 100%)',
-        bgImage: 'assets/img/placeholder2.svg',
+        bgImage: 'slide management.png',
+        imageBase64: '',
+        status: 'active'
+    },
+    {
+        id: 3,
+        title: 'Hijab',
+        description: 'Koleksi hijab premium dengan berbagai model dan bahan berkualitas tinggi',
+        buttonText: 'Lihat Katalog',
+        buttonLink: 'hijab.html',
+        businessLine: 'Hijab',
+        bgColor: 'linear-gradient(135deg, #8e44ad 0%, #3498db 100%)',
+        bgImage: 'slide hijab.png',
+        imageBase64: '',
+        status: 'active'
+    },
+    {
+        id: 4,
+        title: 'Kedai Sembako',
+        description: 'Menyediakan kebutuhan sembako dan bahan pokok berkualitas dengan harga bersaing',
+        buttonText: 'Cek Lokasi',
+        buttonLink: 'sembako.html',
+        businessLine: 'Sembako',
+        bgColor: 'linear-gradient(135deg, #27ae60 0%, #2ecc71 100%)',
+        bgImage: 'hero sembako.jpeg',
+        imageBase64: '',
+        status: 'active'
+    },
+    {
+        id: 5,
+        title: 'Travel Agent',
+        description: 'Paket wisata, umroh, dan perjalanan bisnis dengan layanan terpercaya',
+        buttonText: 'Lihat Paket',
+        buttonLink: 'travel.html',
+        businessLine: 'Travel',
+        bgColor: 'linear-gradient(135deg, #e74c3c 0%, #f39c12 100%)',
+        bgImage: 'slide travel.png',
         imageBase64: '',
         status: 'active'
     }
