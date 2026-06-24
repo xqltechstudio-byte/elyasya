@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Admin Dashboard - Elyasya Corp</title>
+    <link rel="stylesheet" href="admin-styles.css">
+</head>
+<body class="dashboard-page">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="logo elyasya Corp.jpeg" alt="Elyasya" class="sidebar-logo">
+            <div>
+                <h2>Elyasya Admin</h2>
+                <span>Management Panel</span>
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-section-title">Main Menu</div>
+                <div class="nav-item active" data-page="dashboard" onclick="navigateTo('dashboard')">
+                    <span class="icon">📊</span>
+                    <span>Dashboard</span>
+                </div>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Content Management</div>
+                <div class="nav-item" data-page="hero-slider" onclick="navigateTo('hero-slider')">
+                    <span class="icon">🖼️</span>
+                    <span>Hero Slider</span>
+                    <span class="badge" id="slideCount">0</span>
+                </div>
+                <div class="nav-item" data-page="page-images" onclick="navigateTo('page-images')">
+                    <span class="icon">📸</span>
+                    <span>Page Images</span>
+                </div>
+                <div class="nav-item" data-page="galleries" onclick="navigateTo('galleries')">
+                    <span class="icon">🎨</span>
+                    <span>Galleries</span>
+                </div>
+                <div class="nav-item" data-page="testimonials" onclick="navigateTo('testimonials')">
+                    <span class="icon">💬</span>
+                    <span>Testimonials</span>
+                </div>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Business Pages</div>
+                <div class="nav-item" data-page="hijab" onclick="navigateTo('hijab')">
+                    <span class="icon">🧕</span>
+                    <span>Elyasya Hijab</span>
+                </div>
+                <div class="nav-item" data-page="sembako" onclick="navigateTo('sembako')">
+                    <span class="icon">🛒</span>
+                    <span>Kedai Sembako</span>
+                </div>
+                <div class="nav-item" data-page="travel" onclick="navigateTo('travel')">
+                    <span class="icon">✈️</span>
+                    <span>Travel</span>
+                </div>
+                <div class="nav-item" data-page="design" onclick="navigateTo('design')">
+                    <span class="icon">🎨</span>
+                    <span>Design Interior</span>
+                </div>
+                <div class="nav-item" data-page="management" onclick="navigateTo('management')">
+                    <span class="icon">💼</span>
+                    <span>Management</span>
+                </div>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Settings</div>
+                <div class="nav-item" data-page="settings" onclick="navigateTo('settings')">
+                    <span class="icon">⚙️</span>
+                    <span>Settings</span>
+                </div>
+                <div class="nav-item" onclick="handleLogout()">
+                    <span class="icon">🚪</span>
+                    <span>Logout</span>
+                </div>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+                <div class="page-title">
+                    <h1 id="pageTitle">Dashboard</h1>
+                    <p id="pageSubtitle">Selamat datang di Admin Panel Elyasya Corp</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="header-btn" title="Notifications">
+                    🔔
+                    <span class="notification-dot"></span>
+                </button>
+                <div class="user-menu" onclick="toggleUserMenu()">
+                    <div class="user-avatar" id="userAvatar">A</div>
+                    <div class="user-info">
+                        <div class="name" id="userName">Administrator</div>
+                        <div class="role">Super Admin</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content Area -->
+        <div class="content-area" id="contentArea">
+            <!-- Dashboard content will be loaded here dynamically -->
+        </div>
+    </main>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
+        <div class="modal" id="modal">
+            <div class="modal-header">
+                <h2 id="modalTitle">Modal Title</h2>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Modal content -->
+            </div>
+            <div class="modal-footer" id="modalFooter">
+                <!-- Modal buttons -->
+            </div>
+        </div>
+    </div>
+
+    <script src="admin-script.js"></script>
+</body>
+</html>

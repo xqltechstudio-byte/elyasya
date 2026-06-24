@@ -1,93 +1,132 @@
+// ==========================================
+// INDEXEDDB MODULE (Same as admin panel)
+// ==========================================
+
+const DB_NAME = 'ElyasyaAdminDB';
+const DB_VERSION = 1;
+const STORE_NAME = 'adminData';
+
+const IndexedDB = {
+    db: null,
+
+    async open() {
+        if (this.db) return this.db;
+        return new Promise((resolve, reject) => {
+            const request = indexedDB.open(DB_NAME, DB_VERSION);
+            request.onerror = () => reject(request.error);
+            request.onsuccess = () => {
+                this.db = request.result;
+                resolve(this.db);
+            };
+            request.onupgradeneeded = (event) => {
+                const db = event.target.result;
+                if (!db.objectStoreNames.contains(STORE_NAME)) {
+                    db.createObjectStore(STORE_NAME);
+                }
+            };
+        });
+    },
+
+    async get(key) {
+        const db = await this.open();
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction(STORE_NAME, 'readonly');
+            const store = tx.objectStore(STORE_NAME);
+            const request = store.get(key);
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => reject(request.error);
+        });
+    }
+};
+
 // Hero Slider Functionality
 let currentSlide = 0;
 let slides = [];
 let totalSlides = 0;
 let sliderInterval = null;
 
-// Default slide data
+// Default slide data dengan fallback gambar lokal (anti-404)
+// Menggunakan jalur relatif yang aman untuk hosting/GitHub Pages
 const defaultSlides = [
     {
         id: 1,
-        title: 'Design Interior',
-        description: 'Wujudkan Ruang Impian Anda dengan Sentuhan Profesional',
-        buttonText: 'Lihat Portfolio',
-        buttonLink: '#design-interior',
-        businessLine: 'Design Interior',
+        title: 'Elyasya Corp',
+        description: 'Holding Company dengan 5 Lini Bisnis Terpercaya',
+        buttonText: 'Jelajahi Bisnis Kami',
+        buttonLink: '#bisnis',
+        businessLine: 'Umum',
         bgColor: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
-        bgImage: '',
+        bgImage: './assets/img/placeholder.svg',
+        imageBase64: '',
         status: 'active'
     },
     {
         id: 2,
-        title: 'Management Consulting',
-        description: 'Solusi Bisnis Terpadu untuk Pertumbuhan Perusahaan Anda',
-        buttonText: 'Konsultasi Sekarang',
-        buttonLink: '#management',
-        businessLine: 'Management',
-        bgColor: 'linear-gradient(135deg, #134e5e 0%, #71b280 100%)',
-        bgImage: '',
-        status: 'active'
-    },
-    {
-        id: 3,
-        title: 'Hijab Collection',
-        description: 'Koleksi Hijab Premium untuk Gaya Muslimah Modern',
-        buttonText: 'Lihat Katalog',
-        buttonLink: '#hijab',
-        businessLine: 'Hijab',
-        bgColor: 'linear-gradient(135deg, #c94b4b 0%, #4b134f 100%)',
-        bgImage: '',
-        status: 'active'
-    },
-    {
-        id: 4,
-        title: 'Kedai Sembako',
-        description: 'Kebutuhan Harian Berkualitas di Dekat Anda',
-        buttonText: 'Cek Lokasi',
-        buttonLink: '#sembako',
-        businessLine: 'Sembako',
-        bgColor: 'linear-gradient(135deg, #56ab2f 0%, #a8e063 100%)',
-        bgImage: '',
-        status: 'active'
-    },
-    {
-        id: 5,
-        title: 'Travel Agent',
-        description: 'Perjalanan Impian Anda Dimulai dari Sini',
-        buttonText: 'Lihat Paket',
-        buttonLink: '#travel',
-        businessLine: 'Travel',
-        bgColor: 'linear-gradient(135deg, #f46b45 0%, #eea849 100%)',
-        bgImage: '',
+        title: 'Innovative Solutions',
+        description: 'Fashion | Travel | Food | Management | Design',
+        buttonText: 'Lihat Layanan',
+        buttonLink: '#bisnis',
+        businessLine: 'Umum',
+        bgColor: 'linear-gradient(135deg, #2a5298 0%, #1e3c72 100%)',
+        bgImage: './assets/img/placeholder2.svg',
+        imageBase64: '',
         status: 'active'
     }
 ];
 
-// Load slides data from localStorage
-function loadSlidesData() {
-    const savedSlides = localStorage.getItem('heroSlides');
-    if (savedSlides) {
+// Fallback image - digunakan jika gambar default juga tidak ditemukan
+const FALLBACK_GRADIENT = 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)';
+
+// Load slides data from IndexedDB (primary) with localStorage fallback
+async function loadSlidesData() {
+    // Try IndexedDB first (admin panel now saves here)
+    try {
+        const savedSlides = await IndexedDB.get('heroSlides');
+        if (savedSlides) {
+            if (Array.isArray(savedSlides) && savedSlides.length > 0) {
+                console.log('Hero slides loaded from IndexedDB');
+                return savedSlides;
+            }
+        }
+    } catch (e) {
+        console.warn('IndexedDB not available, trying localStorage:', e);
+    }
+    
+    // Fallback to localStorage (for backward compatibility)
+    const savedSlidesLocal = localStorage.getItem('heroSlides');
+    if (savedSlidesLocal) {
         try {
-            const parsed = JSON.parse(savedSlides);
+            const parsed = JSON.parse(savedSlidesLocal);
             if (Array.isArray(parsed) && parsed.length > 0) {
+                console.log('Hero slides loaded from localStorage (fallback)');
                 return parsed;
             }
         } catch (e) {
-            console.error('Error parsing hero slides:', e);
+            console.error('Error parsing hero slides from localStorage:', e);
         }
     }
+    
+    console.log('Using default slides');
     return defaultSlides;
 }
 
-// Render hero slides dynamically
-function renderHeroSlides() {
+// Render hero slides dynamically dengan Base64 + Fallback handling
+async function renderHeroSlides() {
     const sliderContainer = document.getElementById('heroSlider');
     if (!sliderContainer) return;
     
-    const slidesData = loadSlidesData();
+    const slidesData = await loadSlidesData();
+    console.log('[DEBUG] renderHeroSlides received data:', slidesData);
     
     // Filter only active slides
     const activeSlides = slidesData.filter(s => s.status === 'active');
+    console.log('[DEBUG] Active slides count:', activeSlides.length);
+    
+    // Jika tidak ada slide aktif, gunakan default
+    if (activeSlides.length === 0) {
+        console.warn('Tidak ada slide aktif, menggunakan default slides');
+        activeSlides.push(...defaultSlides.filter(s => s.status === 'active'));
+    }
     
     // Clear container
     sliderContainer.innerHTML = '';
@@ -98,23 +137,54 @@ function renderHeroSlides() {
         slideDiv.classList.add('slide');
         if (index === 0) slideDiv.classList.add('active');
         
-        // Set background
-        if (slide.bgImage) {
-            slideDiv.style.background = `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${slide.bgImage})`;
-            slideDiv.style.backgroundSize = 'cover';
-            slideDiv.style.backgroundPosition = 'center';
+        // === ANTI-404 IMAGE HANDLING ===
+        // Prioritas: 1) Base64 dari IndexedDB/localStorage (imageBase64), 2) Path gambar default, 3) Gradient CSS
+        let imageSrc = '';
+        let useGradient = false;
+        
+        // Cek apakah ada gambar Base64 dari admin upload (field: imageBase64 atau bgImage)
+        // imageBase64 adalah field utama yang digunakan admin panel
+        const base64Image = slide.imageBase64 || slide.bgImage || '';
+        console.log(`[DEBUG] Slide "${slide.title}" - imageBase64: ${base64Image ? 'Yes (length: ' + base64Image.length + ')' : 'No'}`);
+        
+        if (base64Image && base64Image.startsWith('data:image')) {
+            // Base64 image dari admin upload (paling prioritas - anti 404)
+            imageSrc = base64Image;
+        } else if (slide.bgImageFallback || slide.bgImage) {
+            // Fallback ke gambar default dari folder lokal
+            const safePath = (slide.bgImageFallback || slide.bgImage).toLowerCase();
+            imageSrc = safePath;
         } else {
-            slideDiv.style.background = slide.bgColor || 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)';
+            // Fallback terakhir: gradient CSS
+            useGradient = true;
         }
         
         // Set content
-        slideDiv.innerHTML = `
-            <div class="slide-content">
-                <h2>${slide.title}</h2>
-                <p>${slide.description}</p>
-                <a href="${slide.buttonLink}" class="btn-primary">${slide.buttonText}</a>
-            </div>
-        `;
+        const safeTitle = escapeHtml(slide.title || 'Slide');
+        const safeDesc = escapeHtml(slide.description || '');
+        const safeBtnText = escapeHtml(slide.buttonText || 'Selengkapnya');
+        const safeBtnLink = slide.buttonLink || '#';
+        
+        if (useGradient) {
+            slideDiv.style.background = slide.bgColor || FALLBACK_GRADIENT;
+            slideDiv.innerHTML = `
+                <div class="slide-content">
+                    <h2>${safeTitle}</h2>
+                    <p>${safeDesc}</p>
+                    <a href="${safeBtnLink}" class="btn-primary">${safeBtnText}</a>
+                </div>
+            `;
+        } else {
+            slideDiv.innerHTML = `
+                <img class="slide-bg-image" src="${imageSrc}" alt="${safeTitle}" onerror="this.parentElement.style.background='${slide.bgColor || FALLBACK_GRADIENT}'; this.style.display='none';">
+                <div class="slide-overlay"></div>
+                <div class="slide-content">
+                    <h2>${safeTitle}</h2>
+                    <p>${safeDesc}</p>
+                    <a href="${safeBtnLink}" class="btn-primary">${safeBtnText}</a>
+                </div>
+            `;
+        }
         
         sliderContainer.appendChild(slideDiv);
     });
@@ -131,6 +201,15 @@ function renderHeroSlides() {
     
     // Restart auto-advance
     restartAutoAdvance();
+    
+    console.log(`Hero Slider: ${totalSlides} slide aktif dimuat`);
+}
+
+// Utility: Escape HTML untuk mencegah XSS
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
 }
 
 // Rebuild slider dots
@@ -160,8 +239,8 @@ function restartAutoAdvance() {
 }
 
 // Initialize slider on page load
-document.addEventListener('DOMContentLoaded', () => {
-    renderHeroSlides();
+document.addEventListener('DOMContentLoaded', async () => {
+    await renderHeroSlides();
 });
 
 function showSlide(n) {
@@ -365,108 +444,26 @@ window.addEventListener('scroll', () => {
 });
 
 // ==========================================
-// LOAD IMAGES FROM LOCALSTORAGE
+// AUTO-REFRESH SLIDER WHEN LOCALSTORAGE CHANGES
 // ==========================================
 
-function getImageSrc(imageData) {
-    // If it's a JSON string, parse it and get the src
-    if (imageData && imageData.startsWith('{')) {
-        try {
-            const parsed = JSON.parse(imageData);
-            return parsed.src || parsed.url || null;
-        } catch (e) {
-            return null;
-        }
+// Listen for storage changes from admin panel
+window.addEventListener('storage', async function(e) {
+    if (e.key === 'heroSlides') {
+        console.log('Hero slider data changed, refreshing...');
+        await renderHeroSlides();
     }
-    return imageData;
-}
+});
 
-function loadImagesFromStorage() {
-    // Load Header Logo (key: image_header)
-    const headerData = localStorage.getItem('image_header');
-    if (headerData) {
-        const headerSrc = getImageSrc(headerData);
-        if (headerSrc) {
-            const logoElement = document.querySelector('.logo');
-            if (logoElement) {
-                const h1 = logoElement.querySelector('h1');
-                if (h1) {
-                    h1.style.display = 'none';
-                }
-                const img = document.createElement('img');
-                img.src = headerSrc;
-                img.alt = 'Elyasya Corp Logo';
-                img.style.height = '50px';
-                img.style.width = 'auto';
-                logoElement.appendChild(img);
-            }
-        }
+// Also check for changes when page becomes visible (tab switch)
+document.addEventListener('visibilitychange', async function() {
+    if (!document.hidden) {
+        await renderHeroSlides();
     }
-
-    // Load Hero Images (keys: image_hero1, image_hero2, etc.)
-    const heroSlides = document.querySelectorAll('.hero-slider .slide');
-    const heroImageKeys = [
-        'image_hero1',
-        'image_hero2',
-        'image_hero3',
-        'image_hero4',
-        'image_hero5'
-    ];
-
-    heroSlides.forEach((slide, index) => {
-        const heroData = localStorage.getItem(heroImageKeys[index]);
-        if (heroData) {
-            const heroSrc = getImageSrc(heroData);
-            if (heroSrc) {
-                // Apply background with overlay
-                slide.style.background = `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${heroSrc})`;
-                slide.style.backgroundSize = 'cover';
-                slide.style.backgroundPosition = 'center';
-            }
-        }
-    });
-
-    // Load Footer Logo (key: image_footer)
-    const footerData = localStorage.getItem('image_footer');
-    if (footerData) {
-        try {
-            const parsed = JSON.parse(footerData);
-            const footerSrc = parsed.src || parsed.url || null;
-            if (footerSrc) {
-                const footerSection = document.querySelector('.footer-section');
-                if (footerSection) {
-                    const h3 = footerSection.querySelector('h3');
-                    if (h3) {
-                        h3.style.display = 'none';
-                    }
-                    const img = document.createElement('img');
-                    img.src = footerSrc;
-                    img.alt = 'Elyasya Corp Footer Logo';
-                    img.style.height = '40px';
-                    img.style.width = 'auto';
-                    img.style.marginBottom = '1rem';
-                    footerSection.insertBefore(img, footerSection.firstChild);
-                }
-            }
-            
-            // Load Footer Background
-            const footerBgSrc = parsed.bgSrc || null;
-            if (footerBgSrc) {
-                const footer = document.querySelector('.footer');
-                if (footer) {
-                    footer.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url(${footerBgSrc})`;
-                    footer.style.backgroundSize = 'cover';
-                    footer.style.backgroundPosition = 'center';
-                }
-            }
-        } catch (e) {
-            console.error('Error parsing footer image data:', e);
-        }
-    }
-}
+});
 
 // Load Page-Specific Images from Admin Panel
-function loadPageImagesFromStorage() {
+async function loadPageImagesFromStorage() {
     // Detect current page
     const body = document.body;
     let currentPage = '';
@@ -479,160 +476,157 @@ function loadPageImagesFromStorage() {
     
     if (!currentPage) return; // Not a page with dynamic images
     
-    // Load Hero Image
-    const heroData = localStorage.getItem(`pageImage_${currentPage}_hero`);
-    if (heroData) {
+    // Helper function to get data from IndexedDB with localStorage fallback
+    async function getData(key) {
+        // Try IndexedDB first
         try {
-            const parsed = JSON.parse(heroData);
-            const heroSrc = parsed.src || parsed.url || null;
-            if (heroSrc) {
-                // Handle different hero section selectors for different pages
-                let heroSection = document.querySelector('.page-hero');
-                if (!heroSection && currentPage === 'management') {
-                    heroSection = document.querySelector('.mgmt-hero');
-                }
-                if (heroSection) {
-                    heroSection.style.background = `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${heroSrc})`;
-                    heroSection.style.backgroundSize = 'cover';
-                    heroSection.style.backgroundPosition = 'center';
-                }
+            const data = await IndexedDB.get(key);
+            if (data) {
+                console.log(`Loaded ${key} from IndexedDB`);
+                return data;
             }
         } catch (e) {
-            console.error('Error loading hero image:', e);
+            console.warn(`IndexedDB not available for ${key}, trying localStorage`);
+        }
+        
+        // Fallback to localStorage
+        const localData = localStorage.getItem(key);
+        if (localData) {
+            try {
+                const parsed = JSON.parse(localData);
+                console.log(`Loaded ${key} from localStorage (fallback)`);
+                return parsed;
+            } catch (e) {
+                console.error(`Error parsing ${key} from localStorage:`, e);
+            }
+        }
+        return null;
+    }
+    
+    // Load Hero Image
+    const heroData = await getData(`pageImage_${currentPage}_hero`);
+    if (heroData) {
+        const heroSrc = heroData.src || heroData.url || null;
+        if (heroSrc) {
+            // Handle different hero section selectors for different pages
+            let heroSection = document.querySelector('.page-hero');
+            if (!heroSection && currentPage === 'management') {
+                heroSection = document.querySelector('.mgmt-hero');
+            }
+            if (heroSection) {
+                heroSection.style.background = `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${heroSrc})`;
+                heroSection.style.backgroundSize = 'cover';
+                heroSection.style.backgroundPosition = 'center';
+            }
         }
     }
     
     // Load About Image
-    const aboutData = localStorage.getItem(`pageImage_${currentPage}_about`);
+    const aboutData = await getData(`pageImage_${currentPage}_about`);
     if (aboutData) {
-        try {
-            const parsed = JSON.parse(aboutData);
-            const aboutSrc = parsed.src || parsed.url || null;
-            if (aboutSrc) {
-                // Handle different about image selectors for different pages
-                let aboutImg = document.querySelector('.about-image img');
-                if (!aboutImg && currentPage === 'management') {
-                    aboutImg = document.querySelector('.about-img-main');
-                }
-                if (aboutImg) {
-                    // If it's an img element, set src; if it's a div, set background
-                    if (aboutImg.tagName === 'IMG') {
-                        aboutImg.src = aboutSrc;
-                    } else {
-                        aboutImg.style.background = `url(${aboutSrc})`;
-                        aboutImg.style.backgroundSize = 'cover';
-                        aboutImg.style.backgroundPosition = 'center';
-                        // Hide the icon display if present
-                        const iconDisplay = aboutImg.querySelector('.icon-display');
-                        if (iconDisplay) {
-                            iconDisplay.style.display = 'none';
-                        }
+        const aboutSrc = aboutData.src || aboutData.url || null;
+        if (aboutSrc) {
+            // Handle different about image selectors for different pages
+            let aboutImg = document.querySelector('.about-image img');
+            if (!aboutImg && currentPage === 'management') {
+                aboutImg = document.querySelector('.about-img-main');
+            }
+            if (aboutImg) {
+                // If it's an img element, set src; if it's a div, set background
+                if (aboutImg.tagName === 'IMG') {
+                    aboutImg.src = aboutSrc;
+                } else {
+                    aboutImg.style.background = `url(${aboutSrc})`;
+                    aboutImg.style.backgroundSize = 'cover';
+                    aboutImg.style.backgroundPosition = 'center';
+                    // Hide the icon display if present
+                    const iconDisplay = aboutImg.querySelector('.icon-display');
+                    if (iconDisplay) {
+                        iconDisplay.style.display = 'none';
                     }
                 }
             }
-        } catch (e) {
-            console.error('Error loading about image:', e);
         }
     }
     
     // Load Gallery Images
-    const galleryData = localStorage.getItem(`pageGallery_${currentPage}`);
-    if (galleryData) {
-        try {
-            const parsed = JSON.parse(galleryData);
-            if (parsed.images && parsed.images.length > 0) {
-                // Handle different gallery selectors for different pages
-                let galleryItems = [];
-                
-                if (currentPage === 'management') {
-                    // Management page uses service cards with icons
-                    const serviceCards = document.querySelectorAll('.services-grid .service-card');
-                    parsed.images.forEach((imgData, index) => {
-                        if (serviceCards[index] && imgData.src) {
-                            const serviceIcon = serviceCards[index].querySelector('.service-icon');
-                            if (serviceIcon) {
-                                serviceIcon.style.background = `url(${imgData.src})`;
-                                serviceIcon.style.backgroundSize = 'cover';
-                                serviceIcon.style.backgroundPosition = 'center';
-                                // Hide the emoji icon
-                                serviceIcon.textContent = '';
-                            }
-                        }
-                    });
-                } else {
-                    const galleryGrid = document.querySelector('.products-grid, .gallery-grid, .destinations-grid, .portfolio-grid');
-                    if (galleryGrid) {
-                        galleryItems = galleryGrid.querySelectorAll('.product-card img, .gallery-item img, .destination-card img, .portfolio-item img');
-                        parsed.images.forEach((imgData, index) => {
-                            if (galleryItems[index] && imgData.src) {
-                                galleryItems[index].src = imgData.src;
-                            }
-                        });
+    const galleryData = await getData(`pageGallery_${currentPage}`);
+    if (galleryData && galleryData.images && galleryData.images.length > 0) {
+        // Handle different gallery selectors for different pages
+        let galleryItems = [];
+        
+        if (currentPage === 'management') {
+            // Management page uses service cards with icons
+            const serviceCards = document.querySelectorAll('.services-grid .service-card');
+            galleryData.images.forEach((imgData, index) => {
+                if (serviceCards[index] && imgData.src) {
+                    const serviceIcon = serviceCards[index].querySelector('.service-icon');
+                    if (serviceIcon) {
+                        serviceIcon.style.background = `url(${imgData.src})`;
+                        serviceIcon.style.backgroundSize = 'cover';
+                        serviceIcon.style.backgroundPosition = 'center';
+                        // Hide the emoji icon
+                        serviceIcon.textContent = '';
                     }
                 }
+            });
+        } else {
+            const galleryGrid = document.querySelector('.products-grid, .gallery-grid, .destinations-grid, .portfolio-grid');
+            if (galleryGrid) {
+                galleryItems = galleryGrid.querySelectorAll('.product-card img, .gallery-item img, .destination-card img, .portfolio-item img');
+                galleryData.images.forEach((imgData, index) => {
+                    if (galleryItems[index] && imgData.src) {
+                        galleryItems[index].src = imgData.src;
+                    }
+                });
             }
-        } catch (e) {
-            console.error('Error loading gallery images:', e);
         }
     }
     
     // Load Testimonials (for hijab page)
     if (currentPage === 'hijab') {
-        const testiData = localStorage.getItem('pageTestimonials_hijab');
-        if (testiData) {
-            try {
-                const parsed = JSON.parse(testiData);
-                if (parsed.images && parsed.images.length > 0) {
-                    const testiContainer = document.querySelector('.testimonials-container');
-                    if (testiContainer) {
-                        const testiCards = testiContainer.querySelectorAll('.testimonial-card');
-                        parsed.images.forEach((imgData, index) => {
-                            if (testiCards[index]) {
-                                const img = testiCards[index].querySelector('img');
-                                if (img && imgData.src) {
-                                    img.src = imgData.src;
-                                }
-                            }
-                        });
+        const testiData = await getData('pageTestimonials_hijab');
+        if (testiData && testiData.images && testiData.images.length > 0) {
+            const testiContainer = document.querySelector('.testimonials-container');
+            if (testiContainer) {
+                const testiCards = testiContainer.querySelectorAll('.testimonial-card');
+                testiData.images.forEach((imgData, index) => {
+                    if (testiCards[index]) {
+                        const img = testiCards[index].querySelector('img');
+                        if (img && imgData.src) {
+                            img.src = imgData.src;
+                        }
                     }
-                }
-            } catch (e) {
-                console.error('Error loading testimonials:', e);
+                });
             }
         }
     }
     
     // Load Testimonials for management page
     if (currentPage === 'management') {
-        const testiData = localStorage.getItem('pageTestimonials_management');
-        if (testiData) {
-            try {
-                const parsed = JSON.parse(testiData);
-                if (parsed.images && parsed.images.length > 0) {
-                    const testiCards = document.querySelectorAll('.mgmt-testimonials .testimonial-card');
-                    parsed.images.forEach((imgData, index) => {
-                        if (testiCards[index]) {
-                            const avatar = testiCards[index].querySelector('.testimonial-avatar');
-                            if (avatar && imgData.src) {
-                                avatar.style.background = `url(${imgData.src})`;
-                                avatar.style.backgroundSize = 'cover';
-                                avatar.style.backgroundPosition = 'center';
-                                avatar.textContent = '';
-                            }
-                        }
-                    });
+        const testiData = await getData('pageTestimonials_management');
+        if (testiData && testiData.images && testiData.images.length > 0) {
+            const testiCards = document.querySelectorAll('.mgmt-testimonials .testimonial-card');
+            testiData.images.forEach((imgData, index) => {
+                if (testiCards[index]) {
+                    const avatar = testiCards[index].querySelector('.testimonial-avatar');
+                    if (avatar && imgData.src) {
+                        avatar.style.background = `url(${imgData.src})`;
+                        avatar.style.backgroundSize = 'cover';
+                        avatar.style.backgroundPosition = 'center';
+                        avatar.textContent = '';
+                    }
                 }
-            } catch (e) {
-                console.error('Error loading management testimonials:', e);
-            }
+            });
         }
     }
 }
 
 // Load images when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    loadImagesFromStorage();
-    loadPageImagesFromStorage();
+document.addEventListener('DOMContentLoaded', async () => {
+    // Hero slider sudah di-render oleh renderHeroSlides() di atas
+    // loadPageImagesFromStorage() untuk halaman sub-pages
+    await loadPageImagesFromStorage();
 });
 
 console.log('Elyasya Corp Website Loaded Successfully! 🚀');
