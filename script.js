@@ -56,7 +56,7 @@ const defaultSlides = [
         buttonLink: '#bisnis',
         businessLine: 'Umum',
         bgColor: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
-        bgImage: './assets/img/placeholder.svg',
+        bgImage: 'assets/img/placeholder.svg',
         imageBase64: '',
         status: 'active'
     },
@@ -68,7 +68,7 @@ const defaultSlides = [
         buttonLink: '#bisnis',
         businessLine: 'Umum',
         bgColor: 'linear-gradient(135deg, #2a5298 0%, #1e3c72 100%)',
-        bgImage: './assets/img/placeholder2.svg',
+        bgImage: 'assets/img/placeholder2.svg',
         imageBase64: '',
         status: 'active'
     }
@@ -152,8 +152,8 @@ async function renderHeroSlides() {
             imageSrc = base64Image;
         } else if (slide.bgImageFallback || slide.bgImage) {
             // Fallback ke gambar default dari folder lokal
-            const safePath = (slide.bgImageFallback || slide.bgImage).toLowerCase();
-            imageSrc = safePath;
+            // JANGAN ubah ke lowercase - server hosting case-sensitive!
+            imageSrc = slide.bgImageFallback || slide.bgImage;
         } else {
             // Fallback terakhir: gradient CSS
             useGradient = true;
