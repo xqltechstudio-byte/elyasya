@@ -320,29 +320,65 @@ const DataStore = {
 // ==========================================
 
 const HeroSlides = {
-    // Default slides
+    // Default slides - 5 slide untuk 5 lini bisnis Elyasya Corp
     defaultSlides: [
         {
             id: 1,
-            title: 'Elyasya Corp',
-            description: 'Holding Company dengan 5 Lini Bisnis Terpercaya',
-            buttonText: 'Jelajahi Bisnis Kami',
-            buttonLink: '#bisnis',
-            businessLine: 'Umum',
+            title: 'Design Interior',
+            description: 'Layanan desain interior profesional untuk rumah, kantor, dan komersial',
+            buttonText: 'Lihat Portfolio',
+            buttonLink: 'design-interior.html',
+            businessLine: 'Design Interior',
             bgColor: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
-            bgImage: '',
+            bgImage: 'slide design.png',
             imageBase64: '',
             status: 'active'
         },
         {
             id: 2,
-            title: 'Innovative Solutions',
-            description: 'Fashion | Travel | Food | Management | Design',
-            buttonText: 'Lihat Layanan',
-            buttonLink: '#bisnis',
-            businessLine: 'Umum',
+            title: 'Management',
+            description: 'Konsultasi manajemen bisnis, optimasi operasional, dan strategi pertumbuhan',
+            buttonText: 'Konsultasi Sekarang',
+            buttonLink: 'management.html',
+            businessLine: 'Management',
             bgColor: 'linear-gradient(135deg, #2a5298 0%, #1e3c72 100%)',
-            bgImage: '',
+            bgImage: 'slide management.png',
+            imageBase64: '',
+            status: 'active'
+        },
+        {
+            id: 3,
+            title: 'Hijab',
+            description: 'Koleksi hijab premium dengan berbagai model dan bahan berkualitas tinggi',
+            buttonText: 'Lihat Katalog',
+            buttonLink: 'hijab.html',
+            businessLine: 'Hijab',
+            bgColor: 'linear-gradient(135deg, #8e44ad 0%, #3498db 100%)',
+            bgImage: 'slide hijab.png',
+            imageBase64: '',
+            status: 'active'
+        },
+        {
+            id: 4,
+            title: 'Kedai Sembako',
+            description: 'Menyediakan kebutuhan sembako dan bahan pokok berkualitas dengan harga bersaing',
+            buttonText: 'Cek Lokasi',
+            buttonLink: 'sembako.html',
+            businessLine: 'Sembako',
+            bgColor: 'linear-gradient(135deg, #27ae60 0%, #2ecc71 100%)',
+            bgImage: 'hero sembako.jpeg',
+            imageBase64: '',
+            status: 'active'
+        },
+        {
+            id: 5,
+            title: 'Travel Agent',
+            description: 'Paket wisata, umroh, dan perjalanan bisnis dengan layanan terpercaya',
+            buttonText: 'Lihat Paket',
+            buttonLink: 'travel.html',
+            businessLine: 'Travel',
+            bgColor: 'linear-gradient(135deg, #e74c3c 0%, #f39c12 100%)',
+            bgImage: 'slide travel.png',
             imageBase64: '',
             status: 'active'
         }
@@ -917,13 +953,19 @@ function getLocalStorageSize() {
 // ==========================================
 
 function renderHeroSliderPage() {
+    const slides = HeroSlides.getAll();
     return `
         <div class="card">
             <div class="card-header">
-                <h2>📋 Daftar Hero Slides</h2>
-                <button class="btn btn-primary" onclick="showAddSlideModal()">
-                    ➕ Tambah Slide
-                </button>
+                <h2> Daftar Hero Slides (${slides.length} slide)</h2>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="showAddSlideModal()">
+                        ➕ Tambah Slide
+                    </button>
+                    <button class="btn btn-warning" onclick="resetToDefaultSlides()" title="Reset ke 5 slide default">
+                        🔄 Reset ke Default
+                    </button>
+                </div>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -957,7 +999,11 @@ function refreshSlidesTable() {
     const tbody = document.getElementById('slidesTableBody');
     if (!tbody) return;
 
-    document.getElementById('slideCount').textContent = slides.length;
+    // Update slide count badge if element exists
+    const slideCountEl = document.getElementById('slideCount');
+    if (slideCountEl) {
+        slideCountEl.textContent = slides.length;
+    }
 
     tbody.innerHTML = slides.map(slide => `
         <tr>
@@ -966,7 +1012,7 @@ function refreshSlidesTable() {
                 <div style="width: 80px; height: 50px; border-radius: 6px; overflow: hidden; background: ${slide.bgColor || '#ccc'};">
                     ${slide.imageBase64 || slide.bgImage ? 
                         `<img src="${slide.imageBase64 || slide.bgImage}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'">` : 
-                        ''}
+                        '<span style="display:flex;align-items:center;justify-content:center;height:100%;font-size:10px;color:#fff;">No Image</span>'}
                 </div>
             </td>
             <td><strong>${escapeHtml(slide.title)}</strong></td>
@@ -1148,6 +1194,36 @@ async function deleteSlide(id) {
     if (success) {
         showToast('Slide berhasil dihapus!', 'success');
         refreshSlidesTable();
+    }
+}
+
+// Reset slides to default 5 slides
+async function resetToDefaultSlides() {
+    if (!confirm('Reset ke 5 slide default? Semua slide saat ini akan diganti.')) return;
+    
+    try {
+        // Deep copy default slides to avoid reference issues
+        const defaultSlides = JSON.parse(JSON.stringify(HeroSlides.defaultSlides));
+        
+        // Save to IndexedDB
+        const success = await HeroSlides.saveAll(defaultSlides);
+        
+        if (success) {
+            showToast('Slide berhasil direset ke 5 slide default!', 'success');
+            refreshSlidesTable();
+            
+            // Reload the main page slider if it's open
+            if (typeof window !== 'undefined' && window.parent !== window) {
+                try {
+                    window.parent.location.reload();
+                } catch (e) {}
+            }
+        } else {
+            showToast('Gagal mereset slide.', 'error');
+        }
+    } catch (e) {
+        console.error('Error resetting slides:', e);
+        showToast('Error: ' + e.message, 'error');
     }
 }
 
