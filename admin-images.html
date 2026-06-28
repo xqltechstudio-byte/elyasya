@@ -1,0 +1,909 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Image Management - Elyasya Corp</title>
+    <link rel="stylesheet" href="admin-styles.css">
+    <script>
+        // Auth check - consistent with admin-dashboard.html
+        (function() {
+            var session = localStorage.getItem('adminSession');
+            if (!session) {
+                window.location.href = 'admin.html';
+            } else {
+                try {
+                    var data = JSON.parse(session);
+                    if (Date.now() - data.loginTime > 24 * 60 * 60 * 1000) {
+                        localStorage.removeItem('adminSession');
+                        window.location.href = 'admin.html';
+                    }
+                } catch(e) {
+                    localStorage.removeItem('adminSession');
+                    window.location.href = 'admin.html';
+                }
+            }
+        })();
+    </script>
+    <style>
+        /* Image Management Specific Styles */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            padding: 20px 0;
+        }
+
+        .image-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .image-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        .image-preview {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #f5f5f5;
+            border-bottom: 1px solid #eee;
+        }
+
+        .image-info {
+            padding: 16px;
+        }
+
+        .image-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 4px;
+            word-break: break-all;
+        }
+
+        .image-page {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .image-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-change {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-change:hover {
+            background: #2563eb;
+        }
+
+        .btn-reset {
+            background: #f3f4f6;
+            color: #666;
+        }
+
+        .btn-reset:hover {
+            background: #e5e7eb;
+        }
+
+        .page-section {
+            margin-bottom: 40px;
+        }
+
+        .page-section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .page-section-header h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .page-section-header .page-icon {
+            font-size: 24px;
+        }
+
+        .upload-area {
+            border: 2px dashed #d1d5db;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #fafafa;
+        }
+
+        .upload-area:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        .upload-area.dragover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .upload-text {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .upload-hint {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid #e5e7eb;
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            border-color: #3b82f6;
+            color: #3b82f6;
+        }
+
+        .filter-btn.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+
+        .stats-bar {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 24px;
+            padding: 16px 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .stat-icon.total {
+            background: #dbeafe;
+        }
+
+        .stat-icon.modified {
+            background: #fef3c7;
+        }
+
+        .stat-icon.original {
+            background: #d1fae5;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-box:focus {
+            border-color: #3b82f6;
+        }
+
+        .modal-image-preview {
+            max-width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin: 16px 0;
+            background: #f5f5f5;
+        }
+
+        .drop-zone {
+            border: 2px dashed #d1d5db;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 16px 0;
+        }
+
+        .drop-zone:hover,
+        .drop-zone.dragover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 16px 24px;
+            background: #333;
+            color: white;
+            border-radius: 8px;
+            font-size: 14px;
+            z-index: 10000;
+            animation: slideIn 0.3s ease;
+        }
+
+        .toast.success {
+            background: #10b981;
+        }
+
+        .toast.error {
+            background: #ef4444;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: #f3f4f6;
+            color: #333;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            transition: all 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #e5e7eb;
+        }
+
+        .save-all-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .save-all-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+    </style>
+</head>
+<body class="dashboard-page">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="logo elyasya Corp.jpeg" alt="Elyasya" class="sidebar-logo">
+            <div>
+                <h2>Elyasya Admin</h2>
+                <span>Management Panel</span>
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-section-title">Main Menu</div>
+                <div class="nav-item" data-page="dashboard" onclick="window.location.href='admin-dashboard.html'">
+                    <span class="icon">📊</span>
+                    <span>Dashboard</span>
+                </div>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Content Management</div>
+                <div class="nav-item" data-page="hero-slider" onclick="window.location.href='admin-dashboard.html?page=hero-slider'">
+                    <span class="icon">🖼️</span>
+                    <span>Hero Slider</span>
+                </div>
+                <div class="nav-item active" data-page="page-images">
+                    <span class="icon">📸</span>
+                    <span>Page Images</span>
+                </div>
+                <div class="nav-item" data-page="galleries" onclick="window.location.href='admin-dashboard.html?page=galleries'">
+                    <span class="icon">🎨</span>
+                    <span>Galleries</span>
+                </div>
+                <div class="nav-item" data-page="testimonials" onclick="window.location.href='admin-dashboard.html?page=testimonials'">
+                    <span class="icon">💬</span>
+                    <span>Testimonials</span>
+                </div>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Business Pages</div>
+                <div class="nav-item" data-page="index" onclick="window.location.href='admin-dashboard.html?page=index'">
+                    <span class="icon">🏠</span>
+                    <span>Halaman Utama</span>
+                </div>
+                <div class="nav-item" data-page="hijab" onclick="window.location.href='admin-dashboard.html?page=hijab'">
+                    <span class="icon">🧕</span>
+                    <span>Elyasya Hijab</span>
+                </div>
+                <div class="nav-item" data-page="sembako" onclick="window.location.href='admin-dashboard.html?page=sembako'">
+                    <span class="icon">🛒</span>
+                    <span>Kedai Sembako</span>
+                </div>
+                <div class="nav-item" data-page="travel" onclick="window.location.href='admin-dashboard.html?page=travel'">
+                    <span class="icon">✈️</span>
+                    <span>Travel</span>
+                </div>
+                <div class="nav-item" data-page="design" onclick="window.location.href='admin-dashboard.html?page=design'">
+                    <span class="icon">🎨</span>
+                    <span>Design Interior</span>
+                </div>
+                <div class="nav-item" data-page="management" onclick="window.location.href='admin-dashboard.html?page=management'">
+                    <span class="icon">💼</span>
+                    <span>Management</span>
+                </div>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Settings</div>
+                <div class="nav-item" data-page="settings" onclick="window.location.href='admin-dashboard.html?page=settings'">
+                    <span class="icon">⚙️</span>
+                    <span>Settings</span>
+                </div>
+                <div class="nav-item" onclick="handleLogout()">
+                    <span class="icon">🚪</span>
+                    <span>Logout</span>
+                </div>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+                <div class="page-title">
+                    <h1>Image Management</h1>
+                    <p>Kelola semua gambar di halaman lini bisnis</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-actions">
+                    <button class="save-all-btn" onclick="saveAllChanges()">💾 Simpan Semua Perubahan</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content Area -->
+        <div class="content-area" id="contentArea">
+            <!-- Back Button -->
+            <a href="admin-dashboard.html" class="back-btn">← Kembali ke Dashboard</a>
+
+            <!-- Stats Bar -->
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-icon total">🖼️</div>
+                    <div>
+                        <div class="stat-value" id="totalImages">0</div>
+                        <div class="stat-label">Total Gambar</div>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon modified">✏️</div>
+                    <div>
+                        <div class="stat-value" id="modifiedImages">0</div>
+                        <div class="stat-label">Dimodifikasi</div>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon original">✓</div>
+                    <div>
+                        <div class="stat-value" id="originalImages">0</div>
+                        <div class="stat-label">Original</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <button class="filter-btn active" data-filter="all" onclick="filterImages('all')">Semua</button>
+                <button class="filter-btn" data-filter="index" onclick="filterImages('index')">🏠 Halaman Utama</button>
+                <button class="filter-btn" data-filter="hijab" onclick="filterImages('hijab')">🧕 Hijab</button>
+                <button class="filter-btn" data-filter="sembako" onclick="filterImages('sembako')">🛒 Sembako</button>
+                <button class="filter-btn" data-filter="travel" onclick="filterImages('travel')">✈️ Travel</button>
+                <button class="filter-btn" data-filter="design" onclick="filterImages('design')">🎨 Design Interior</button>
+                <button class="filter-btn" data-filter="management" onclick="filterImages('management')">💼 Management</button>
+                <input type="text" class="search-box" placeholder="Cari gambar..." oninput="searchImages(this.value)">
+            </div>
+
+            <!-- Image Sections -->
+            <div id="imageSections"></div>
+        </div>
+    </main>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
+        <div class="modal" id="modal">
+            <div class="modal-header">
+                <h2 id="modalTitle">Ubah Gambar</h2>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Modal content -->
+            </div>
+            <div class="modal-footer" id="modalFooter">
+                <!-- Modal buttons -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Image data structure for all business pages
+        const pageImages = {
+            index: {
+                name: 'Halaman Utama',
+                icon: '🏠',
+                images: [
+                    { id: 'index-logo-corp', name: 'Logo Elyasya Corp', file: 'logo elyasya Corp.jpeg', type: 'logo' },
+                    { id: 'index-slide-design', name: 'Slide Design Interior', file: 'slide design.png', type: 'slider' },
+                    { id: 'index-slide-management', name: 'Slide Management', file: 'slide management.png', type: 'slider' },
+                    { id: 'index-slide-hijab', name: 'Slide Hijab', file: 'slide hijab.png', type: 'slider' },
+                    { id: 'index-slide-sembako', name: 'Slide Sembako', file: 'hero sembako.jpeg', type: 'slider' },
+                    { id: 'index-slide-travel', name: 'Slide Travel', file: 'slide travel.png', type: 'slider' }
+                ]
+            },
+            hijab: {
+                name: 'Elyasya Hijab',
+                icon: '🧕',
+                images: [
+                    { id: 'hijab-logo-corp', name: 'Logo Elyasya Corp', file: 'logo elyasya Corp.jpeg', type: 'logo' },
+                    { id: 'hijab-logo-main', name: 'Logo Hijab', file: 'hijab logo.jpeg', type: 'logo' },
+                    { id: 'hijab-slide', name: 'Slide Hijab', file: 'slide hijab.png', type: 'slider' }
+                ]
+            },
+            sembako: {
+                name: 'Kedai Sembako',
+                icon: '🛒',
+                images: [
+                    { id: 'sembako-logo-corp', name: 'Logo Elyasya Corp', file: 'logo elyasya Corp.jpeg', type: 'logo' },
+                    { id: 'sembako-logo-main', name: 'Logo Kedai Sembako', file: 'logo kedai sembako.png', type: 'logo' },
+                    { id: 'sembako-hero', name: 'Hero Sembako', file: 'hero sembako.jpeg', type: 'hero' },
+                    { id: 'sembako-beras', name: 'Beras Premium', file: 'beras.jpeg', type: 'product' },
+                    { id: 'sembako-gula', name: 'Gula Pasir', file: 'gula.jpeg', type: 'product' },
+                    { id: 'sembako-minyak', name: 'Minyak Goreng', file: 'minyak.jpeg', type: 'product' },
+                    { id: 'sembako-kopi', name: 'Kopi Premium', file: 'kopi.jpeg', type: 'product' },
+                    { id: 'sembako-mie', name: 'Mi Instan', file: 'mie.jpeg', type: 'product' },
+                    { id: 'sembako-tepung', name: 'Berbagai Jenis Tepung', file: 'tepung.jpeg', type: 'product' },
+                    { id: 'sembako-bumbu', name: 'Bumbu Masakan / Instan', file: 'bumbu.jpeg', type: 'product' },
+                    { id: 'sembako-sarden', name: 'Makanan Kaleng', file: 'sarden.jpeg', type: 'product' }
+                ]
+            },
+            travel: {
+                name: 'Travel Agent',
+                icon: '✈️',
+                images: [
+                    { id: 'travel-logo-corp', name: 'Logo Elyasya Corp', file: 'logo elyasya Corp.jpeg', type: 'logo' },
+                    { id: 'travel-logo-main', name: 'Logo Travel', file: 'logo travel.jpeg', type: 'logo' },
+                    { id: 'travel-slide', name: 'Slide Travel', file: 'slide travel.png', type: 'slider' },
+                    { id: 'travel-hiace', name: 'Hiace', file: 'hiace.png', type: 'vehicle' },
+                    { id: 'travel-wisata', name: 'Wisata Banyuwangi', file: 'wisata banyuwangi.jpeg', type: 'destination' }
+                ]
+            },
+            design: {
+                name: 'Design Interior',
+                icon: '🎨',
+                images: [
+                    { id: 'design-logo-corp', name: 'Logo Elyasya Corp', file: 'logo elyasya Corp.jpeg', type: 'logo' },
+                    { id: 'design-logo-main', name: 'Logo Design Interior', file: 'logo design interior.png', type: 'logo' },
+                    { id: 'design-hero-img', name: 'Hero Image (Editorial)', file: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0', type: 'photo' },
+                    { id: 'design-gallery-1', name: 'Gallery - Material', file: 'https://images.unsplash.com/photo-1533090161767-e6ffed986c88', type: 'photo' },
+                    { id: 'design-gallery-2', name: 'Gallery - Cahaya', file: 'https://images.unsplash.com/photo-1507652313519-d4e9174996dd', type: 'photo' },
+                    { id: 'design-gallery-3', name: 'Gallery - Layout', file: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7', type: 'photo' },
+                    { id: 'design-gallery-4', name: 'Gallery - Detail', file: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6', type: 'photo' },
+                    { id: 'design-gallery-5', name: 'Gallery - Permukaan', file: 'https://images.unsplash.com/photo-1513694203232-719a280e022f', type: 'photo' },
+                    { id: 'design-gallery-6', name: 'Gallery - Styling', file: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace', type: 'photo' }
+                ]
+            },
+            management: {
+                name: 'Management',
+                icon: '💼',
+                images: [
+                    { id: 'management-logo-corp', name: 'Logo Elyasya Corp', file: 'logo elyasya Corp.jpeg', type: 'logo' },
+                    { id: 'management-logo-main', name: 'Logo Management', file: 'logo management.jpeg', type: 'logo' },
+                    { id: 'management-slide', name: 'Slide Management', file: 'slide management.png', type: 'slider' }
+                ]
+            }
+        };
+
+        let currentFilter = 'all';
+        let searchQuery = '';
+        let modifiedImages = {};
+
+        // Load saved images from localStorage
+        function loadSavedImages() {
+            const saved = localStorage.getItem('elyasya_page_images');
+            if (saved) {
+                try {
+                    modifiedImages = JSON.parse(saved);
+                } catch (e) {
+                    modifiedImages = {};
+                }
+            }
+        }
+
+        // Save images to localStorage
+        function saveToLocalStorage() {
+            localStorage.setItem('elyasya_page_images', JSON.stringify(modifiedImages));
+        }
+
+        // Get image source (either modified or original)
+        function getImageSrc(imageId, originalFile) {
+            if (modifiedImages[imageId]) {
+                return modifiedImages[imageId];
+            }
+            return originalFile;
+        }
+
+        // Render all image sections
+        function renderImageSections() {
+            const container = document.getElementById('imageSections');
+            container.innerHTML = '';
+
+            Object.keys(pageImages).forEach(pageKey => {
+                if (currentFilter !== 'all' && currentFilter !== pageKey) return;
+
+                const page = pageImages[pageKey];
+                const section = document.createElement('div');
+                section.className = 'page-section';
+                section.setAttribute('data-page', pageKey);
+
+                let imagesHtml = '';
+                let visibleCount = 0;
+
+                page.images.forEach(img => {
+                    if (searchQuery && !img.name.toLowerCase().includes(searchQuery.toLowerCase()) && 
+                        !img.file.toLowerCase().includes(searchQuery.toLowerCase())) {
+                        return;
+                    }
+
+                    visibleCount++;
+                    const imgSrc = getImageSrc(img.id, img.file);
+                    const isModified = modifiedImages[img.id] ? 'modified' : '';
+
+                    imagesHtml += `
+                        <div class="image-card" data-image-id="${img.id}" data-page="${pageKey}">
+                            <img src="${imgSrc}" alt="${img.name}" class="image-preview" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><rect fill=%22%23f0f0f0%22 width=%22200%22 height=%22200%22/><text fill=%22%23999%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2214%22>Gambar tidak ditemukan</text></svg>'">
+                            <div class="image-info">
+                                <div class="image-name">${img.name} ${isModified ? '<span style="color: #f59e0b;">✏️</span>' : ''}</div>
+                                <div class="image-page">${img.file}</div>
+                                <div class="image-actions">
+                                    <button class="btn-sm btn-change" onclick="openChangeImageModal('${img.id}', '${img.name}', '${img.file}')">📷 Ubah</button>
+                                    ${isModified ? `<button class="btn-sm btn-reset" onclick="resetImage('${img.id}')">↺ Reset</button>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                if (visibleCount === 0) {
+                    imagesHtml = '<p style="text-align: center; color: #999; padding: 40px;">Tidak ada gambar yang ditemukan</p>';
+                }
+
+                section.innerHTML = `
+                    <div class="page-section-header">
+                        <span class="page-icon">${page.icon}</span>
+                        <h3>${page.name}</h3>
+                        <span style="margin-left: auto; opacity: 0.8; font-size: 14px;">${visibleCount} gambar</span>
+                    </div>
+                    <div class="image-grid">
+                        ${imagesHtml}
+                    </div>
+                `;
+
+                container.appendChild(section);
+            });
+
+            updateStats();
+        }
+
+        // Update statistics
+        function updateStats() {
+            let total = 0;
+            let modified = 0;
+
+            Object.keys(pageImages).forEach(pageKey => {
+                pageImages[pageKey].images.forEach(img => {
+                    total++;
+                    if (modifiedImages[img.id]) {
+                        modified++;
+                    }
+                });
+            });
+
+            document.getElementById('totalImages').textContent = total;
+            document.getElementById('modifiedImages').textContent = modified;
+            document.getElementById('originalImages').textContent = total - modified;
+        }
+
+        // Filter images by page
+        function filterImages(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-filter') === filter);
+            });
+            renderImageSections();
+        }
+
+        // Search images
+        function searchImages(query) {
+            searchQuery = query;
+            renderImageSections();
+        }
+
+        // Open modal to change image
+        function openChangeImageModal(imageId, imageName, originalFile) {
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            const modalFooter = document.getElementById('modalFooter');
+
+            const currentSrc = getImageSrc(imageId, originalFile);
+
+            modalTitle.textContent = `Ubah: ${imageName}`;
+            modalBody.innerHTML = `
+                <div style="text-align: center;">
+                    <p style="color: #666; margin-bottom: 16px;">Gambar saat ini:</p>
+                    <img src="${currentSrc}" class="modal-image-preview" id="currentPreview" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22200%22><rect fill=%22%23f0f0f0%22 width=%22300%22 height=%22200%22/><text fill=%22%23999%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2214%22>Gambar tidak ditemukan</text></svg>'">
+                    
+                    <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                        <div class="upload-icon">📁</div>
+                        <div class="upload-text">Klik atau drag & drop gambar baru</div>
+                        <div class="upload-hint">Format: JPG, PNG, WEBP (Maks. 5MB)</div>
+                    </div>
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFileSelect(event, '${imageId}')">
+                    
+                    <div id="newPreviewContainer" style="display: none; margin-top: 16px;">
+                        <p style="color: #666; margin-bottom: 8px;">Preview gambar baru:</p>
+                        <img id="newPreview" class="modal-image-preview" style="border: 2px solid #10b981;">
+                    </div>
+                </div>
+            `;
+
+            modalFooter.innerHTML = `
+                <button class="btn-sm btn-reset" onclick="closeModal()" style="padding: 10px 20px; font-size: 14px;">Batal</button>
+                <button class="btn-sm btn-change" id="saveBtn" onclick="saveImageChange('${imageId}')" style="padding: 10px 20px; font-size: 14px; display: none;" disabled>💾 Simpan Perubahan</button>
+            `;
+
+            // Setup drag and drop
+            setupDragAndDrop();
+
+            modal.classList.add('active');
+            document.getElementById('modalOverlay').classList.add('active');
+        }
+
+        // Setup drag and drop for file upload
+        function setupDragAndDrop() {
+            const dropZone = document.getElementById('dropZone');
+            
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('dragover');
+            });
+
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.classList.remove('dragover');
+            });
+
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    processFile(files[0]);
+                }
+            });
+        }
+
+        // Handle file selection
+        function handleFileSelect(event, imageId) {
+            const file = event.target.files[0];
+            if (file) {
+                processFile(file, imageId);
+            }
+        }
+
+        // Process selected file
+        function processFile(file, imageId) {
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                showToast('File harus berupa gambar!', 'error');
+                return;
+            }
+
+            // Validate file size (5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('Ukuran file maksimal 5MB!', 'error');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const base64 = e.target.result;
+                
+                // Show preview
+                document.getElementById('newPreview').src = base64;
+                document.getElementById('newPreviewContainer').style.display = 'block';
+                document.getElementById('saveBtn').style.display = 'inline-block';
+                document.getElementById('saveBtn').disabled = false;
+                
+                // Store base64 temporarily
+                window.tempNewImage = base64;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Save image change
+        function saveImageChange(imageId) {
+            if (window.tempNewImage) {
+                modifiedImages[imageId] = window.tempNewImage;
+                saveToLocalStorage();
+                renderImageSections();
+                closeModal();
+                showToast('Gambar berhasil diubah!', 'success');
+                window.tempNewImage = null;
+            }
+        }
+
+        // Reset image to original
+        function resetImage(imageId) {
+            if (modifiedImages[imageId]) {
+                delete modifiedImages[imageId];
+                saveToLocalStorage();
+                renderImageSections();
+                showToast('Gambar berhasil direset!', 'success');
+            }
+        }
+
+        // Save all changes (applies to all pages)
+        function saveAllChanges() {
+            saveToLocalStorage();
+            showToast('Semua perubahan berhasil disimpan!', 'success');
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+            document.getElementById('modalOverlay').classList.remove('active');
+            window.tempNewImage = null;
+        }
+
+        // Close modal on overlay click
+        function closeModalOnOverlay(event) {
+            if (event.target === document.getElementById('modalOverlay')) {
+                closeModal();
+            }
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // Toggle sidebar
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        }
+
+        // Handle logout
+        function handleLogout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                localStorage.removeItem('adminSession');
+                window.location.href = 'admin.html';
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSavedImages();
+            renderImageSections();
+        });
+    </script>
+</body>
+</html>

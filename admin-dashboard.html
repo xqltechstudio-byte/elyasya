@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -25,6 +25,11 @@
                     <span class="icon">📊</span>
                     <span>Dashboard</span>
                 </div>
+                <div class="nav-item" data-page="messages" onclick="navigateTo('messages')">
+                    <span class="icon">✉️</span>
+                    <span>Pesan</span>
+                    <span class="badge" id="messageCount">0</span>
+                </div>
             </div>
             
             <div class="nav-section">
@@ -34,7 +39,7 @@
                     <span>Hero Slider</span>
                     <span class="badge" id="slideCount">0</span>
                 </div>
-                <div class="nav-item" data-page="page-images" onclick="navigateTo('page-images')">
+                <div class="nav-item" data-page="page-images" onclick="window.location.href='admin-images.html'">
                     <span class="icon">📸</span>
                     <span>Page Images</span>
                 </div>
@@ -50,6 +55,18 @@
             
             <div class="nav-section">
                 <div class="nav-section-title">Business Pages</div>
+                <div class="nav-item" data-page="business-pages" onclick="navigateTo('business-pages')">
+                    <span class="icon">📄</span>
+                    <span>Business Pages</span>
+                </div>
+                <div class="nav-item" data-page="lini-bisnis" onclick="navigateTo('lini-bisnis')">
+                    <span class="icon">🏢</span>
+                    <span>Lini Bisnis Kami</span>
+                </div>
+                <div class="nav-item" data-page="index" onclick="navigateTo('index')">
+                    <span class="icon">🏠</span>
+                    <span>Halaman Utama</span>
+                </div>
                 <div class="nav-item" data-page="hijab" onclick="navigateTo('hijab')">
                     <span class="icon">🧕</span>
                     <span>Elyasya Hijab</span>

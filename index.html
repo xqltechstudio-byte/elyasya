@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -21,7 +21,7 @@
             <ul class="nav-menu" id="navMenu">
                 <li><a href="#home" class="active">Home</a></li>
                 <li class="dropdown">
-                    <a href="#bisnis">Lini Bisnis ▼</a>
+                    <a href="#bisnis">Lini Bisnis &#9660;</a>
                     <ul class="dropdown-menu">
                         <li><a href="design-interior.html">Design Interior</a></li>
                         <li><a href="management.html">Management</a></li>
@@ -59,66 +59,8 @@
             <h2 class="section-title">Lini Bisnis Kami</h2>
             <p class="section-subtitle">5 Pilar Bisnis yang Melayani Berbagai Kebutuhan Anda</p>
             
-            <div class="business-grid">
-                <div class="business-card" id="design-interior">
-                    <div class="card-icon">🏠</div>
-                    <h3>Design Interior</h3>
-                    <p>Layanan desain interior profesional untuk rumah, kantor, dan komersial. Dari konsep hingga eksekusi.</p>
-                    <ul class="feature-list">
-                        <li>✓ Konsultasi Gratis</li>
-                        <li>✓ Portfolio 100+ Proyek</li>
-                        <li>✓ Garansi Kepuasan</li>
-                    </ul>
-                    <a href="design-interior.html" class="btn-secondary">Lihat Portfolio</a>
-                </div>
-
-                <div class="business-card" id="management">
-                    <div class="card-icon">📊</div>
-                    <h3>Management</h3>
-                    <p>Konsultasi manajemen bisnis, optimasi operasional, dan strategi pertumbuhan perusahaan.</p>
-                    <ul class="feature-list">
-                        <li>✓ Business Consulting</li>
-                        <li>✓ Asset Management</li>
-                        <li>✓ Strategic Planning</li>
-                    </ul>
-                    <a href="management.html" class="btn-secondary">Konsultasi Sekarang</a>
-                </div>
-
-                <div class="business-card" id="hijab">
-                    <div class="card-icon">👗</div>
-                    <h3>Hijab</h3>
-                    <p>Koleksi hijab premium dengan berbagai model dan bahan berkualitas tinggi untuk muslimah modern.</p>
-                    <ul class="feature-list">
-                        <li>✓ Bahan Premium</li>
-                        <li>✓ Model Terkini</li>
-                        <li>✓ Harga Terjangkau</li>
-                    </ul>
-                    <a href="hijab.html" class="btn-secondary">Lihat Katalog</a>
-                </div>
-
-                <div class="business-card" id="sembako">
-                    <div class="card-icon">🛒</div>
-                    <h3>Kedai Sembako</h3>
-                    <p>Menyediakan kebutuhan sembako dan bahan pokok berkualitas dengan harga bersaing.</p>
-                    <ul class="feature-list">
-                        <li>✓ Produk Berkualitas</li>
-                        <li>✓ Harga Kompetitif</li>
-                        <li>✓ Lokasi Strategis</li>
-                    </ul>
-                    <a href="sembako.html" class="btn-secondary">Cek Lokasi</a>
-                </div>
-
-                <div class="business-card" id="travel">
-                    <div class="card-icon">✈️</div>
-                    <h3>Travel Agent</h3>
-                    <p>Paket wisata, umroh, dan perjalanan bisnis dengan layanan terpercaya dan harga terbaik.</p>
-                    <ul class="feature-list">
-                        <li>✓ Paket Tour Lengkap</li>
-                        <li>✓ Umroh & Haji</li>
-                        <li>✓ Ticketing</li>
-                    </ul>
-                    <a href="travel.html" class="btn-secondary">Lihat Paket</a>
-                </div>
+            <div class="business-grid" id="businessGrid">
+                <!-- Dynamically rendered from localStorage by script.js -->
             </div>
         </div>
     </section>
@@ -128,14 +70,14 @@
         <div class="container">
             <div class="about-content">
                 <div class="about-text">
-                    <h2>Tentang Elyasya Corp</h2>
-                    <p class="lead">Elyasya Corp adalah holding company yang menaungi 5 pilar bisnis strategis, melayani berbagai kebutuhan masyarakat dan korporat.</p>
+                    <h2 id="idx_about_title">Tentang Elyasya Corp</h2>
+                    <p class="lead" id="idx_about_lead">Elyasya Corp adalah holding company yang menaungi 5 pilar bisnis strategis, melayani berbagai kebutuhan masyarakat dan korporat.</p>
                     
-                    <h3>Visi</h3>
-                    <p>Menjadi konglomerasi terpercaya yang memberikan solusi terbaik di berbagai sektor bisnis dengan standar kualitas internasional.</p>
+                    <h3 id="idx_vision_title">Visi</h3>
+                    <p id="idx_vision_text">Menjadi konglomerasi terpercaya yang memberikan solusi terbaik di berbagai sektor bisnis dengan standar kualitas internasional.</p>
                     
-                    <h3>Misi</h3>
-                    <ul>
+                    <h3 id="idx_mission_title">Misi</h3>
+                    <ul id="idx_mission_list">
                         <li>Memberikan layanan berkualitas tinggi di setiap lini bisnis</li>
                         <li>Membangun kepercayaan jangka panjang dengan klien dan mitra</li>
                         <li>Berinovasi secara berkelanjutan untuk pertumbuhan bisnis</li>
@@ -177,28 +119,28 @@
                         <span class="icon">📍</span>
                         <div>
                             <h4>Alamat</h4>
-                            <p>Jl. KH. Ahmad Kholil Dusun Cangaan, Genteng Wetan<br>Banyuwangi, Jawa Timur 68465</p>
+                            <p id="idx_contact_address">Jl. KH. Ahmad Kholil Dusun Cangaan, Genteng Wetan<br>Banyuwangi, Jawa Timur 68465</p>
                         </div>
                     </div>
                     <div class="info-item">
                         <span class="icon">📞</span>
                         <div>
                             <h4>Telepon</h4>
-                            <p>+62 813 3423 6869</p>
+                            <p id="idx_contact_phone">+62 813 3423 6869</p>
                         </div>
                     </div>
                     <div class="info-item">
                         <span class="icon">📧</span>
                         <div>
                             <h4>Email</h4>
-                            <p>elyasyacorp@gmail.com</p>
+                            <p id="idx_contact_email">elyasyacorp@gmail.com</p>
                         </div>
                     </div>
                     <div class="info-item">
                         <span class="icon">💬</span>
                         <div>
                             <h4>WhatsApp</h4>
-                            <p>+62 813 3423 6869</p>
+                            <p id="idx_contact_wa">+62 813 3423 6869</p>
                         </div>
                     </div>
                 </div>
@@ -269,12 +211,6 @@
                         <a href="#" class="social-icon">💼 LinkedIn</a>
                     </div>
                 </div>
-                <div class="footer-section">
-                    <h4>Admin</h4>
-                    <ul>
-                        <li><a href="admin.html">🔐 Login Admin</a></li>
-                    </ul>
-                </div>
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2026 Elyasya Corp. All Rights Reserved.</p>
@@ -283,5 +219,60 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+    // Load saved page content from admin panel
+    function loadSavedPageContent() {
+        var saved = localStorage.getItem('pageContent_index');
+        if (!saved) return;
+        try {
+            var content = JSON.parse(saved);
+            var fieldMap = {
+                'about_title': { id: 'idx_about_title', type: 'text' },
+                'about_lead': { id: 'idx_about_lead', type: 'text' },
+                'vision_title': { id: 'idx_vision_title', type: 'text' },
+                'vision_text': { id: 'idx_vision_text', type: 'text' },
+                'mission_title': { id: 'idx_mission_title', type: 'text' },
+                'mission_text': { id: 'idx_mission_list', type: 'html' },
+                'contact_address': { id: 'idx_contact_address', type: 'html' },
+                'contact_email': { id: 'idx_contact_email', type: 'text' },
+                'contact_phone': { id: 'idx_contact_phone', type: 'text' },
+                'contact_whatsapp': { id: 'idx_contact_wa', type: 'text' }
+            };
+            Object.keys(content).forEach(function(fieldId) {
+                if (fieldMap[fieldId] && content[fieldId]) {
+                    var mapping = fieldMap[fieldId];
+                    var el = document.getElementById(mapping.id);
+                    if (el) {
+                        if (mapping.type === 'text') el.textContent = content[fieldId];
+                        else if (mapping.type === 'html') el.innerHTML = content[fieldId];
+                    }
+                }
+            });
+            console.log('âœ… Index page content loaded from admin panel');
+        } catch (e) {
+            console.error('Error loading saved index content:', e);
+        }
+    }
+
+    // Load saved page images (logo)
+    function loadSavedPageImages() {
+        var saved = localStorage.getItem('elyasya_page_images');
+        if (!saved) return;
+        try {
+            var modifiedImages = JSON.parse(saved);
+            if (modifiedImages['index-logo-corp']) {
+                var logoImg = document.querySelector('.logo-img');
+                if (logoImg) logoImg.src = modifiedImages['index-logo-corp'];
+            }
+        } catch (e) {
+            console.error('Error loading saved page images:', e);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        loadSavedPageContent();
+        loadSavedPageImages();
+    });
+    </script>
 </body>
 </html>

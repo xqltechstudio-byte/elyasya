@@ -36,6 +36,17 @@ const IndexedDB = {
             request.onsuccess = () => resolve(request.result);
             request.onerror = () => reject(request.error);
         });
+    },
+
+    async set(key, value) {
+        const db = await this.open();
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction(STORE_NAME, 'readwrite');
+            const store = tx.objectStore(STORE_NAME);
+            const request = store.put(value, key);
+            request.onsuccess = () => resolve(true);
+            request.onerror = () => reject(request.error);
+        });
     }
 };
 
@@ -278,6 +289,7 @@ function restartAutoAdvance() {
 // Initialize slider on page load
 document.addEventListener('DOMContentLoaded', async () => {
     await renderHeroSlides();
+    renderBusinessCards(); // Render lini bisnis cards
 });
 
 function showSlide(n) {
@@ -386,7 +398,7 @@ function openWhatsApp(businessType) {
 
 // Contact Form Submission
 const contactForm = document.getElementById('contactForm');
-contactForm.addEventListener('submit', (e) => {
+contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     
     const name = document.getElementById('name').value;
@@ -399,8 +411,36 @@ contactForm.addEventListener('submit', (e) => {
     const selectElement = document.getElementById('subject');
     const businessText = selectElement.options[selectElement.selectedIndex].text;
     
+    // Save message to IndexedDB for admin panel
+    const messageData = {
+        id: Date.now(),
+        name: name,
+        email: email,
+        phone: phone,
+        subject: businessText,
+        message: message,
+        source: 'Contact Form',
+        read: false,
+        createdAt: new Date().toISOString()
+    };
+    
+    try {
+        // Get existing messages
+        let messages = await IndexedDB.get('contactMessages') || [];
+        if (!Array.isArray(messages)) messages = [];
+        
+        // Add new message
+        messages.unshift(messageData);
+        
+        // Save back to IndexedDB
+        await IndexedDB.set('contactMessages', messages);
+        console.log('Message saved to IndexedDB for admin panel');
+    } catch (err) {
+        console.error('Failed to save message to IndexedDB:', err);
+    }
+    
     // Create WhatsApp message
-    const phoneNumber = '6281234567890'; // Replace with actual WhatsApp number
+    const phoneNumber = '6281334236869';
     const whatsappMessage = `*Pesan dari Website Elyasya Corp*\n\n` +
                            `Nama: ${name}\n` +
                            `Email: ${email}\n` +
@@ -415,7 +455,7 @@ contactForm.addEventListener('submit', (e) => {
     window.open(whatsappURL, '_blank');
     
     // Show success message
-    alert('Terima kasih! Anda akan diarahkan ke WhatsApp untuk melanjutkan percakapan.');
+    alert('Terima kasih! Pesan Anda telah terkirim dan Anda akan diarahkan ke WhatsApp untuk melanjutkan percakapan.');
     
     // Reset form
     contactForm.reset();
@@ -490,14 +530,161 @@ window.addEventListener('storage', async function(e) {
         console.log('Hero slider data changed, refreshing...');
         await renderHeroSlides();
     }
+    if (e.key === 'liniBisnisData') {
+        console.log('Lini Bisnis data changed, refreshing...');
+        renderBusinessCards();
+    }
 });
 
 // Also check for changes when page becomes visible (tab switch)
 document.addEventListener('visibilitychange', async function() {
     if (!document.hidden) {
         await renderHeroSlides();
+        renderBusinessCards();
     }
 });
+
+// ==========================================
+// LINI BISNIS KAMI - DYNAMIC RENDERING
+// ==========================================
+
+const LINI_BISNIS_DEFAULT = [
+    {
+        id: 1,
+        title: 'Design Interior',
+        description: 'Layanan desain interior profesional untuk rumah, kantor, dan komersial. Dari konsep hingga eksekusi.',
+        icon: 'logo design interior.png',
+        link: 'design-interior.html',
+        color: '#1e3c72',
+        features: ['Konsultasi Gratis', 'Portfolio 100+ Proyek', 'Garansi Kepuasan'],
+        buttonText: 'Lihat Portfolio',
+        status: 'active'
+    },
+    {
+        id: 2,
+        title: 'Management',
+        description: 'Konsultasi manajemen bisnis, optimasi operasional, dan strategi pertumbuhan perusahaan.',
+        icon: 'logo management.jpeg',
+        link: 'management.html',
+        color: '#2a5298',
+        features: ['Business Consulting', 'Asset Management', 'Strategic Planning'],
+        buttonText: 'Konsultasi Sekarang',
+        status: 'active'
+    },
+    {
+        id: 3,
+        title: 'Hijab',
+        description: 'Koleksi hijab premium dengan berbagai model dan bahan berkualitas tinggi untuk muslimah modern.',
+        icon: 'hijab logo.jpeg',
+        link: 'hijab.html',
+        color: '#8e44ad',
+        features: ['Bahan Premium', 'Model Terkini', 'Harga Terjangkau'],
+        buttonText: 'Lihat Katalog',
+        status: 'active'
+    },
+    {
+        id: 4,
+        title: 'Kedai Sembako',
+        description: 'Menyediakan kebutuhan sembako dan bahan pokok berkualitas dengan harga bersaing.',
+        icon: 'logo kedai sembako.png',
+        link: 'sembako.html',
+        color: '#27ae60',
+        features: ['Produk Berkualitas', 'Harga Kompetitif', 'Lokasi Strategis'],
+        buttonText: 'Cek Lokasi',
+        status: 'active'
+    },
+    {
+        id: 5,
+        title: 'Travel Agent',
+        description: 'Paket wisata, umroh, dan perjalanan bisnis dengan layanan terpercaya dan harga terbaik.',
+        icon: 'logo travel.jpeg',
+        link: 'travel.html',
+        color: '#e74c3c',
+        features: ['Paket Tour Lengkap', 'Umroh & Haji', 'Ticketing'],
+        buttonText: 'Lihat Paket',
+        status: 'active'
+    }
+];
+
+// Mapping logo tiap lini bisnis berdasarkan halaman (link)
+const LOGO_LINI_BISNIS = {
+    'design-interior.html': 'logo design interior.png',
+    'management.html': 'logo management.jpeg',
+    'hijab.html': 'hijab logo.jpeg',
+    'sembako.html': 'logo kedai sembako.png',
+    'travel.html': 'logo travel.jpeg'
+};
+
+// Cek apakah nilai icon berupa path/URL gambar
+function isImageUrl(value) {
+    if (!value || typeof value !== 'string') return false;
+    const v = value.trim();
+    return /^https?:\/\//i.test(v) || /\.(png|jpe?g|svg|webp|gif|bmp)$/i.test(v);
+}
+
+// Resolve icon lini bisnis: prioritaskan gambar logo, fallback emoji
+function resolveLiniBisnisIcon(item) {
+    if (isImageUrl(item.icon)) {
+        return { type: 'image', src: item.icon };
+    }
+    if (item.link && LOGO_LINI_BISNIS[item.link]) {
+        return { type: 'image', src: LOGO_LINI_BISNIS[item.link] };
+    }
+    return { type: 'emoji', value: item.icon || '🏢' };
+}
+function getLiniBisnisData() {
+    const saved = localStorage.getItem('liniBisnisData');
+    if (saved) {
+        try {
+            return JSON.parse(saved);
+        } catch (e) {
+            return LINI_BISNIS_DEFAULT;
+        }
+    }
+    return LINI_BISNIS_DEFAULT;
+}
+
+function renderBusinessCards() {
+    const grid = document.getElementById('businessGrid');
+    if (!grid) return;
+
+    const items = getLiniBisnisData().filter(item => item.status === 'active');
+
+    if (items.length === 0) {
+        grid.innerHTML = '<p style="text-align:center;grid-column:1/-1;color:#888;">Belum ada lini bisnis yang aktif.</p>';
+        return;
+    }
+
+    grid.innerHTML = items.map(item => {
+        const features = (item.features || []).map(f => `<li>✓ ${escapeHtml(f)}</li>`).join('');
+        const btnText = escapeHtml(item.buttonText || 'Selengkapnya');
+        const link = escapeHtml(item.link || '#');
+        const icon = (function () { var r = resolveLiniBisnisIcon(item); if (r.type === 'image') { return '<img src="' + escapeHtml(r.src) + '" alt="' + escapeHtml(item.title || '') + ' Logo" class="card-logo" loading="lazy">'; } return escapeHtml(r.value); })();
+        const title = escapeHtml(item.title || '');
+        const desc = escapeHtml(item.description || '');
+        const color = item.color || '#2a5298';
+
+        return `
+            <div class="business-card" id="${title.toLowerCase().replace(/\s+/g, '-')}">
+                <div class="card-icon" style="background: #ffffff; border: 3px solid ${color}; -webkit-background-clip: initial; -webkit-text-fill-color: initial; color: white; width: 84px; height: 84px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 1rem; box-shadow: 0 6px 16px rgba(0,0,0,0.12); overflow: hidden;">${icon}</div>
+                <h3>${title}</h3>
+                <p>${desc}</p>
+                <ul class="feature-list">
+                    ${features}
+                </ul>
+                <a href="${link}" class="btn-secondary">${btnText}</a>
+            </div>
+        `;
+    }).join('');
+
+    // Re-observe new cards for scroll animation
+    grid.querySelectorAll('.business-card').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+        observer.observe(card);
+    });
+}
 
 // Load Page-Specific Images from Admin Panel
 async function loadPageImagesFromStorage() {

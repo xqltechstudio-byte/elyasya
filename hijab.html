@@ -1027,7 +1027,7 @@
             <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html">Home</a></li>
                 <li class="dropdown">
-                    <a href="index.html#bisnis">Lini Bisnis ▼</a>
+                    <a href="index.html#bisnis">Lini Bisnis &#9660;</a>
                     <ul class="dropdown-menu">
                         <li><a href="design-interior.html">Design Interior</a></li>
                         <li><a href="management.html">Management</a></li>
@@ -1559,7 +1559,7 @@
             observer.observe(el);
         });
 
-        // Load saved logo from localStorage
+        // Load saved logo from localStorage (legacy support)
         function loadSavedLogo() {
             const saved = localStorage.getItem('pageLogo_hijab');
             if (saved) {
@@ -1577,8 +1577,115 @@
             }
         }
 
+        // Load saved images from admin image management
+        function loadSavedPageImages() {
+            const saved = localStorage.getItem('elyasya_page_images');
+            if (!saved) return;
+            
+            try {
+                const modifiedImages = JSON.parse(saved);
+                
+                // Map image IDs to their selectors in this page
+                const imageMap = {
+                    'hijab-logo-corp': {
+                        selectors: ['.logo-img', 'img[src*="logo elyasya"]'],
+                        attr: 'src'
+                    },
+                    'hijab-logo-main': {
+                        selectors: ['img[src*="hijab logo"]', '.hero-logo img'],
+                        attr: 'src'
+                    },
+                    'hijab-slide': {
+                        selectors: ['img[src*="slide hijab"]', '.hero-slider img', '.slider-image'],
+                        attr: 'src'
+                    }
+                };
+                
+                Object.keys(modifiedImages).forEach(imgId => {
+                    if (imgId.startsWith('hijab-') && imageMap[imgId]) {
+                        const mapping = imageMap[imgId];
+                        const newSrc = modifiedImages[imgId];
+                        
+                        mapping.selectors.forEach(selector => {
+                            const elements = document.querySelectorAll(selector);
+                            elements.forEach(el => {
+                                if (el.tagName === 'IMG') {
+                                    el.src = newSrc;
+                                } else if (el.style) {
+                                    el.style.backgroundImage = `url('${newSrc}')`;
+                                }
+                            });
+                        });
+                    }
+                });
+            } catch (e) {
+                console.error('Error loading saved page images:', e);
+            }
+        }
+
         // Load saved logo on page load
         loadSavedLogo();
+        
+        // Load saved page images
+        loadSavedPageImages();
+
+        // Load saved page content from admin panel
+        function loadSavedPageContent() {
+            const saved = localStorage.getItem('pageContent_hijab');
+            if (!saved) return;
+            
+            try {
+                const content = JSON.parse(saved);
+                
+                // Map field IDs to their DOM selectors
+                const fieldMap = {
+                    'hero_badge': { selector: '.hero-badge', type: 'text' },
+                    'hero_title': { selector: '.hijab-hero h1', type: 'html' },
+                    'hero_tagline': { selector: '.hero-tagline', type: 'text' },
+                    'hero_description': { selector: '.hijab-hero p:nth-of-type(2)', type: 'text' },
+                    'hero_btn_primary_text': { selector: '.btn-hero-primary', type: 'text' },
+                    'hero_btn_primary_link': { selector: '.btn-hero-primary', type: 'href' },
+                    'hero_btn_secondary_text': { selector: '.btn-hero-secondary', type: 'text' },
+                    'about_subtitle': { selector: '.about-subtitle', type: 'text' },
+                    'about_text': { selector: '.about-text > p:nth-of-type(2)', type: 'text' },
+                    'about_categories_title': { selector: '.about-text h4', type: 'text' },
+                    'about_cat1': { selector: '.about-category-item:nth-child(1) span:last-child', type: 'text' },
+                    'about_cat2': { selector: '.about-category-item:nth-child(2) span:last-child', type: 'text' },
+                    'about_cat3': { selector: '.about-category-item:nth-child(3) span:last-child', type: 'text' },
+                    'about_cat4': { selector: '.about-category-item:nth-child(4) span:last-child', type: 'text' },
+                    'contact_instagram': { selector: '.contact-item:nth-child(1) a', type: 'text' },
+                    'contact_instagram_link': { selector: '.contact-item:nth-child(1) a', type: 'href' },
+                    'contact_whatsapp': { selector: '.contact-item:nth-child(2) a', type: 'text' },
+                    'contact_whatsapp_link': { selector: '.contact-item:nth-child(2) a', type: 'href' },
+                    'contact_marketplace': { selector: '.contact-item:nth-child(3) span', type: 'text' },
+                    'contact_address': { selector: '.address-text', type: 'html' },
+                };
+
+                Object.keys(content).forEach(fieldId => {
+                    if (fieldMap[fieldId] && content[fieldId]) {
+                        const mapping = fieldMap[fieldId];
+                        const elements = document.querySelectorAll(mapping.selector);
+                        
+                        elements.forEach(el => {
+                            if (mapping.type === 'text') {
+                                el.textContent = content[fieldId];
+                            } else if (mapping.type === 'html') {
+                                el.innerHTML = content[fieldId];
+                            } else if (mapping.type === 'href') {
+                                el.href = content[fieldId];
+                            }
+                        });
+                    }
+                });
+
+                console.log('✅ Page content loaded from admin panel');
+            } catch (e) {
+                console.error('Error loading saved page content:', e);
+            }
+        }
+
+        // Load saved page content
+        loadSavedPageContent();
     </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-// ==========================================
+﻿// ==========================================
 // ELYASYA CORP ADMIN PANEL - MAIN SCRIPT
 // ==========================================
 
@@ -16,7 +16,7 @@ const ADMIN_CONFIG = {
         pageGallery: 'pageGallery_',
         pageTestimonials: 'pageTestimonials_'
     },
-    pages: ['hijab', 'sembako', 'travel', 'design', 'management']
+    pages: ['index', 'hijab', 'sembako', 'travel', 'design', 'management']
 };
 
 // ==========================================
@@ -606,6 +606,82 @@ const Testimonials = {
 };
 
 // ==========================================
+// MESSAGES MANAGEMENT (Contact Form Submissions)
+// ==========================================
+
+const Messages = {
+    _cache: [],
+    STORAGE_KEY: 'contactMessages',
+
+    async init() {
+        const data = await DataStore.get(this.STORAGE_KEY, []);
+        this._cache = Array.isArray(data) ? data : [];
+    },
+
+    getAll() {
+        return this._cache || [];
+    },
+
+    getById(id) {
+        return this.getAll().find(m => m.id === id) || null;
+    },
+
+    getUnreadCount() {
+        return this.getAll().filter(m => !m.read).length;
+    },
+
+    async saveAll(messages) {
+        this._cache = messages;
+        return await DataStore.set(this.STORAGE_KEY, messages);
+    },
+
+    async add(message) {
+        const messages = this.getAll();
+        message.id = Date.now();
+        message.read = false;
+        message.createdAt = new Date().toISOString();
+        messages.unshift(message);
+        return await this.saveAll(messages);
+    },
+
+    async markAsRead(id) {
+        const messages = this.getAll();
+        const msg = messages.find(m => m.id === id);
+        if (msg) {
+            msg.read = true;
+            return await this.saveAll(messages);
+        }
+        return false;
+    },
+
+    async markAsUnread(id) {
+        const messages = this.getAll();
+        const msg = messages.find(m => m.id === id);
+        if (msg) {
+            msg.read = false;
+            return await this.saveAll(messages);
+        }
+        return false;
+    },
+
+    async markAllAsRead() {
+        const messages = this.getAll();
+        messages.forEach(m => m.read = true);
+        return await this.saveAll(messages);
+    },
+
+    async delete(id) {
+        let messages = this.getAll();
+        messages = messages.filter(m => m.id !== id);
+        return await this.saveAll(messages);
+    },
+
+    async deleteAll() {
+        return await this.saveAll([]);
+    }
+};
+
+// ==========================================
 // UI UTILITIES
 // ==========================================
 
@@ -720,6 +796,7 @@ function navigateTo(page) {
     // Update page title
     const titles = {
         'dashboard': { title: 'Dashboard', subtitle: 'Ringkasan data dan statistik website' },
+        'messages': { title: 'Pesan', subtitle: 'Kelola pesan masuk dari formulir kontak' },
         'hero-slider': { title: 'Hero Slider', subtitle: 'Kelola slider di halaman utama' },
         'page-images': { title: 'Page Images', subtitle: 'Kelola gambar hero dan about per halaman' },
         'galleries': { title: 'Galleries', subtitle: 'Kelola galeri foto per halaman bisnis' },
@@ -727,8 +804,10 @@ function navigateTo(page) {
         'hijab': { title: 'Elyasya Hijab', subtitle: 'Kelola konten halaman Hijab' },
         'sembako': { title: 'Kedai Sembako', subtitle: 'Kelola konten halaman Sembako' },
         'travel': { title: 'Travel', subtitle: 'Kelola konten halaman Travel' },
+        'index': { title: 'Halaman Utama', subtitle: 'Kelola konten halaman utama (index.html)' },
         'design': { title: 'Design Interior', subtitle: 'Kelola konten halaman Design Interior' },
         'management': { title: 'Management', subtitle: 'Kelola konten halaman Management' },
+        'lini-bisnis': { title: 'Lini Bisnis Kami', subtitle: 'Kelola konten section Lini Bisnis di halaman utama' },
         'settings': { title: 'Settings', subtitle: 'Pengaturan admin panel' }
     };
 
@@ -751,6 +830,10 @@ function renderPage(page) {
         case 'dashboard':
             contentArea.innerHTML = renderDashboard();
             break;
+        case 'messages':
+            contentArea.innerHTML = renderMessagesPage();
+            initMessagesPage();
+            break;
         case 'hero-slider':
             contentArea.innerHTML = renderHeroSliderPage();
             initHeroSliderPage();
@@ -763,10 +846,19 @@ function renderPage(page) {
             contentArea.innerHTML = renderGalleriesPage();
             initGalleriesPage();
             break;
+        case 'business-pages':
+            contentArea.innerHTML = renderBusinessPagesMenu();
+            break;
+        case 'lini-bisnis':
+            contentArea.innerHTML = renderLiniBisnisPage();
+            initLiniBisnisPage();
+            break;
+
         case 'testimonials':
             contentArea.innerHTML = renderTestimonialsPage();
             initTestimonialsPage();
             break;
+        case 'index':
         case 'hijab':
         case 'sembako':
         case 'travel':
@@ -946,6 +1038,240 @@ function getLocalStorageSize() {
         }
     }
     return total;
+}
+
+// ==========================================
+// MESSAGES PAGE
+// ==========================================
+
+function renderMessagesPage() {
+    const messages = Messages.getAll();
+    const unreadCount = Messages.getUnreadCount();
+    const readCount = messages.length - unreadCount;
+
+    return `
+        <div class="messages-toolbar">
+            <div class="messages-toolbar-left">
+                <span class="messages-stat">
+                    <span class="stat-dot unread"></span> ${unreadCount} Belum Dibaca
+                </span>
+                <span class="messages-stat">
+                    <span class="stat-dot read"></span> ${readCount} Sudah Dibaca
+                </span>
+                <span class="messages-stat">
+                    <span class="stat-dot total"></span> ${messages.length} Total Pesan
+                </span>
+            </div>
+            <div class="messages-toolbar-right">
+                <button class="btn btn-sm btn-success" onclick="markAllMessagesRead()" ${unreadCount === 0 ? 'disabled' : ''}>
+                    ✅ Tandai Semua Dibaca
+                </button>
+                <button class="btn btn-sm btn-danger" onclick="deleteAllMessages()" ${messages.length === 0 ? 'disabled' : ''}>
+                    🗑️ Hapus Semua
+                </button>
+            </div>
+        </div>
+
+        <div class="messages-filter-bar">
+            <button class="filter-btn active" data-filter="all" onclick="filterMessages('all', this)">Semua (${messages.length})</button>
+            <button class="filter-btn" data-filter="unread" onclick="filterMessages('unread', this)">Belum Dibaca (${unreadCount})</button>
+            <button class="filter-btn" data-filter="read" onclick="filterMessages('read', this)">Sudah Dibaca (${readCount})</button>
+        </div>
+
+        <div class="messages-list" id="messagesList">
+            ${messages.length === 0 ? `
+                <div class="messages-empty">
+                    <div class="empty-icon">📭</div>
+                    <h3>Belum Ada Pesan</h3>
+                    <p>Pesan yang masuk dari formulir kontak website akan muncul di sini.</p>
+                </div>
+            ` : messages.map(msg => renderMessageCard(msg)).join('')}
+        </div>
+    `;
+}
+
+function renderMessageCard(msg) {
+    const date = new Date(msg.createdAt);
+    const dateStr = date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+    const timeStr = date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+    const source = msg.source || 'Contact Form';
+    const sourceIcon = {
+        'Contact Form': '📧',
+        'Hijab': '🧕',
+        'Sembako': '🛒',
+        'Travel': '✈️',
+        'Design Interior': '🎨',
+        'Management': '💼'
+    }[source] || '📩';
+
+    return `
+        <div class="message-card ${msg.read ? 'read' : 'unread'}" id="msg-${msg.id}" onclick="viewMessage(${msg.id})">
+            <div class="message-card-left">
+                <div class="message-avatar">${(msg.name || 'U').charAt(0).toUpperCase()}</div>
+            </div>
+            <div class="message-card-body">
+                <div class="message-card-header">
+                    <div class="message-sender">
+                        ${!msg.read ? '<span class="unread-dot"></span>' : ''}
+                        <strong>${escapeHtml(msg.name || 'Unknown')}</strong>
+                    </div>
+                    <div class="message-meta">
+                        <span class="message-source">${sourceIcon} ${escapeHtml(source)}</span>
+                        <span class="message-date">${dateStr} ${timeStr}</span>
+                    </div>
+                </div>
+                <div class="message-subject">${escapeHtml(msg.subject || '(Tanpa Subjek)')}</div>
+                <div class="message-preview">${escapeHtml((msg.message || '').substring(0, 120))}${(msg.message || '').length > 120 ? '...' : ''}</div>
+                <div class="message-contact-info">
+                    <span>📧 ${escapeHtml(msg.email || '-')}</span>
+                    ${msg.phone ? `<span>📱 ${escapeHtml(msg.phone)}</span>` : ''}
+                </div>
+            </div>
+            <div class="message-card-actions" onclick="event.stopPropagation()">
+                <button class="btn-icon ${msg.read ? '' : 'btn-primary'}" onclick="toggleMessageRead(${msg.id})" title="${msg.read ? 'Tandai Belum Dibaca' : 'Tandai Sudah Dibaca'}">
+                    ${msg.read ? '📭' : '📬'}
+                </button>
+                <button class="btn-icon btn-danger" onclick="deleteMessage(${msg.id})" title="Hapus">
+                    🗑️
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+function initMessagesPage() {
+    updateMessageCountBadge();
+}
+
+function updateMessageCountBadge() {
+    const badge = document.getElementById('messageCount');
+    if (badge) {
+        const count = Messages.getUnreadCount();
+        badge.textContent = count;
+        badge.style.display = count > 0 ? 'inline-flex' : 'none';
+    }
+}
+
+function filterMessages(filter, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    const messages = Messages.getAll();
+    let filtered = messages;
+    if (filter === 'unread') filtered = messages.filter(m => !m.read);
+    if (filter === 'read') filtered = messages.filter(m => m.read);
+
+    const list = document.getElementById('messagesList');
+    if (!list) return;
+
+    if (filtered.length === 0) {
+        list.innerHTML = `
+            <div class="messages-empty">
+                <div class="empty-icon">📭</div>
+                <h3>Tidak Ada Pesan</h3>
+                <p>Tidak ada pesan dalam kategori ini.</p>
+            </div>
+        `;
+        return;
+    }
+
+    list.innerHTML = filtered.map(msg => renderMessageCard(msg)).join('');
+}
+
+function viewMessage(id) {
+    const msg = Messages.getById(id);
+    if (!msg) return;
+
+    // Mark as read when viewed
+    if (!msg.read) {
+        Messages.markAsRead(id).then(() => {
+            updateMessageCountBadge();
+        });
+    }
+
+    const date = new Date(msg.createdAt);
+    const dateStr = date.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    const timeStr = date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+
+    const body = `
+        <div class="message-detail">
+            <div class="message-detail-header">
+                <div class="message-avatar-lg">${(msg.name || 'U').charAt(0).toUpperCase()}</div>
+                <div>
+                    <h3>${escapeHtml(msg.name || 'Unknown')}</h3>
+                    <p class="text-muted">${escapeHtml(msg.email || '-')} ${msg.phone ? ' · ' + escapeHtml(msg.phone) : ''}</p>
+                    <p class="text-muted" style="font-size: 12px;">📅 ${dateStr} · 🕐 ${timeStr}</p>
+                </div>
+            </div>
+            <div class="message-detail-subject">
+                <strong>Subjek:</strong> ${escapeHtml(msg.subject || '(Tanpa Subjek)')}
+            </div>
+            <div class="message-detail-body">
+                ${escapeHtml(msg.message || '(Pesan kosong)').replace(/\n/g, '<br>')}
+            </div>
+            <div class="message-detail-actions">
+                ${msg.email ? `<a href="mailto:${escapeHtml(msg.email)}?subject=Re: ${encodeURIComponent(msg.subject || '')}" class="btn btn-primary" target="_blank">📧 Balas via Email</a>` : ''}
+                ${msg.phone ? `<a href="https://wa.me/${msg.phone.replace(/[^0-9]/g, '')}" class="btn btn-success" target="_blank">💬 Balas via WhatsApp</a>` : ''}
+                <button class="btn btn-warning" onclick="toggleMessageRead(${msg.id}); closeModal(); navigateTo('messages');">
+                    ${msg.read ? '📭 Tandai Belum Dibaca' : '📬 Tandai Sudah Dibaca'}
+                </button>
+                <button class="btn btn-danger" onclick="deleteMessage(${msg.id}); closeModal();">🗑️ Hapus</button>
+            </div>
+        </div>
+    `;
+
+    showModal('Detail Pesan', body, '');
+
+    // Update the card to show as read
+    const card = document.getElementById(`msg-${id}`);
+    if (card) {
+        card.classList.remove('unread');
+        card.classList.add('read');
+        const dot = card.querySelector('.unread-dot');
+        if (dot) dot.remove();
+    }
+}
+
+async function toggleMessageRead(id) {
+    const msg = Messages.getById(id);
+    if (!msg) return;
+
+    if (msg.read) {
+        await Messages.markAsUnread(id);
+        showToast('Pesan ditandai sebagai belum dibaca', 'info');
+    } else {
+        await Messages.markAsRead(id);
+        showToast('Pesan ditandai sebagai sudah dibaca', 'success');
+    }
+
+    updateMessageCountBadge();
+    navigateTo('messages');
+}
+
+async function deleteMessage(id) {
+    if (!confirm('Hapus pesan ini?')) return;
+
+    await Messages.delete(id);
+    showToast('Pesan berhasil dihapus!', 'success');
+    updateMessageCountBadge();
+    navigateTo('messages');
+}
+
+async function markAllMessagesRead() {
+    await Messages.markAllAsRead();
+    showToast('Semua pesan ditandai sebagai sudah dibaca!', 'success');
+    updateMessageCountBadge();
+    navigateTo('messages');
+}
+
+async function deleteAllMessages() {
+    if (!confirm('Hapus SEMUA pesan? Tindakan ini tidak dapat dibatalkan!')) return;
+    if (!confirm('Apakah Anda benar-benar yakin?')) return;
+
+    await Messages.deleteAll();
+    showToast('Semua pesan berhasil dihapus!', 'warning');
+    updateMessageCountBadge();
+    navigateTo('messages');
 }
 
 // ==========================================
@@ -1660,53 +1986,450 @@ async function deleteTestimonial(page, id) {
 }
 
 // ==========================================
-// BUSINESS PAGE MANAGEMENT
+// BUSINESS PAGE CONTENT MANAGEMENT
 // ==========================================
 
+// Page content data structure for each business page
+const PAGE_CONTENT_CONFIG = {
+    index: {
+        name: 'Halaman Utama',
+        sections: [
+            {
+                id: 'about',
+                title: 'Tentang Kami Section',
+                fields: [
+                    { id: 'about_title', label: 'Judul Tentang Kami', type: 'text', default: 'Tentang Elyasya Corp' },
+                    { id: 'about_lead', label: 'Deskripsi Singkat', type: 'textarea', default: 'Elyasya Corp adalah holding company yang menaungi 5 pilar bisnis strategis, melayani berbagai kebutuhan masyarakat dan korporat.' },
+                    { id: 'vision_title', label: 'Judul Visi', type: 'text', default: 'Visi' },
+                    { id: 'vision_text', label: 'Teks Visi', type: 'textarea', default: 'Menjadi konglomerasi terpercaya yang memberikan solusi terbaik di berbagai sektor bisnis dengan standar kualitas internasional.' },
+                    { id: 'mission_title', label: 'Judul Misi', type: 'text', default: 'Misi' },
+                    { id: 'mission_text', label: 'Teks Misi (HTML)', type: 'textarea', default: '<li>Memberikan layanan berkualitas tinggi di setiap lini bisnis</li><li>Membangun kepercayaan jangka panjang dengan klien dan mitra</li><li>Berinovasi secara berkelanjutan untuk pertumbuhan bisnis</li><li>Berkontribusi positif bagi masyarakat dan lingkungan</li>' }
+                ]
+            },
+            {
+                id: 'contact',
+                title: 'Contact Information',
+                fields: [
+                    { id: 'contact_address', label: 'Alamat', type: 'textarea', default: 'Jl. KH. Ahmad Kholil Dusun Cangaan, Genteng Wetan<br>Banyuwangi, Jawa Timur 68465' },
+                    { id: 'contact_email', label: 'Email', type: 'text', default: 'info@elyasyacorp.id' },
+                    { id: 'contact_phone', label: 'Telepon / WA', type: 'text', default: '+62 813-3423-6869' },
+                    { id: 'contact_whatsapp', label: 'Nomor WhatsApp', type: 'text', default: '+62 813-3423-6869' },
+                    { id: 'contact_whatsapp_link', label: 'Link WhatsApp', type: 'text', default: 'https://wa.me/6281334236869' }
+                ]
+            }
+        ]
+    },
+    hijab: {
+        name: 'Elyasya Hijab',
+        sections: [
+            {
+                id: 'hero',
+                title: '🎯 Hero Section',
+                fields: [
+                    { id: 'hero_badge', label: 'Badge Text', type: 'text', default: '✨ Hadir Sejak 2016' },
+                    { id: 'hero_title', label: 'Judul Utama', type: 'text', default: 'Elyasya <span>Fashion</span> Hijab' },
+                    { id: 'hero_tagline', label: 'Tagline', type: 'text', default: 'Toko hijab paling lengkap, terjangkau, dan bisa grosir.' },
+                    { id: 'hero_description', label: 'Deskripsi', type: 'textarea', default: 'Melayani retail maupun grosir untuk kebutuhan hijab, inner, dan aksesori wanita Anda' },
+                    { id: 'hero_btn_primary_text', label: 'Teks Tombol Utama', type: 'text', default: '🛍️ Belanja Sekarang' },
+                    { id: 'hero_btn_primary_link', label: 'Link Tombol Utama', type: 'text', default: 'https://wa.me/6281334236869?text=Halo, saya ingin melihat katalog Elyasya Fashion Hijab' },
+                    { id: 'hero_btn_secondary_text', label: 'Teks Tombol Kedua', type: 'text', default: '📋 Lihat Koleksi' },
+                ]
+            },
+            {
+                id: 'about',
+                title: 'ℹ️ About Section',
+                fields: [
+                    { id: 'about_subtitle', label: 'Subtitle', type: 'text', default: 'Teman belanja hijab & aksesori sejak 2016' },
+                    { id: 'about_text', label: 'Deskripsi', type: 'textarea', default: 'Elyasya Fashion Hijab adalah toko hijab fashion yang telah hadir sejak 2016. Menyediakan koleksi hijab, inner, dan aksesori wanita pilihan dengan kualitas terbaik untuk melengkapi setiap penampilan, melayani pelanggan retail maupun grosir.' },
+                    { id: 'about_categories_title', label: 'Judul Kategori', type: 'text', default: 'Kategori Utama Kami:' },
+                    { id: 'about_cat1', label: 'Kategori 1', type: 'text', default: 'Semua Jenis Hijab' },
+                    { id: 'about_cat2', label: 'Kategori 2', type: 'text', default: 'Inner Hijab' },
+                    { id: 'about_cat3', label: 'Kategori 3', type: 'text', default: 'Aksesori Pendukung Hijab' },
+                    { id: 'about_cat4', label: 'Kategori 4', type: 'text', default: 'Aksesori Wanita Lainnya' },
+                ]
+            },
+            {
+                id: 'contact',
+                title: '📞 Contact Information',
+                fields: [
+                    { id: 'contact_instagram', label: 'Instagram Username', type: 'text', default: '@elyasyafashionhijab' },
+                    { id: 'contact_instagram_link', label: 'Instagram Link', type: 'text', default: 'https://instagram.com/elyasyafashionhijab' },
+                    { id: 'contact_whatsapp', label: 'WhatsApp Number', type: 'text', default: '+62 813-3423-6869' },
+                    { id: 'contact_whatsapp_link', label: 'WhatsApp Link', type: 'text', default: 'https://wa.me/6281334236869' },
+                    { id: 'contact_marketplace', label: 'Marketplace Name', type: 'text', default: 'elyasyahijab' },
+                    { id: 'contact_address', label: 'Alamat Toko', type: 'textarea', default: 'Jl. KH. Ahmad Kholil Dusun Cangaan, Genteng Wetan<br>Banyuwangi, Jawa Timur 68465' },
+                ]
+            }
+        ]
+    },
+    sembako: {
+        name: 'Kedai Sembako',
+        sections: [
+            {
+                id: 'hero',
+                title: '🎯 Hero Section',
+                fields: [
+                    { id: 'hero_badge', label: 'Badge Text', type: 'text', default: ' Sembako Terlengkap' },
+                    { id: 'hero_title', label: 'Judul Utama', type: 'text', default: 'Kedai Sembako <span>Elyasya</span>' },
+                    { id: 'hero_tagline', label: 'Tagline', type: 'text', default: 'Belanja kebutuhan pokok harian, lengkap dan hemat.' },
+                    { id: 'hero_description', label: 'Deskripsi', type: 'textarea', default: 'Menyediakan berbagai kebutuhan pokok sehari-hari dengan harga terjangkau dan kualitas terjamin.' },
+                    { id: 'hero_btn_primary_text', label: 'Teks Tombol Utama', type: 'text', default: '🛒 Belanja Sekarang' },
+                    { id: 'hero_btn_primary_link', label: 'Link Tombol Utama', type: 'text', default: 'https://wa.me/6281334236869?text=Halo, saya ingin belanja di Kedai Sembako Elyasya' },
+                    { id: 'hero_btn_secondary_text', label: 'Teks Tombol Kedua', type: 'text', default: '📋 Lihat Produk' },
+                ]
+            },
+            {
+                id: 'about',
+                title: '️ About Section',
+                fields: [
+                    { id: 'about_subtitle', label: 'Subtitle', type: 'text', default: 'Kebutuhan pokok dalam satu tempat' },
+                    { id: 'about_text', label: 'Deskripsi', type: 'textarea', default: 'Kedai Sembako Elyasya menyediakan berbagai kebutuhan pokok sehari-hari dengan harga terjangkau dan kualitas terjamin untuk keluarga Anda.' },
+                ]
+            },
+            {
+                id: 'contact',
+                title: '📞 Contact Information',
+                fields: [
+                    { id: 'contact_instagram', label: 'Instagram Username', type: 'text', default: '@kedaisembako.elyasya' },
+                    { id: 'contact_instagram_link', label: 'Instagram Link', type: 'text', default: 'https://instagram.com/kedaisembako.elyasya' },
+                    { id: 'contact_whatsapp', label: 'WhatsApp Number', type: 'text', default: '+62 813-3423-6869' },
+                    { id: 'contact_whatsapp_link', label: 'WhatsApp Link', type: 'text', default: 'https://wa.me/6281334236869' },
+                    { id: 'contact_address', label: 'Alamat Toko', type: 'textarea', default: 'Jl. KH. Ahmad Kholil Dusun Cangaan, Genteng Wetan<br>Banyuwangi, Jawa Timur 68465' },
+                ]
+            }
+        ]
+    },
+    travel: {
+        name: 'Travel',
+        sections: [
+            {
+                id: 'hero',
+                title: '🎯 Hero Section',
+                fields: [
+                    { id: 'hero_badge', label: 'Badge Text', type: 'text', default: '✈️ Travel Terpercaya' },
+                    { id: 'hero_title', label: 'Judul Utama', type: 'text', default: 'Elyasya <span>Travel</span>' },
+                    { id: 'hero_tagline', label: 'Tagline', type: 'text', default: 'Wujudkan perjalanan impian Anda bersama kami.' },
+                    { id: 'hero_description', label: 'Deskripsi', type: 'textarea', default: 'Melayani berbagai paket wisata domestik dan internasional dengan pelayanan terbaik dan harga kompetitif.' },
+                    { id: 'hero_btn_primary_text', label: 'Teks Tombol Utama', type: 'text', default: '🗺️ Pesan Perjalanan' },
+                    { id: 'hero_btn_primary_link', label: 'Link Tombol Utama', type: 'text', default: 'https://wa.me/6281334236869?text=Halo, saya ingin info paket travel Elyasya' },
+                    { id: 'hero_btn_secondary_text', label: 'Teks Tombol Kedua', type: 'text', default: '📋 Lihat Paket' },
+                ]
+            },
+            {
+                id: 'about',
+                title: 'ℹ️ About Section',
+                fields: [
+                    { id: 'about_subtitle', label: 'Subtitle', type: 'text', default: 'Partner perjalanan terpercaya Anda' },
+                    { id: 'about_text', label: 'Deskripsi', type: 'textarea', default: 'Elyasya Travel melayani berbagai paket wisata domestik dan internasional dengan pelayanan terbaik dan harga kompetitif.' },
+                ]
+            },
+            {
+                id: 'contact',
+                title: ' Contact Information',
+                fields: [
+                    { id: 'contact_instagram', label: 'Instagram Username', type: 'text', default: '@elyasya.travel' },
+                    { id: 'contact_instagram_link', label: 'Instagram Link', type: 'text', default: 'https://instagram.com/elyasya.travel' },
+                    { id: 'contact_whatsapp', label: 'WhatsApp Number', type: 'text', default: '+62 813-3423-6869' },
+                    { id: 'contact_whatsapp_link', label: 'WhatsApp Link', type: 'text', default: 'https://wa.me/6281334236869' },
+                    { id: 'contact_address', label: 'Alamat Kantor', type: 'textarea', default: 'Jl. KH. Ahmad Kholil Dusun Cangaan, Genteng Wetan<br>Banyuwangi, Jawa Timur 68465' },
+                ]
+            }
+        ]
+    },
+    management: {
+        name: 'Management',
+        sections: [
+            {
+                id: 'hero',
+                title: ' Hero Section',
+                fields: [
+                    { id: 'hero_badge', label: 'Badge Text', type: 'text', default: ' Management Terpercaya' },
+                    { id: 'hero_title', label: 'Judul Utama', type: 'text', default: 'Elyasya <span>Management</span>' },
+                    { id: 'hero_tagline', label: 'Tagline', type: 'text', default: 'Solusi manajemen bisnis profesional untuk perusahaan Anda.' },
+                    { id: 'hero_description', label: 'Deskripsi', type: 'textarea', default: 'Menyediakan layanan konsultasi dan manajemen bisnis profesional untuk membantu perusahaan Anda berkembang.' },
+                    { id: 'hero_btn_primary_text', label: 'Teks Tombol Utama', type: 'text', default: '💼 Konsultasi Sekarang' },
+                    { id: 'hero_btn_primary_link', label: 'Link Tombol Utama', type: 'text', default: 'https://wa.me/6281334236869?text=Halo, saya ingin konsultasi management dengan Elyasya' },
+                    { id: 'hero_btn_secondary_text', label: 'Teks Tombol Kedua', type: 'text', default: '📋 Lihat Layanan' },
+                ]
+            },
+            {
+                id: 'about',
+                title: 'ℹ️ About Section',
+                fields: [
+                    { id: 'about_subtitle', label: 'Subtitle', type: 'text', default: 'Partner bisnis profesional Anda' },
+                    { id: 'about_text', label: 'Deskripsi', type: 'textarea', default: 'Elyasya Management menyediakan layanan konsultasi dan manajemen bisnis profesional untuk membantu perusahaan Anda berkembang.' },
+                ]
+            },
+            {
+                id: 'contact',
+                title: '📞 Contact Information',
+                fields: [
+                    { id: 'contact_instagram', label: 'Instagram Username', type: 'text', default: '@elyasya.management' },
+                    { id: 'contact_instagram_link', label: 'Instagram Link', type: 'text', default: 'https://instagram.com/elyasya.management' },
+                    { id: 'contact_whatsapp', label: 'WhatsApp Number', type: 'text', default: '+62 813-3423-6869' },
+                    { id: 'contact_whatsapp_link', label: 'WhatsApp Link', type: 'text', default: 'https://wa.me/6281334236869' },
+                    { id: 'contact_address', label: 'Alamat Kantor', type: 'textarea', default: 'Jl. KH. Ahmad Kholil Dusun Cangaan, Genteng Wetan<br>Banyuwangi, Jawa Timur 68465' },
+                ]
+            }
+        ]
+    },
+    design: {
+        name: 'Elyasya Design Interior',
+        sections: [
+            {
+                id: 'header',
+                title: '🏷️ Header Brand',
+                fields: [
+                    { id: 'header_sub_text', label: 'Sub Brand Text', type: 'text', default: 'Design Interior' },
+                    { id: 'header_tagline', label: 'Tagline Header', type: 'text', default: 'SHAPING SPACES WITH PURPOSE' },
+                ]
+            },
+            {
+                id: 'hero',
+                title: '🎯 Hero Section (Slide 1)',
+                fields: [
+                    { id: 'hero_tagline', label: 'Hero Tagline', type: 'text', default: 'Modern · Presisi · Elegan' },
+                    { id: 'hero_title', label: 'Judul Utama', type: 'textarea', default: 'Ruangmu Bukan Sekadar Tempat Tinggal' },
+                    { id: 'hero_description', label: 'Deskripsi', type: 'textarea', default: 'Ruang yang baik mampu membentuk suasana, produktivitas, dan kualitas hidup penggunanya. Kami merancang dengan presisi untuk kenyamanan jangka panjang.' },
+                    { id: 'hero_meta1', label: 'Meta Badge 1', type: 'text', default: '[ Solid ]' },
+                    { id: 'hero_meta2', label: 'Meta Badge 2', type: 'text', default: '[ Fungsional ]' },
+                    { id: 'hero_meta3', label: 'Meta Badge 3', type: 'text', default: '[ Elegan ]' },
+                ]
+            },
+            {
+                id: 'problem',
+                title: '⚠️ Problem Section (Slide 2)',
+                fields: [
+                    { id: 'problem_label', label: 'Label Section', type: 'text', default: '01. The Problem' },
+                    { id: 'problem_title', label: 'Judul Problem', type: 'textarea', default: 'Banyak Ruang Terlihat Ada, Tapi Tidak Hidup' },
+                    { id: 'problem_desc', label: 'Deskripsi Problem', type: 'textarea', default: 'Sering kali ruangan hanya diisi furnitur tanpa arah desain yang jelas. Akibatnya, ruang terasa penuh, kurang nyaman, dan tidak mencerminkan karakter pemiliknya.' },
+                    { id: 'problem_card1_num', label: 'Card 1 - Nomor', type: 'text', default: '01' },
+                    { id: 'problem_card1_text', label: 'Card 1 - Teks', type: 'text', default: 'Ruang sempit terasa makin sempit' },
+                    { id: 'problem_card2_num', label: 'Card 2 - Nomor', type: 'text', default: '02' },
+                    { id: 'problem_card2_text', label: 'Card 2 - Teks', type: 'text', default: 'Furnitur tidak menyatu' },
+                    { id: 'problem_card3_num', label: 'Card 3 - Nomor', type: 'text', default: '03' },
+                    { id: 'problem_card3_text', label: 'Card 3 - Teks', type: 'text', default: 'Pencahayaan kurang maksimal' },
+                    { id: 'problem_card4_num', label: 'Card 4 - Nomor', type: 'text', default: '04' },
+                    { id: 'problem_card4_text', label: 'Card 4 - Teks', type: 'text', default: 'Fungsi ruang tidak tertata' },
+                ]
+            },
+            {
+                id: 'pov',
+                title: '💡 Point of View (Slide 3)',
+                fields: [
+                    { id: 'pov_label', label: 'Label Section', type: 'text', default: "02. Elyasya's Point of View" },
+                    { id: 'pov_title', label: 'Judul POV', type: 'textarea', default: 'Kami Melihat Ruang Sebagai Sistem' },
+                    { id: 'pov_desc', label: 'Deskripsi POV', type: 'textarea', default: 'Bagi Elyasya Design Interior, desain bukan hanya soal estetika. Setiap garis, material, warna, cahaya, dan furnitur harus memiliki fungsi serta tujuan.' },
+                    { id: 'pov_quote', label: 'Quote', type: 'textarea', default: '"Desain yang baik bukan hanya terlihat indah, tapi bekerja untuk kehidupan yang lebih baik."' },
+                    { id: 'gallery_label1', label: 'Gallery Label 1', type: 'text', default: 'Material' },
+                    { id: 'gallery_label2', label: 'Gallery Label 2', type: 'text', default: 'Cahaya' },
+                    { id: 'gallery_label3', label: 'Gallery Label 3', type: 'text', default: 'Layout' },
+                    { id: 'gallery_label4', label: 'Gallery Label 4', type: 'text', default: 'Detail' },
+                    { id: 'gallery_label5', label: 'Gallery Label 5', type: 'text', default: 'Permukaan' },
+                    { id: 'gallery_label6', label: 'Gallery Label 6', type: 'text', default: 'Styling' },
+                ]
+            },
+            {
+                id: 'process',
+                title: '⚙️ Process Section (Slide 4)',
+                fields: [
+                    { id: 'process_label', label: 'Label Section', type: 'text', default: '03. Our Process' },
+                    { id: 'process_title', label: 'Judul Process', type: 'textarea', default: 'Dari Ide, Menjadi Ruang yang Terencana' },
+                    { id: 'step1_num', label: 'Step 1 - Nomor', type: 'text', default: '01' },
+                    { id: 'step1_name', label: 'Step 1 - Nama', type: 'text', default: 'Konsultasi Kebutuhan' },
+                    { id: 'step2_num', label: 'Step 2 - Nomor', type: 'text', default: '02' },
+                    { id: 'step2_name', label: 'Step 2 - Nama', type: 'text', default: 'Konsep Desain' },
+                    { id: 'step3_num', label: 'Step 3 - Nomor', type: 'text', default: '03' },
+                    { id: 'step3_name', label: 'Step 3 - Nama', type: 'text', default: 'Layout & Fungsi Ruang' },
+                    { id: 'step4_num', label: 'Step 4 - Nomor', type: 'text', default: '04' },
+                    { id: 'step4_name', label: 'Step 4 - Nama', type: 'text', default: 'Pemilihan Material' },
+                    { id: 'step5_num', label: 'Step 5 - Nomor', type: 'text', default: '05' },
+                    { id: 'step5_name', label: 'Step 5 - Nama', type: 'text', default: 'Eksekusi Interior' },
+                ]
+            },
+            {
+                id: 'outro',
+                title: '📞 Outro & Contact (Slide 5)',
+                fields: [
+                    { id: 'outro_title', label: 'Judul Outro', type: 'textarea', default: 'Ruang yang Baik Selalu Punya Tujuan' },
+                    { id: 'outro_desc', label: 'Deskripsi Outro', type: 'textarea', default: 'Konsultasikan kebutuhan interior rumah, kantor, toko, atau bangunan Anda bersama Elyasya Design Interior. Karena setiap ruang yang dirancang dengan tujuan, akan membawa hidup yang lebih bermakna.' },
+                    { id: 'contact_phone', label: 'Nomor Telepon / WA', type: 'text', default: '+62 812 3456 7000' },
+                    { id: 'contact_email', label: 'Email', type: 'text', default: 'info@elyasyad' },
+                    { id: 'contact_website', label: 'Website', type: 'text', default: 'www.efycoxs.id' },
+                ]
+            }
+        ]
+    }
+};
+
+// Get page content from localStorage
+function getPageContent(page) {
+    const key = `pageContent_${page}`;
+    const saved = localStorage.getItem(key);
+    if (saved) {
+        try {
+            return JSON.parse(saved);
+        } catch (e) {
+            return {};
+        }
+    }
+    return {};
+}
+
+// Save page content to localStorage
+function savePageContent(page, content) {
+    const key = `pageContent_${page}`;
+    localStorage.setItem(key, JSON.stringify(content));
+}
+
+// Get field value with fallback to default
+function getFieldValue(page, fieldId) {
+    const content = getPageContent(page);
+    if (content[fieldId] !== undefined && content[fieldId] !== '') {
+        return content[fieldId];
+    }
+    // Find default from config
+    const config = PAGE_CONTENT_CONFIG[page];
+    if (config) {
+        for (const section of config.sections) {
+            for (const field of section.fields) {
+                if (field.id === fieldId) {
+                    return field.default;
+                }
+            }
+        }
+    }
+    return '';
+}
+
+// Render Business Pages Menu (matching the image design)
+function renderBusinessPagesMenu() {
+    const businesses = [
+        { id: 'index', name: 'Halaman Utama', icon: 'logo elyasya Corp.jpeg', color: '#1e3c72' },
+        { id: 'design', name: 'Design Interior', icon: 'logo design interior.png', color: '#1e3c72' },
+        { id: 'management', name: 'Management', icon: 'logo management.jpeg', color: '#2a5298' },
+        { id: 'hijab', name: 'Hijab', icon: 'hijab logo.jpeg', color: '#8e44ad' },
+        { id: 'sembako', name: 'Kedai Sembako', icon: 'logo kedai sembako.png', color: '#27ae60' },
+        { id: 'travel', name: 'Travel Agent', icon: 'logo travel.jpeg', color: '#e74c3c' }
+    ];
+
+    return `
+        <div class="business-pages-menu">
+            ${businesses.map((biz, index) => `
+                <div class="business-page-item ${index === 0 ? 'active' : ''}" onclick="navigateTo('${biz.id}')">
+                    <span class="biz-icon" style="background: #ffffff; border: 2px solid ${biz.color}; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden;"><img src="${biz.icon}" alt="${biz.name} Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 50%;"></span>
+                    <span class="biz-name">${biz.name}</span>
+                    <span class="biz-arrow">›</span>
+                </div>
+            `).join('')}
+        </div>
+    `;
+}
+
 function renderBusinessPage(page) {
-    const pageNames = {
-        hijab: 'Elyasya Hijab',
-        sembako: 'Kedai Sembako',
-        travel: 'Travel',
-        design: 'Design Interior',
-        management: 'Management'
-    };
+    const config = PAGE_CONTENT_CONFIG[page];
+    if (!config) {
+        return `<div class="card"><div class="card-body"><p>Page not found.</p></div></div>`;
+    }
 
     const images = PageImages.getAllForPage(page);
     const gallery = Gallery.get(page);
+    const savedContent = getPageContent(page);
+
+    let sectionsHtml = '';
+    for (const section of config.sections) {
+        let fieldsHtml = '';
+        for (const field of section.fields) {
+            const value = getFieldValue(page, field.id);
+            if (field.type === 'textarea') {
+                fieldsHtml += `
+                    <div class="form-group">
+                        <label>${field.label}</label>
+                        <textarea class="form-control" id="field_${field.id}" rows="3" onchange="updatePageField('${page}', '${field.id}', this.value)">${escapeHtml(value)}</textarea>
+                    </div>
+                `;
+            } else {
+                fieldsHtml += `
+                    <div class="form-group">
+                        <label>${field.label}</label>
+                        <input type="text" class="form-control" id="field_${field.id}" value="${escapeHtml(value)}" onchange="updatePageField('${page}', '${field.id}', this.value)">
+                    </div>
+                `;
+            }
+        }
+
+        sectionsHtml += `
+            <div class="card mb-2" style="border: 1px solid var(--border-color);">
+                <div class="card-header" style="cursor: pointer;" onclick="toggleSection('section_${section.id}', this)">
+                    <h3 style="margin: 0;">${section.title}</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="card-body" id="section_${section.id}">
+                    <div class="form-row">
+                        ${fieldsHtml}
+                    </div>
+                </div>
+            </div>
+        `;
+    }
 
     return `
         <div class="card">
             <div class="card-header">
-                <h2>📄 ${pageNames[page]} - Content Management</h2>
-                <a href="${page === 'design' ? 'design-interior' : page}.html" target="_blank" class="btn btn-sm btn-primary">🌐 View Page</a>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <button class="btn btn-sm btn-primary" onclick="navigateTo('business-pages')" style="display: flex; align-items: center; gap: 6px;">
+                        ← Kembali
+                    </button>
+                    <h2 style="margin: 0;">📄 ${config.name} - Content Management</h2>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-sm btn-success" onclick="saveAllPageContent('${page}')">💾 Simpan Semua</button>
+                    <a href="${page === 'design' ? 'design-interior' : page}.html" target="_blank" class="btn btn-sm btn-primary"> View Page</a>
+                </div>
             </div>
             <div class="card-body">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Hero Image</label>
-                        <p>${images.hero ? '<span class="badge badge-success">✓ Uploaded</span>' : '<span class="badge badge-warning">Not set</span>'}</p>
-                        <button class="btn btn-sm btn-primary mt-1" onclick="navigateTo('page-images')">Edit di Page Images</button>
-                    </div>
-                    <div class="form-group">
-                        <label>About Image</label>
-                        <p>${images.about ? '<span class="badge badge-success">✓ Uploaded</span>' : '<span class="badge badge-warning">Not set</span>'}</p>
-                        <button class="btn btn-sm btn-primary mt-1" onclick="navigateTo('page-images')">Edit di Page Images</button>
+                <div class="tabs">
+                    <div class="tab active" onclick="switchBusinessTab('content', this, '${page}')">✏️ Edit Konten</div>
+                    <div class="tab" onclick="switchBusinessTab('images', this, '${page}')">🖼️ Images</div>
+                    <div class="tab" onclick="switchBusinessTab('gallery', this, '${page}')">🎨 Gallery</div>
+                </div>
+
+                <div class="tab-content active" id="biz-tab-content-${page}">
+                    ${sectionsHtml}
+                    <div style="margin-top: 20px; display: flex; gap: 10px;">
+                        <button class="btn btn-success" onclick="saveAllPageContent('${page}')">💾 Simpan Semua Perubahan</button>
+                        <button class="btn btn-warning" onclick="resetPageContent('${page}')">🔄 Reset ke Default</button>
                     </div>
                 </div>
-                
-                <hr style="margin: 20px 0; border: none; border-top: 1px solid var(--border-color);">
-                
-                <h3 class="mb-1">Gallery (${gallery.images.length} images)</h3>
-                <button class="btn btn-sm btn-primary mb-2" onclick="navigateTo('galleries')">Kelola Gallery</button>
-                
-                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px;">
-                    ${gallery.images.slice(0, 6).map(img => `
-                        <div style="aspect-ratio: 1; border-radius: 6px; overflow: hidden;">
-                            <img src="${img.src}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.parentElement.style.background='#ddd'">
+
+                <div class="tab-content" id="biz-tab-images-${page}">
+                    <h3 class="mb-1">Page Images</h3>
+                    <p class="text-muted mb-2">Kelola gambar halaman di Page Images.</p>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Hero Image</label>
+                            <p>${images.hero ? '<span class="badge badge-success">✓ Uploaded</span>' : '<span class="badge badge-warning">Not set</span>'}</p>
+                            <button class="btn btn-sm btn-primary mt-1" onclick="navigateTo('page-images')">Edit di Page Images</button>
                         </div>
-                    `).join('')}
-                    ${gallery.images.length === 0 ? '<p class="text-muted">Belum ada gambar di galeri.</p>' : ''}
+                        <div class="form-group">
+                            <label>About Image</label>
+                            <p>${images.about ? '<span class="badge badge-success">✓ Uploaded</span>' : '<span class="badge badge-warning">Not set</span>'}</p>
+                            <button class="btn btn-sm btn-primary mt-1" onclick="navigateTo('page-images')">Edit di Page Images</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="biz-tab-gallery-${page}">
+                    <h3 class="mb-1">Gallery (${gallery.images.length} images)</h3>
+                    <button class="btn btn-sm btn-primary mb-2" onclick="navigateTo('galleries')">Kelola Gallery</button>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px;">
+                        ${gallery.images.slice(0, 6).map(img => `
+                            <div style="aspect-ratio: 1; border-radius: 6px; overflow: hidden;">
+                                <img src="${img.src}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.parentElement.style.background='#ddd'">
+                            </div>
+                        `).join('')}
+                        ${gallery.images.length === 0 ? '<p class="text-muted">Belum ada gambar di galeri.</p>' : ''}
+                    </div>
                 </div>
             </div>
         </div>
@@ -1715,6 +2438,389 @@ function renderBusinessPage(page) {
 
 function initBusinessPage(page) {
     // Page is static, no additional init needed
+}
+
+function switchBusinessTab(tab, element, page) {
+    const parent = element.closest('.card-body');
+    parent.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    parent.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    element.classList.add('active');
+    document.getElementById(`biz-tab-${tab}-${page}`).classList.add('active');
+}
+
+function toggleSection(sectionId, headerEl) {
+    const section = document.getElementById(sectionId);
+    const icon = headerEl.querySelector('.toggle-icon');
+    if (section.style.display === 'none') {
+        section.style.display = 'block';
+        icon.textContent = '▼';
+    } else {
+        section.style.display = 'none';
+        icon.textContent = '▶';
+    }
+}
+
+function updatePageField(page, fieldId, value) {
+    const content = getPageContent(page);
+    content[fieldId] = value;
+    savePageContent(page, content);
+}
+
+function saveAllPageContent(page) {
+    const config = PAGE_CONTENT_CONFIG[page];
+    if (!config) return;
+
+    const content = {};
+    for (const section of config.sections) {
+        for (const field of section.fields) {
+            const el = document.getElementById(`field_${field.id}`);
+            if (el) {
+                content[field.id] = el.value;
+            }
+        }
+    }
+
+    savePageContent(page, content);
+    showToast(`Konten ${config.name} berhasil disimpan!`, 'success');
+}
+
+function resetPageContent(page) {
+    if (!confirm(`Reset semua konten ${PAGE_CONTENT_CONFIG[page].name} ke default?`)) return;
+    
+    localStorage.removeItem(`pageContent_${page}`);
+    showToast('Konten berhasil direset ke default!', 'warning');
+    navigateTo(page);
+}
+
+// ==========================================
+// LINI BISINIS KAMI PAGE MANAGEMENT
+// ==========================================
+
+const LINI_BISNIS_DEFAULT = [
+    {
+        id: 1,
+        title: 'Design Interior',
+        description: 'Layanan desain interior profesional untuk rumah, kantor, dan komersial. Dari konsep hingga eksekusi.',
+        icon: 'logo design interior.png',
+        link: 'design-interior.html',
+        color: '#1e3c72',
+        features: ['Konsultasi Gratis', 'Portfolio 100+ Proyek', 'Garansi Kepuasan'],
+        buttonText: 'Lihat Portfolio',
+        status: 'active'
+    },
+    {
+        id: 2,
+        title: 'Management',
+        description: 'Konsultasi manajemen bisnis, optimasi operasional, dan strategi pertumbuhan perusahaan.',
+        icon: 'logo management.jpeg',
+        link: 'management.html',
+        color: '#2a5298',
+        features: ['Business Consulting', 'Asset Management', 'Strategic Planning'],
+        buttonText: 'Konsultasi Sekarang',
+        status: 'active'
+    },
+    {
+        id: 3,
+        title: 'Hijab',
+        description: 'Koleksi hijab premium dengan berbagai model dan bahan berkualitas tinggi untuk muslimah modern.',
+        icon: 'hijab logo.jpeg',
+        link: 'hijab.html',
+        color: '#8e44ad',
+        features: ['Bahan Premium', 'Model Terkini', 'Harga Terjangkau'],
+        buttonText: 'Lihat Katalog',
+        status: 'active'
+    },
+    {
+        id: 4,
+        title: 'Kedai Sembako',
+        description: 'Menyediakan kebutuhan sembako dan bahan pokok berkualitas dengan harga bersaing.',
+        icon: 'logo kedai sembako.png',
+        link: 'sembako.html',
+        color: '#27ae60',
+        features: ['Produk Berkualitas', 'Harga Kompetitif', 'Lokasi Strategis'],
+        buttonText: 'Cek Lokasi',
+        status: 'active'
+    },
+    {
+        id: 5,
+        title: 'Travel Agent',
+        description: 'Paket wisata, umroh, dan perjalanan bisnis dengan layanan terpercaya dan harga terbaik.',
+        icon: 'logo travel.jpeg',
+        link: 'travel.html',
+        color: '#e74c3c',
+        features: ['Paket Tour Lengkap', 'Umroh & Haji', 'Ticketing'],
+        buttonText: 'Lihat Paket',
+        status: 'active'
+    }
+];
+
+// Mapping logo tiap lini bisnis berdasarkan halaman (link)
+const LOGO_LINI_BISNIS = {
+    'design-interior.html': 'logo design interior.png',
+    'management.html': 'logo management.jpeg',
+    'hijab.html': 'hijab logo.jpeg',
+    'sembako.html': 'logo kedai sembako.png',
+    'travel.html': 'logo travel.jpeg'
+};
+
+// Cek apakah nilai icon berupa path/URL gambar
+function isImageUrl(value) {
+    if (!value || typeof value !== 'string') return false;
+    const v = value.trim();
+    return /^https?:\/\//i.test(v) || /\.(png|jpe?g|svg|webp|gif|bmp)$/i.test(v);
+}
+
+// Resolve icon lini bisnis: prioritaskan gambar logo, fallback emoji
+function resolveLiniBisnisIcon(item) {
+    if (isImageUrl(item.icon)) {
+        return { type: 'image', src: item.icon };
+    }
+    if (item.link && LOGO_LINI_BISNIS[item.link]) {
+        return { type: 'image', src: LOGO_LINI_BISNIS[item.link] };
+    }
+    return { type: 'emoji', value: item.icon || '🏢' };
+}
+
+// Render sel icon untuk tabel admin (thumbnail gambar atau emoji)
+function renderLiniBisnisIconCell(item) {
+    const r = resolveLiniBisnisIcon(item);
+    if (r.type === 'image') {
+        return '<img src="' + escapeHtml(r.src) + '" alt="Logo" style="width:42px;height:42px;object-fit:contain;border-radius:8px;border:1px solid #eee;background:#fff;">';
+    }
+    return '<span style="font-size:24px;">' + escapeHtml(r.value) + '</span>';
+}
+function getLiniBisnisData() {
+    const saved = localStorage.getItem('liniBisnisData');
+    if (saved) {
+        try {
+            return JSON.parse(saved);
+        } catch (e) {
+            return LINI_BISNIS_DEFAULT;
+        }
+    }
+    return LINI_BISNIS_DEFAULT;
+}
+
+function saveLiniBisnisData(data) {
+    localStorage.setItem('liniBisnisData', JSON.stringify(data));
+}
+
+function renderLiniBisnisPage() {
+    const items = getLiniBisnisData();
+    
+    return `
+        <div class="card">
+            <div class="card-header">
+                <h2>🏢 Lini Bisnis Kami</h2>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-sm btn-primary" onclick="showAddLiniBisnisModal()">➕ Tambah Lini Bisnis</button>
+                    <button class="btn btn-sm btn-warning" onclick="resetLiniBisnis()">🔄 Reset ke Default</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-2">Kelola daftar lini bisnis yang tampil di halaman utama (index.html) pada section "Lini Bisnis Kami".</p>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Urutan</th>
+                                <th>Icon</th>
+                                <th>Nama Bisnis</th>
+                                <th>Deskripsi</th>
+                                <th>Fitur</th>
+                                <th>Tombol</th>
+                                <th>Link</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="liniBisnisTableBody">
+                            ${items.map((item, index) => `
+                                <tr>
+                                    <td>${index + 1}</td>
+                                    <td>${renderLiniBisnisIconCell(item)}</td>
+                                    <td><strong>${escapeHtml(item.title)}</strong></td>
+                                    <td>${escapeHtml(item.description).substring(0, 50)}...</td>
+                                    <td>${(item.features || []).map(f => '✓ ' + escapeHtml(f)).join('<br>')}</td>
+                                    <td>${escapeHtml(item.buttonText || '-')}</td>
+                                    <td><code>${item.link}</code></td>
+                                    <td>
+                                        <span class="badge ${item.status === 'active' ? 'badge-success' : 'badge-danger'}">
+                                            ${item.status === 'active' ? 'Active' : 'Inactive'}
+                                        </span>
+                                    </td>
+                                    <td class="actions">
+                                        <button class="btn btn-sm btn-primary" onclick="showEditLiniBisnisModal(${item.id})">✏️ Edit</button>
+                                        <button class="btn btn-sm btn-danger" onclick="deleteLiniBisnis(${item.id})">🗑️ Hapus</button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function initLiniBisnisPage() {
+    // Table is already rendered inline
+}
+
+function showAddLiniBisnisModal() {
+    const body = `
+        <form id="liniBisnisForm" onsubmit="saveLiniBisnisItem(event)">
+            <input type="hidden" id="liniBisnisId" value="">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Icon (Path/URL Gambar atau Emoji)</label>
+                    <input type="text" class="form-control" id="liniBisnisIcon" list="liniBisnisIconList" placeholder="contoh: logo travel.jpeg">
+                    <datalist id="liniBisnisIconList">
+                        <option value="logo design interior.png">
+                        <option value="logo management.jpeg">
+                        <option value="hijab logo.jpeg">
+                        <option value="logo kedai sembako.png">
+                        <option value="logo travel.jpeg">
+                    </datalist>
+                    <small class="text-muted">Isi path/URL gambar logo, atau biarkan kosong untuk mengikuti logo halaman.</small>
+                </div>
+                <div class="form-group">
+                    <label>Warna (Hex) *</label>
+                    <input type="color" class="form-control" id="liniBisnisColor" value="#2a5298" style="height: 42px;">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Nama Bisnis *</label>
+                <input type="text" class="form-control" id="liniBisnisTitle" required>
+            </div>
+            <div class="form-group">
+                <label>Deskripsi *</label>
+                <textarea class="form-control" id="liniBisnisDescription" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+                <label>Fitur 1 (tanpa tanda ✓)</label>
+                <input type="text" class="form-control" id="liniBisnisFeature1" placeholder="contoh: Konsultasi Gratis">
+            </div>
+            <div class="form-group">
+                <label>Fitur 2</label>
+                <input type="text" class="form-control" id="liniBisnisFeature2" placeholder="contoh: Portfolio 100+ Proyek">
+            </div>
+            <div class="form-group">
+                <label>Fitur 3</label>
+                <input type="text" class="form-control" id="liniBisnisFeature3" placeholder="contoh: Garansi Kepuasan">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Teks Tombol *</label>
+                    <input type="text" class="form-control" id="liniBisnisButtonText" placeholder="contoh: Lihat Portfolio" required>
+                </div>
+                <div class="form-group">
+                    <label>Link Halaman *</label>
+                    <input type="text" class="form-control" id="liniBisnisLink" placeholder="contoh: hijab.html" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Status</label>
+                <select class="form-control" id="liniBisnisStatus">
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+            </div>
+        </form>
+    `;
+
+    const footer = `
+        <button class="btn btn-danger" onclick="closeModal()">Batal</button>
+        <button class="btn btn-success" onclick="document.getElementById('liniBisnisForm').requestSubmit()">💾 Simpan</button>
+    `;
+
+    showModal('Tambah Lini Bisnis', body, footer);
+}
+
+function showEditLiniBisnisModal(id) {
+    const items = getLiniBisnisData();
+    const item = items.find(i => i.id === id);
+    if (!item) return;
+
+    showAddLiniBisnisModal();
+    
+    const features = item.features || [];
+    document.getElementById('liniBisnisId').value = item.id;
+    document.getElementById('liniBisnisIcon').value = item.icon;
+    document.getElementById('liniBisnisColor').value = item.color;
+    document.getElementById('liniBisnisTitle').value = item.title;
+    document.getElementById('liniBisnisDescription').value = item.description;
+    document.getElementById('liniBisnisFeature1').value = features[0] || '';
+    document.getElementById('liniBisnisFeature2').value = features[1] || '';
+    document.getElementById('liniBisnisFeature3').value = features[2] || '';
+    document.getElementById('liniBisnisButtonText').value = item.buttonText || '';
+    document.getElementById('liniBisnisLink').value = item.link;
+    document.getElementById('liniBisnisStatus').value = item.status;
+
+    document.getElementById('modalTitle').textContent = 'Edit Lini Bisnis';
+}
+
+function saveLiniBisnisItem(event) {
+    event.preventDefault();
+
+    const id = document.getElementById('liniBisnisId').value;
+    const items = getLiniBisnisData();
+
+    // Build features array from 3 input fields
+    const features = [];
+    const f1 = document.getElementById('liniBisnisFeature1').value.trim();
+    const f2 = document.getElementById('liniBisnisFeature2').value.trim();
+    const f3 = document.getElementById('liniBisnisFeature3').value.trim();
+    if (f1) features.push(f1);
+    if (f2) features.push(f2);
+    if (f3) features.push(f3);
+
+    const itemData = {
+        icon: document.getElementById('liniBisnisIcon').value,
+        color: document.getElementById('liniBisnisColor').value,
+        title: document.getElementById('liniBisnisTitle').value,
+        description: document.getElementById('liniBisnisDescription').value,
+        features: features,
+        buttonText: document.getElementById('liniBisnisButtonText').value,
+        link: document.getElementById('liniBisnisLink').value,
+        status: document.getElementById('liniBisnisStatus').value
+    };
+
+    if (id) {
+        // Update existing
+        const index = items.findIndex(i => i.id === parseInt(id));
+        if (index !== -1) {
+            items[index] = { ...items[index], ...itemData };
+        }
+        showToast('Lini bisnis berhasil diupdate!', 'success');
+    } else {
+        // Add new
+        itemData.id = Date.now();
+        items.push(itemData);
+        showToast('Lini bisnis baru berhasil ditambahkan!', 'success');
+    }
+
+    saveLiniBisnisData(items);
+    closeModal();
+    navigateTo('lini-bisnis');
+}
+
+function deleteLiniBisnis(id) {
+    if (!confirm('Hapus lini bisnis ini?')) return;
+    
+    let items = getLiniBisnisData();
+    items = items.filter(i => i.id !== id);
+    saveLiniBisnisData(items);
+    showToast('Lini bisnis berhasil dihapus!', 'success');
+    navigateTo('lini-bisnis');
+}
+
+function resetLiniBisnis() {
+    if (!confirm('Reset semua lini bisnis ke default?')) return;
+    
+    saveLiniBisnisData(LINI_BISNIS_DEFAULT);
+    showToast('Lini bisnis berhasil direset ke default!', 'warning');
+    navigateTo('lini-bisnis');
 }
 
 // ==========================================
@@ -1943,6 +3049,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         await PageImages.init();
         await Gallery.init();
         await Testimonials.init();
+        await Messages.init();
         
         console.log('✅ All data modules initialized from IndexedDB');
     } catch (e) {

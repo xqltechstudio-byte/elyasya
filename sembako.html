@@ -32,7 +32,7 @@
             <ul class="hidden md:flex items-center gap-6 text-sm font-medium text-stone-600">
                 <li><a href="index.html" class="hover:text-amber-700 transition">Home</a></li>
                 <li class="relative group">
-                    <a href="#" class="hover:text-amber-700 transition flex items-center gap-1">Lini Bisnis <span class="text-xs">▼</span></a>
+                    <a href="#" class="hover:text-amber-700 transition flex items-center gap-1">Lini Bisnis <span class="text-xs">&#9660;</span></a>
                     <ul class="absolute top-full left-0 mt-1 bg-white border border-amber-100 rounded-lg shadow-lg py-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                         <li><a href="design-interior.html" class="block px-4 py-2 hover:bg-amber-50 text-stone-700">Design Interior</a></li>
                         <li><a href="management.html" class="block px-4 py-2 hover:bg-amber-50 text-stone-700">Management</a></li>
@@ -249,5 +249,137 @@
         <p>&copy; 2026 Kedai Sembako - Divisi CV Elyasya Corp. All Rights Reserved.</p>
     </footer>
 
+    <script>
+        // Load saved images from admin image management
+        function loadSavedPageImages() {
+            const saved = localStorage.getItem('elyasya_page_images');
+            if (!saved) return;
+            
+            try {
+                const modifiedImages = JSON.parse(saved);
+                
+                // Map image IDs to their selectors in this page
+                const imageMap = {
+                    'sembako-logo-corp': {
+                        selectors: ['img[src*="logo elyasya"]', 'img[alt="Elyasya Corp Logo"]'],
+                        attr: 'src'
+                    },
+                    'sembako-logo-main': {
+                        selectors: ['img[src*="logo kedai sembako"]', 'img[alt="Kedai Sembako"]'],
+                        attr: 'src'
+                    },
+                    'sembako-hero': {
+                        selectors: ['img[src*="hero sembako"]', 'img[alt="Sembako Pokok"]'],
+                        attr: 'src'
+                    },
+                    'sembako-beras': {
+                        selectors: ['img[src*="beras.jpeg"]', 'img[alt="Beras Premium"]'],
+                        attr: 'src'
+                    },
+                    'sembako-gula': {
+                        selectors: ['img[src*="gula.jpeg"]', 'img[alt="Gula Pasir"]'],
+                        attr: 'src'
+                    },
+                    'sembako-minyak': {
+                        selectors: ['img[src*="minyak.jpeg"]', 'img[alt="Minyak Goreng"]'],
+                        attr: 'src'
+                    },
+                    'sembako-kopi': {
+                        selectors: ['img[src*="kopi.jpeg"]', 'img[alt="Kopi Premium"]'],
+                        attr: 'src'
+                    },
+                    'sembako-mie': {
+                        selectors: ['img[src*="mie.jpeg"]', 'img[alt="Mi Instan"]'],
+                        attr: 'src'
+                    },
+                    'sembako-tepung': {
+                        selectors: ['img[src*="tepung.jpeg"]', 'img[alt="Berbagai Jenis Tepung"]'],
+                        attr: 'src'
+                    },
+                    'sembako-bumbu': {
+                        selectors: ['img[src*="bumbu.jpeg"]', 'img[src*="bumbu masakan"]', 'img[alt="Bumbu Masakan / Instan"]'],
+                        attr: 'src'
+                    },
+                    'sembako-sarden': {
+                        selectors: ['img[src*="sarden.jpeg"]', 'img[alt="Makanan Kaleng"]'],
+                        attr: 'src'
+                    }
+                };
+                
+                Object.keys(modifiedImages).forEach(imgId => {
+                    if (imgId.startsWith('sembako-') && imageMap[imgId]) {
+                        const mapping = imageMap[imgId];
+                        const newSrc = modifiedImages[imgId];
+                        
+                        mapping.selectors.forEach(selector => {
+                            const elements = document.querySelectorAll(selector);
+                            elements.forEach(el => {
+                                if (el.tagName === 'IMG') {
+                                    el.src = newSrc;
+                                }
+                            });
+                        });
+                    }
+                });
+            } catch (e) {
+                console.error('Error loading saved page images:', e);
+            }
+        }
+
+        // Load saved page images on page load
+        loadSavedPageImages();
+
+        // Load saved page content from admin panel
+        function loadSavedPageContent() {
+            const saved = localStorage.getItem('pageContent_sembako');
+            if (!saved) return;
+            
+            try {
+                const content = JSON.parse(saved);
+                
+                const fieldMap = {
+                    'hero_badge': { selector: '.hero-badge', type: 'text' },
+                    'hero_title': { selector: '.hero-content h1', type: 'html' },
+                    'hero_tagline': { selector: '.hero-tagline', type: 'text' },
+                    'hero_description': { selector: '.hero-content p:nth-of-type(2)', type: 'text' },
+                    'hero_btn_primary_text': { selector: '.btn-hero-primary', type: 'text' },
+                    'hero_btn_primary_link': { selector: '.btn-hero-primary', type: 'href' },
+                    'hero_btn_secondary_text': { selector: '.btn-hero-secondary', type: 'text' },
+                    'about_subtitle': { selector: '.about-subtitle', type: 'text' },
+                    'about_text': { selector: '.about-text > p:nth-of-type(2)', type: 'text' },
+                    'contact_instagram': { selector: '.contact-item:nth-child(1) a', type: 'text' },
+                    'contact_instagram_link': { selector: '.contact-item:nth-child(1) a', type: 'href' },
+                    'contact_whatsapp': { selector: '.contact-item:nth-child(2) a', type: 'text' },
+                    'contact_whatsapp_link': { selector: '.contact-item:nth-child(2) a', type: 'href' },
+                    'contact_marketplace': { selector: '.contact-item:nth-child(3) span', type: 'text' },
+                    'contact_address': { selector: '.address-text', type: 'html' },
+                };
+
+                Object.keys(content).forEach(fieldId => {
+                    if (fieldMap[fieldId] && content[fieldId]) {
+                        const mapping = fieldMap[fieldId];
+                        const elements = document.querySelectorAll(mapping.selector);
+                        
+                        elements.forEach(el => {
+                            if (mapping.type === 'text') {
+                                el.textContent = content[fieldId];
+                            } else if (mapping.type === 'html') {
+                                el.innerHTML = content[fieldId];
+                            } else if (mapping.type === 'href') {
+                                el.href = content[fieldId];
+                            }
+                        });
+                    }
+                });
+
+                console.log('✅ Page content loaded from admin panel');
+            } catch (e) {
+                console.error('Error loading saved page content:', e);
+            }
+        }
+
+        // Load saved page content
+        loadSavedPageContent();
+    </script>
 </body>
 </html>

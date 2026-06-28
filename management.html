@@ -45,7 +45,7 @@
             <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html">Home</a></li>
                 <li class="dropdown">
-                    <a href="#bisnis">Lini Bisnis ▼</a>
+                    <a href="#bisnis">Lini Bisnis &#9660;</a>
                     <ul class="dropdown-menu">
                         <li><a href="design-interior.html">Design Interior</a></li>
                         <li><a href="management.html" class="active">Management</a></li>
@@ -321,6 +321,105 @@
             duration: 1000,
             once: true
         });
+
+        // Load saved images from admin image management
+        function loadSavedPageImages() {
+            const saved = localStorage.getItem('elyasya_page_images');
+            if (!saved) return;
+            
+            try {
+                const modifiedImages = JSON.parse(saved);
+                
+                // Map image IDs to their selectors in this page
+                const imageMap = {
+                    'management-logo-corp': {
+                        selectors: ['img[src*="logo elyasya"]', 'img[alt="Elyasya Corp Logo"]'],
+                        attr: 'src'
+                    },
+                    'management-logo-main': {
+                        selectors: ['img[src*="logo management"]', 'img[alt="Elyasya Management Logo"]'],
+                        attr: 'src'
+                    },
+                    'management-slide': {
+                        selectors: ['img[src*="slide management"]'],
+                        attr: 'src'
+                    }
+                };
+                
+                Object.keys(modifiedImages).forEach(imgId => {
+                    if (imgId.startsWith('management-') && imageMap[imgId]) {
+                        const mapping = imageMap[imgId];
+                        const newSrc = modifiedImages[imgId];
+                        
+                        mapping.selectors.forEach(selector => {
+                            const elements = document.querySelectorAll(selector);
+                            elements.forEach(el => {
+                                if (el.tagName === 'IMG') {
+                                    el.src = newSrc;
+                                }
+                            });
+                        });
+                    }
+                });
+            } catch (e) {
+                console.error('Error loading saved page images:', e);
+            }
+        }
+
+        // Load saved images on page load
+        document.addEventListener('DOMContentLoaded', loadSavedPageImages);
+
+        // Load saved page content from admin panel
+        function loadSavedPageContent() {
+            const saved = localStorage.getItem('pageContent_management');
+            if (!saved) return;
+            
+            try {
+                const content = JSON.parse(saved);
+                
+                const fieldMap = {
+                    'hero_badge': { selector: '.hero-badge', type: 'text' },
+                    'hero_title': { selector: '.hero-content h1', type: 'html' },
+                    'hero_tagline': { selector: '.hero-tagline', type: 'text' },
+                    'hero_description': { selector: '.hero-content p:nth-of-type(2)', type: 'text' },
+                    'hero_btn_primary_text': { selector: '.btn-hero-primary', type: 'text' },
+                    'hero_btn_primary_link': { selector: '.btn-hero-primary', type: 'href' },
+                    'hero_btn_secondary_text': { selector: '.btn-hero-secondary', type: 'text' },
+                    'about_subtitle': { selector: '.about-subtitle', type: 'text' },
+                    'about_text': { selector: '.about-text > p:nth-of-type(2)', type: 'text' },
+                    'contact_instagram': { selector: '.contact-item:nth-child(1) a', type: 'text' },
+                    'contact_instagram_link': { selector: '.contact-item:nth-child(1) a', type: 'href' },
+                    'contact_whatsapp': { selector: '.contact-item:nth-child(2) a', type: 'text' },
+                    'contact_whatsapp_link': { selector: '.contact-item:nth-child(2) a', type: 'href' },
+                    'contact_marketplace': { selector: '.contact-item:nth-child(3) span', type: 'text' },
+                    'contact_address': { selector: '.address-text', type: 'html' },
+                };
+
+                Object.keys(content).forEach(fieldId => {
+                    if (fieldMap[fieldId] && content[fieldId]) {
+                        const mapping = fieldMap[fieldId];
+                        const elements = document.querySelectorAll(mapping.selector);
+                        
+                        elements.forEach(el => {
+                            if (mapping.type === 'text') {
+                                el.textContent = content[fieldId];
+                            } else if (mapping.type === 'html') {
+                                el.innerHTML = content[fieldId];
+                            } else if (mapping.type === 'href') {
+                                el.href = content[fieldId];
+                            }
+                        });
+                    }
+                });
+
+                console.log('✅ Page content loaded from admin panel');
+            } catch (e) {
+                console.error('Error loading saved page content:', e);
+            }
+        }
+
+        // Load saved page content
+        document.addEventListener('DOMContentLoaded', loadSavedPageContent);
     </script>
     <script src="script.js"></script>
 </body>
